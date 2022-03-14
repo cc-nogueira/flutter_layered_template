@@ -157,9 +157,19 @@ and all layer packages, creating configuration files that not stored in git (pro
 and build files).  
 
 ```bash
-   cd <your-project>  
+   cd <your-project>
    dart project.dart init
 ```
+
+5. **Open Workspace from File** 
+
+```
+   Rename your workspace file from .vscode/layered_template.code-workspace to .vscode/<your-project>.code-workspace
+   Open VSCode
+   Choose "Open Workspace from File...: from the File menu
+   Select <your-project>/.vscode/<your-project>.code-workspace
+```
+
 This provided **project.dart** utility has commands to init, clean and build
 the project and its internal packages.  
 You can always run commands in a specific package folfer using the terminal,
