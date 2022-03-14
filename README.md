@@ -164,7 +164,7 @@ and build files).
 5. **Open Workspace from File** 
 
 ```
-   Rename your workspace file from .vscode/layered_template.code-workspace to .vscode/<your-project>.code-workspace
+   Rename your workspace file from .vscode/layered_template.code-workspace to <your-project>.code-workspace
    Open VSCode
    Choose "Open Workspace from File...: from the File menu
    Select <your-project>/.vscode/<your-project>.code-workspace
