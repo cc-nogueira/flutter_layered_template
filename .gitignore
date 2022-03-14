@@ -1,0 +1,33 @@
+# Files and directories created by pub
+.dart_tool/
+android/
+ios/
+web/
+.packages
+pubspec.lock
+
+# IntelliJ related
+*.iml
+.idea/
+
+# VSCode related
+.vscode/**
+!.vscode/*.code-workspace
+
+# Conventional directory for build outputs
+build/
+coverage/
+
+# Directory created by dartdoc
+doc/api/
+
+# Generated files
+*.freezed.dart
+*.g.dart
+*_test.mocks.dart
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# ObjectBox test stores
+test/**/data.mdb
+test/**/lock.mdb

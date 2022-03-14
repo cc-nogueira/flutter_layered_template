@@ -1,0 +1,15 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - directives_ordering
+    - prefer_final_locals
+    - prefer_relative_imports
+    - sort_constructors_first
+    - sort_pub_dependencies
+    - sort_unnamed_constructors_first
+
+analyzer:
+  exclude:
+    - lib/**.g.dart
+    - test/**.mocks.dart

@@ -1,0 +1,31 @@
+name: _di_layer
+description: DI Layer Package
+
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+
+dependencies:
+  _core_layer:
+    path: ../_core_layer
+  _data_layer:
+    path: ../_data_layer
+  _domain_layer:
+    path: ../_domain_layer
+  _presentation_layer:
+    path: ../_presentation_layer
+  _service_layer:
+    path: ../_service_layer
+    
+  flutter:
+    sdk: flutter
+  riverpod: any
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+    
+flutter:

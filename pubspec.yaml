@@ -1,0 +1,25 @@
+name: flutter_layered_template
+description: Flutter Layered Template
+
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+
+dependencies:
+  _di_layer:
+    path: ./packages/_di_layer
+  _presentation_layer:
+    path: ./packages/_presentation_layer
+    
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+        
+flutter:
+  uses-material-design: true

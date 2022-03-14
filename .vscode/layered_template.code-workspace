@@ -1,0 +1,61 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../packages/_core_layer",
+			"name": "Core Layer"
+		},
+		{
+			"path": "../packages/_data_layer",
+			"name": "Data Layer"
+		},
+		{
+			"path": "../packages/_di_layer",
+			"name": "DI Layer"
+		},
+		{
+			"path": "../packages/_domain_layer",
+			"name": "Domain Layer"
+		},
+		{
+			"path": "../packages/_service_layer",
+			"name": "Service Layer"
+		},
+		{
+			"path": "../packages/_presentation_layer",
+			"name": "Presentation Layer"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/.dart_tool": true,
+			"**/.idea": true,
+			"**/.vscode": true,
+			"**/*.iml": true,
+			"**/.metadata": true,
+			"**/.packages": true,
+			"**/CHANGELOG.md": true,
+			"**/LICENSE": true,
+			"**/README.md": true,
+			"**/analysis_options.yaml": true,
+			"**/pubspec.lock": true,
+			".code-workspace": true,
+			".flutter-plugins": true,
+			".flutter-plugins-dependencies": true,
+			".gitignore": true,
+			"android": true,
+			"build": true,
+			"packages": true,
+			"project.dart": true
+		},
+		"explorerExclude.backup": null
+	}
+}
