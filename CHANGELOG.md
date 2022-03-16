@@ -1,6 +1,6 @@
-## [1.0.0] - 2022-03-13
+## [0.0.1] - 2022-03-14
 
-### Template for Flutter Layered Architecture - Version 1.0.0
+### Template for Flutter Layered Architecture - Version 0.0.1
 > Defined **Layered Architecture Structure** with **each layer in an internal package**:
 >   - **Core** (Basic interfaces and utilities)
 >   - **Domain Layer** (Business Entities and Business Rules)

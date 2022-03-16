@@ -38,6 +38,9 @@ class Main {
       case 'clean':
         options = _cleanOptions;
         break;
+      case 'test':
+        options = _testOptions;
+        break;
       default:
         _printUsage('Invalid commnad "${arguments.first}".');
         return;
@@ -70,6 +73,11 @@ class Main {
     return ExecutionOptions.forClean(args);
   }
 
+  ExecutionOptions get _testOptions {
+    final args = TestArguments(arguments.sublist(1));
+    return ExecutionOptions.forTest(args);
+  }
+
   void _printUsage([String? message]) {
     if (message != null) {
       _writeln(message);
@@ -78,7 +86,8 @@ class Main {
         'Commands:\n'
         '${' ' * leftPad}${'init'.padRight(rightPad)} initialized flutter layered project\n'
         '${' ' * leftPad}${'build'.padRight(rightPad)} build the project\n'
-        '${' ' * leftPad}${'clean'.padRight(rightPad)} clean the project\n');
+        '${' ' * leftPad}${'clean'.padRight(rightPad)} clean the project\n'
+        '${' ' * leftPad}${'test'.padRight(rightPad)} test all packages\n');
   }
 
   void _printProjectNotOK() {
@@ -193,6 +202,29 @@ class Package {
     final dartToolDir = Directory(dir.path + '/.dart_tool');
     return packagesFile.existsSync() || dartToolDir.existsSync();
   }
+
+  bool hasTestCases() {
+    final testDir = Directory(dir.path + '/test');
+    return _hasAnyTestIn(testDir);
+  }
+
+  bool _hasAnyTestIn(Directory dir) {
+    if (!dir.existsSync()) {
+      return false;
+    }
+    for (final entry in dir.listSync()) {
+      if (entry is File) {
+        if (entry.path.endsWith('test.dart')) {
+          return true;
+        }
+      } else if (entry is Directory) {
+        if (_hasAnyTestIn(entry)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
 
 abstract class Arguments {
@@ -301,7 +333,7 @@ class CleanArguments extends Arguments {
   @override
   void printOptions([int padLeft = 6, int padRight = 30]) {
     _writeln('Cleans the main project and all layer packages.\n'
-        'Runs a full build after each initialization (configurable>).\n');
+        'Runs a full build after each package clean (configurable>).\n');
     super.printOptions(padLeft, padRight);
     _writeln('Clean options:\n'
         '${' ' * padLeft}${noBuild.padRight(30)} do not build after cleanning.\n');
@@ -336,6 +368,19 @@ class BuildArguments extends Arguments {
   }
 }
 
+class TestArguments extends Arguments {
+  TestArguments([List<String> arguments = const []]) {
+    read(arguments);
+  }
+
+  @override
+  void printOptions([int padLeft = 6, int padRight = 30]) {
+    _writeln(
+        'Test the main project and all layer packages that have test cases.\n');
+    super.printOptions(padLeft, padRight);
+  }
+}
+
 class ExecutionOptions {
   const ExecutionOptions(
     this.args, {
@@ -345,6 +390,7 @@ class ExecutionOptions {
     this.clean = false,
     this.pubGet = false,
     this.buildRunner = false,
+    this.test = false,
   });
 
   ExecutionOptions.forInit(InitArguments args)
@@ -376,6 +422,14 @@ class ExecutionOptions {
           buildRunner: !args.hasNoBuildRunner,
         );
 
+  ExecutionOptions.forTest(TestArguments args)
+      : this(
+          args,
+          help: args.hasHelp,
+          showOutput: args.hasShowOutput,
+          test: true,
+        );
+
   final Arguments args;
   final bool help;
   final bool showOutput;
@@ -383,6 +437,7 @@ class ExecutionOptions {
   final bool clean;
   final bool pubGet;
   final bool buildRunner;
+  final bool test;
 }
 
 class Execution {
@@ -422,12 +477,17 @@ class Execution {
         return false;
       }
     }
+    if (options.test) {
+      await _test(layer);
+    }
     return true;
   }
 
   static final _pubGetOutputRX = RegExp(r'([\d,\.]*\d+m?s)');
   static final _buildRunnerOutputRX =
       RegExp(r'([\d,\.]*\d+m?s with \d+ outputs \(\d+ actions\))');
+
+  static final _testOutputRX = RegExp(r': (.* test.* passed!)');
 
   Future<bool> _init(Package layer) => _runIn(
         runOnParent: true,
@@ -478,6 +538,19 @@ class Execution {
     );
   }
 
+  Future<bool> _test(Package layer) {
+    if (!layer.hasTestCases()) {
+      return Future.value(true);
+    }
+    return _runIn(
+      layer: layer,
+      title: 'testing',
+      command: 'flutter',
+      args: ['test'],
+      outputRX: _testOutputRX,
+    );
+  }
+
   Future<bool> _runIn({
     bool runOnParent = false,
     required Package layer,
@@ -509,6 +582,7 @@ class Execution {
       return false;
     }
     _write(' [OK]  ');
+
     if (outputRX != null) {
       final match = outputRX.firstMatch(result.stdout.toString());
       if (match != null && match.groupCount == 1) {
