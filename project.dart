@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'dart:math';
 
-void main(List<String> arguments) => Main(arguments).run();
+Future<void> main(List<String> arguments) async => await Main(arguments).run();
 
 class Main {
   Main(this.arguments);
@@ -15,7 +15,7 @@ class Main {
   final List<String> arguments;
   late final LayersProject project;
 
-  void run() {
+  Future<void> run() async {
     project = LayersProject(Directory.current);
     if (!project.isOK) {
       _printProjectNotOK();
@@ -55,7 +55,8 @@ class Main {
     }
 
     final command = Execution(project: project, options: options);
-    command.execute();
+    await command.execute();
+    _writeln();
   }
 
   ExecutionOptions get _initOptions {
