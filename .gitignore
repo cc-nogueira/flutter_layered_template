@@ -13,6 +13,7 @@ pubspec.lock
 # VSCode related
 .vscode/**
 !.vscode/*.code-workspace
+!.vscode/launch.json
 
 # Conventional directory for build outputs
 build/
