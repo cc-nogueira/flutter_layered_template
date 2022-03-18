@@ -12,8 +12,6 @@ dependencies:
     path: ../_core_layer
   _domain_layer:
     path: ../_domain_layer
-  _service_layer:
-    path: ../_service_layer
     
   faker: ^2.0.0
   flutter:

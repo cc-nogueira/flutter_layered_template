@@ -1,6 +1,7 @@
 import 'package:uuid/uuid.dart';
 
 import '../entity/contact.dart';
+import '../entity/message.dart';
 import '../exception/validation_exception.dart';
 import '../repository/contacts_repository.dart';
 import '../service/message_service.dart';
@@ -67,4 +68,7 @@ class ContactsUsecase extends EntityUsecase<Contact> {
 
     return adjusted;
   }
+
+  Future<Message?> getMessageFor(contact) =>
+      messageService.getMessageFor(contact);
 }

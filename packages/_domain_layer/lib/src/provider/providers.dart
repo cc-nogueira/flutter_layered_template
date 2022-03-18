@@ -1,6 +1,7 @@
 import 'package:riverpod/riverpod.dart';
 
 import '../entity/contact.dart';
+import '../entity/message.dart';
 import '../exception/entity_not_found_exception.dart';
 import '../layer/domain_layer.dart';
 import '../repository/entity_notifier_repository.dart';
@@ -39,3 +40,9 @@ final contactProvider = Provider.autoDispose.family<Contact, int>((ref, id) {
   );
   return contact;
 });
+
+/// MessageProvider for a contact
+final messageProvider = FutureProvider.autoDispose.family<Message?, Contact>(
+  (ref, contact) => ref.watch(contactsUsecaseProvider
+      .select((usecase) => usecase.getMessageFor(contact))),
+);

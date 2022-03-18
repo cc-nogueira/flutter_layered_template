@@ -11,8 +11,3 @@ final messageServiceProvider = Provider<MessageService>(
   ((ref) =>
       ref.watch(serviceLayerProvider.select((layer) => layer.messageService))),
 );
-
-/// MessageProvider
-final messageProvider = FutureProvider.autoDispose.family<Message?, Contact>(
-  (ref, contact) => ref.watch(messageServiceProvider).getMessageFor(contact),
-);
