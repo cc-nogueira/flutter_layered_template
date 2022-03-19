@@ -9,22 +9,23 @@ import '../repository/entity_notifier_repository.dart';
 /// It provides an API to access and update [Entity]s mainly by its notifier API.
 /// See providers.
 abstract class EntityUsecase<T extends Entity> {
-  EntityUsecase({required this.repository});
+  EntityUsecase({required EntityNotifierRepository<T> repository})
+      : _repository = repository;
 
-  final EntityNotifierRepository<T> repository;
+  final EntityNotifierRepository<T> _repository;
 
   /// Returns a single entity from storage by id.
   ///
   /// Expects that the repository throws a EntityNotFoundException when id is not
   /// found.
-  T get(int id) => repository.get(id);
+  T get(int id) => _repository.get(id);
 
   /// Returns all entities from storage.
   ///
   /// The returned list is sorted using [_compare] function that is subclass
   /// responsibility.
   List<T> getAll() {
-    final list = repository.getAll();
+    final list = _repository.getAll();
     sort(list);
     return list;
   }
@@ -46,7 +47,7 @@ abstract class EntityUsecase<T extends Entity> {
   ///
   /// Pass on the [EntityNotFoundException] thrown by the repositoty if the
   /// entity to remove is not found in storage.
-  void remove(int id) => repository.remove(id);
+  void remove(int id) => _repository.remove(id);
 
   /// Save an entity in the repository and return the saved entity.
   ///
@@ -64,7 +65,7 @@ abstract class EntityUsecase<T extends Entity> {
   T save(T entity) {
     validate(entity);
     final adjusted = adjust(entity);
-    return repository.save(adjusted);
+    return _repository.save(adjusted);
   }
 
   /// Validate contact's content.

@@ -1,3 +1,12 @@
+## [0.0.2] - 2022-03-18
+
+### Hidding usecase injected dependencies in private instance variables.
+> Important to protect injected implementations of repositories and prevent direct access to storage.  
+> Maintaining a reference to the repository in the DomainLayer object itself, but cast to its StateNotifier subtype,
+> allowing riverpod to watch state changes in the repository without full access to its API (it is the repository
+> object by accessed by its Notifier subtype.
+
+
 ## [0.0.1] - 2022-03-14
 
 ### Template for Flutter Layered Architecture - Version 0.0.1

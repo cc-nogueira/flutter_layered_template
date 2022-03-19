@@ -4,7 +4,6 @@ import '../entity/contact.dart';
 import '../entity/message.dart';
 import '../exception/entity_not_found_exception.dart';
 import '../layer/domain_layer.dart';
-import '../repository/entity_notifier_repository.dart';
 
 /// Domain Layer provider
 final domainLayerProvider = Provider((_) => DomainLayer());
@@ -19,9 +18,9 @@ final contactsUsecaseProvider = Provider(((ref) =>
 
 /// Private provider used bellow.
 final _contactsRepositoryNotifierProvider =
-    StateNotifierProvider<EntityNotifierRepository<Contact>, List<Contact>>(
-        (ref) => ref.watch(
-            contactsUsecaseProvider.select((usecase) => usecase.repository)));
+    StateNotifierProvider<StateNotifier<List<Contact>>, List<Contact>>((ref) =>
+        ref.watch(domainLayerProvider
+            .select((layer) => layer.contactsRepositoryNotifier)));
 
 /// This providers relies on using a StateNotifier API for the
 /// contacts repository. A stream API would have a StreamProvider instead.
