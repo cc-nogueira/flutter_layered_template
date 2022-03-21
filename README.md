@@ -187,4 +187,4 @@ Publications:
 
 Videos:
 - ***4+2 Layered Architecture - Flutter Implementatioh*** (english)
-- ***4+2 Layered Architecture - Implementação para Flutter*** (portuguese)
+- ***[Flutter: Arquitetura 4+2 em Camadas](https://odysee.com/@Flutter:8/Flutter_Arquitetura_4+2:2)*** (portuguese)
