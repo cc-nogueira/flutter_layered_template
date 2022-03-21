@@ -182,7 +182,7 @@ you better running dart project.dart with the specific command.
 ## References:
 
 Publications:
-- ***4+2 Layered Architecture***
+- ***[4+2 Layered Architecture](https://medium.com/@nogueira.cc/4-2-layered-architecture-313329082989)*** (english)
 - ***4+2 Layered Architecture - A Flutter Implementation***
 
 Videos:
