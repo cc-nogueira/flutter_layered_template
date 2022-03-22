@@ -10,7 +10,7 @@ void main() => runApp(
           builder: (_, ref, __) => ref.watch(appProvider).when(
                 loading: () => const Center(child: CircularProgressIndicator()),
                 data: (app) => app,
-                error: (error, _) => TemplateApp.error(error),
+                error: (error, _) => ExampleApp.error(error),
               ),
         ),
       ),
@@ -22,5 +22,5 @@ void main() => runApp(
 final appProvider = FutureProvider.autoDispose<Widget>((ref) async {
   final diLayer = ref.watch(diLayerProvider);
   await diLayer.init();
-  return const TemplateApp();
+  return const ExampleApp();
 });

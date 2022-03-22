@@ -8,8 +8,8 @@ import '../repository/entity_notifier_repository.dart';
 ///
 /// It provides an API to access and update [Entity]s mainly by its notifier API.
 /// See providers.
-abstract class EntityUsecase<T extends Entity> {
-  EntityUsecase({required EntityNotifierRepository<T> repository})
+abstract class EntityNotifierUsecase<T extends Entity> {
+  EntityNotifierUsecase({required EntityNotifierRepository<T> repository})
       : _repository = repository;
 
   final EntityNotifierRepository<T> _repository;

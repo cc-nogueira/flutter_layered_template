@@ -7,12 +7,12 @@ import '../routes/routes.dart';
 ///
 /// Besides the regular constructor there is TemplateApp.error constructor to
 /// handle initialization errors.
-class TemplateApp extends StatelessWidget {
-  const TemplateApp({Key? key})
+class ExampleApp extends StatelessWidget {
+  const ExampleApp({Key? key})
       : error = null,
         super(key: key);
 
-  const TemplateApp.error(this.error, {Key? key}) : super(key: key);
+  const ExampleApp.error(this.error, {Key? key}) : super(key: key);
 
   final _routes = const Routes();
   final Object? error;

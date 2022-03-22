@@ -1,5 +1,5 @@
-import '../entity/contact.dart';
-import 'entity_notifier_repository.dart';
+import '../../entity/example/contact.dart';
+import '../entity_notifier_repository.dart';
 
 /// Contacts Repository interface.
 ///

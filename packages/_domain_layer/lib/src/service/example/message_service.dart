@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../entity/contact.dart';
-import '../entity/message.dart';
+import '../../entity/example/contact.dart';
+import '../../entity/example/message.dart';
 
 /// Message Service interface.
 ///

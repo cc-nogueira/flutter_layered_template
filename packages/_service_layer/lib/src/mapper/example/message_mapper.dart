@@ -2,7 +2,7 @@ import 'package:_domain_layer/domain_layer.dart';
 
 import 'package:riverpod/riverpod.dart';
 
-import '../model/message_model.dart';
+import '../../model/example/message_model.dart';
 
 class MessageMapper {
   MessageMapper(Reader reader) : personMapper = PersonMapper(reader);

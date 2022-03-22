@@ -1,1 +1,1 @@
-export 'src/service/remote_message_service.dart';
+export 'src/service/example/remote_message_service.dart';

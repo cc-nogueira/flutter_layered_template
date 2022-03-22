@@ -1,11 +1,11 @@
 import 'package:uuid/uuid.dart';
 
-import '../entity/contact.dart';
-import '../entity/message.dart';
-import '../exception/validation_exception.dart';
-import '../repository/contacts_repository.dart';
-import '../service/message_service.dart';
-import 'entity_usecase.dart';
+import '../../entity/example/contact.dart';
+import '../../entity/example/message.dart';
+import '../../exception/validation_exception.dart';
+import '../../repository/example/contacts_repository.dart';
+import '../../service/example/message_service.dart';
+import '../entity_notifier_usecase.dart';
 
 /// Usecase with Contacts business rules.
 ///
@@ -13,7 +13,7 @@ import 'entity_usecase.dart';
 /// implementations. See [domainConfigurationProvider].
 ///
 /// It provides an API to access and update [Contact] entities.
-class ContactsUsecase extends EntityUsecase<Contact> {
+class ContactsUsecase extends EntityNotifierUsecase<Contact> {
   ContactsUsecase({
     required ContactsRepository repository,
     required MessageService messageService,

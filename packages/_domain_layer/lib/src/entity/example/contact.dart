@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'entity.dart';
+import '../entity.dart';
 
 part 'contact.freezed.dart';
 

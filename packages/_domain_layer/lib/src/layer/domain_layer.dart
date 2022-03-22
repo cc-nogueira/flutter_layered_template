@@ -1,10 +1,10 @@
 import 'package:_core_layer/core_layer.dart';
 import 'package:riverpod/riverpod.dart';
 
-import '../entity/contact.dart';
-import '../repository/contacts_repository.dart';
-import '../service/message_service.dart';
-import '../usecase/contacts_usecase.dart';
+import '../entity/example/contact.dart';
+import '../repository/example/contacts_repository.dart';
+import '../service/example/message_service.dart';
+import '../usecase/example/contacts_usecase.dart';
 
 /// Function definition for Domain Layer dependencies
 typedef DomainConfiguration = void Function({

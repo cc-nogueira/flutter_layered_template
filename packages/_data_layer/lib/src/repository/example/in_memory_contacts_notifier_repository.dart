@@ -1,6 +1,6 @@
 import 'package:_domain_layer/domain_layer.dart';
 
-import 'in_memory_notifier_repository.dart';
+import '../in_memory_notifier_repository.dart';
 
 /// InMemory contacts repository with StateNotifier API.
 ///

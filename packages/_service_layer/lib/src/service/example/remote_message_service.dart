@@ -6,8 +6,8 @@ import 'package:_domain_layer/domain_layer.dart';
 import 'package:faker/faker.dart';
 import 'package:riverpod/riverpod.dart';
 
-import '../mapper/message_mapper.dart';
-import '../model/message_model.dart';
+import '../../mapper/example/message_mapper.dart';
+import '../../model/example/message_model.dart';
 
 /// Fake implementation class for a Remote Message service.
 ///

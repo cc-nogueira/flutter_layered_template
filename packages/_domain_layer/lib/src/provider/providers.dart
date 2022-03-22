@@ -1,7 +1,7 @@
 import 'package:riverpod/riverpod.dart';
 
-import '../entity/contact.dart';
-import '../entity/message.dart';
+import '../entity/example/contact.dart';
+import '../entity/example/message.dart';
 import '../exception/entity_not_found_exception.dart';
 import '../layer/domain_layer.dart';
 

@@ -3,7 +3,7 @@ import 'package:_domain_layer/domain_layer.dart';
 
 import 'package:riverpod/riverpod.dart';
 
-import '../service/remote_message_service.dart';
+import '../service/example/remote_message_service.dart';
 
 /// ServiceLayer has the responsibility to provide service implementaions.
 ///
