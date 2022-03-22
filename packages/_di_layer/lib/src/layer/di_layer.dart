@@ -20,7 +20,7 @@ import 'package:riverpod/riverpod.dart';
 ///           builder: (_, ref, __) => ref.watch(_appProvider).when(
 ///                 loading: () => const Center(child: CircularProgressIndicator()),
 ///                 data: (app) => app,
-///                 error: (error, _) => TemplateApp.error(error),
+///                 error: (error, _) => ExampleApp.error(error),
 ///               ),
 ///         ),
 ///       ),
@@ -29,7 +29,7 @@ import 'package:riverpod/riverpod.dart';
 /// final _appProvider = FutureProvider.autoDispose<Widget>((ref) async {
 ///   final diLayer = ref.watch(diLayerProvider);
 ///   await diLayer.init();
-///   return const TemplateApp();
+///   return const ExampleApp();
 /// });
 ///
 /// The DILayer instance should be accessed through diLayerProvider.

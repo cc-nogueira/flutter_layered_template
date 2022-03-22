@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../common/page/message_page.dart';
 import '../routes/routes.dart';
 
-/// Template App is this application MaterialApp.
+/// Example App is this application MaterialApp.
 ///
-/// Besides the regular constructor there is TemplateApp.error constructor to
+/// Besides the regular constructor there is ExampleApp.error constructor to
 /// handle initialization errors.
 class ExampleApp extends StatelessWidget {
   const ExampleApp({Key? key})
@@ -22,7 +22,7 @@ class ExampleApp extends StatelessWidget {
 
   Widget get _app => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Layered Template',
+        title: 'Layered Example',
         theme: ThemeData(primarySwatch: Colors.blue),
         onGenerateRoute: _routes.onGenerateRoute,
         initialRoute: Routes.home,
@@ -30,7 +30,7 @@ class ExampleApp extends StatelessWidget {
 
   Widget get _errorApp => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Layered Template',
+        title: 'Layered Example',
         theme: ThemeData(primarySwatch: Colors.blue),
         home: MessagePage(title: 'Error', message: error!.toString()),
       );
