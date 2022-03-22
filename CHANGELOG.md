@@ -1,3 +1,13 @@
+## [0.0.3] - 2022-03-22
+
+### Placing example files in example subfolders. Adding Stream API abstract classes and interfaces in Domain Layer.
+> Refactored the whole structure to move example specific files into new example subfolders.  
+> This way when reusing this template you will find example app files separated from generic files.  
+> These generic will either be reused as is (abstract classes, interfaces) or will be edited (providers, exports).  
+> While example files will probably be deleted after serving their role as examples.  
+> Added abstract stream API usecase and stream API repository interface to domain layer.  
+
+
 ## [0.0.2] - 2022-03-18
 
 ### Hidding usecase injected dependencies in private instance variables.
