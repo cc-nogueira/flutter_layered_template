@@ -48,6 +48,33 @@ class InMemoryNotifierRepository<T extends Entity>
   @override
   T save(T entity) => entity.id == 0 ? _add(entity) : _update(entity);
 
+  /// Save a list of entities in storage and return the corresponding saved list.
+  ///
+  /// For each entity:
+  ///   - If the entity id is 0 it should generate the next id, add the new
+  ///     entity to storage and return it.
+  ///
+  ///   - If the entity id is not 0 update an existint entry with that id.
+  ///
+  /// Throws an [EntityNotFoundException] if any entity to update is not found
+  /// in storage. In this case there will be no updates.
+  @override
+  List<T> saveAll(List<T> entities) {
+    final res = <T>[];
+
+    // Validate entities to update exists
+    for (final entity in entities) {
+      if (entity.id != 0) {
+        get(entity.id);
+      }
+    }
+
+    for (final entity in entities) {
+      res.add(save(entity));
+    }
+    return res;
+  }
+
   /// Remove an entity by id.
   ///
   /// Remove an entity by id.

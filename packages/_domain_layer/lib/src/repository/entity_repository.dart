@@ -30,7 +30,19 @@ abstract class EntityRepository<T extends Entity> {
   ///
   /// Throws an [EntityNotFoundException] if the entity to update is not found
   /// in storage.
-  T save(T user);
+  T save(T entity);
+
+  /// Save a list of entities in storage and return the corresponding saved list.
+  ///
+  /// For each entity:
+  ///   - If the entity id is 0 it should generate the next id, add the new
+  ///     entity to storage and return it.
+  ///
+  ///   - If the entity id is not 0 update an existint entry with that id.
+  ///
+  /// Throws an [EntityNotFoundException] if any entity to update is not found
+  /// in storage. In this case there will be no updates.
+  List<T> saveAll(List<T> entities);
 
   /// Removes an entity by id.
   ///
