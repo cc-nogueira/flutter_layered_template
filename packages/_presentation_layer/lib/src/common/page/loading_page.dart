@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../widget/loading_widget.dart';
+
 /// Simple loading page.
 ///
 /// Presents a page with title and a circular progress indicator.
 class LoadingPage extends StatelessWidget {
   const LoadingPage(this.title, {Key? key}) : super(key: key);
+
+  static Widget Function() builder(String title) => () => LoadingPage(title);
 
   final String title;
 
@@ -12,7 +16,7 @@ class LoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: const Center(child: CircularProgressIndicator()),
+      body: const LoadingWidget(),
     );
   }
 }

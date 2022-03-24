@@ -13,6 +13,9 @@ class MessagePage extends StatelessWidget {
   factory MessagePage.error(Object error) =>
       MessagePage(title: 'Error', message: error.toString());
 
+  factory MessagePage.errorBuilder(Object error, StackTrace? stackTrace) =>
+      MessagePage.error(error);
+
   final String title;
   final String message;
 
