@@ -32,6 +32,6 @@ class ExampleApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Layered Example',
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: MessagePage(title: 'Error', message: error!.toString()),
+        home: MessagePage.error(error!),
       );
 }
