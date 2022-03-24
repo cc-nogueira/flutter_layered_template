@@ -1,10 +1,9 @@
 import '../entity/entity.dart';
 import 'entity_repository.dart';
 
-/// Generic interface of a StateNotifier for List<Enttity>.
+/// Generic interface of a EntityRepository with Stream API.
 ///
-/// State update notifications are triggered by StateNotifier superclass.
-/// An instance of this class may be watched by StateNotifierProvider.
+/// Method return values may be watched by StreamProviders.
 abstract class EntityStreamRepository<T extends Entity>
     implements EntityRepository<T> {
   /// Return a stream for a single entity.
