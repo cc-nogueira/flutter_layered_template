@@ -1,18 +1,21 @@
 import '../entity/entity.dart';
 import '../exception/entity_not_found_exception.dart';
-import '../repository/entity_notifier_repository.dart';
+import '../repository/entity_repository.dart';
 
 /// Usecase with common Entity business rules.
 ///
-/// This class must be injected with an [EntityNotifierRepository].
+/// This class must be injected with an [EntityRepository].
 ///
-/// It provides an API to access and update [Entity]s mainly by its notifier API.
+/// It provides an API to access and update [Entity]s without a stream API.
 /// See providers.
-abstract class EntityNotifierUsecase<T extends Entity> {
-  const EntityNotifierUsecase({required EntityNotifierRepository<T> repository})
+abstract class EntityUsecase<T extends Entity> {
+  const EntityUsecase({required EntityRepository<T> repository})
       : _repository = repository;
 
-  final EntityNotifierRepository<T> _repository;
+  final EntityRepository<T> _repository;
+
+  /// Returns the number of entities in storage.
+  int count() => _repository.count();
 
   /// Returns a single entity from storage by id.
   ///

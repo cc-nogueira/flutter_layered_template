@@ -5,15 +5,15 @@ import '../../entity/example/message.dart';
 import '../../exception/validation_exception.dart';
 import '../../repository/example/contacts_repository.dart';
 import '../../service/example/message_service.dart';
-import '../entity_notifier_usecase.dart';
+import '../entity_usecase.dart';
 
 /// Usecase with Contacts business rules.
 ///
-/// This class must be injected with [ContactsNotifierRepository] and [MessageService]
+/// This class must be injected with [ContactsRepository] and [MessageService]
 /// implementations. See [domainConfigurationProvider].
 ///
 /// It provides an API to access and update [Contact] entities.
-class ContactsUsecase extends EntityNotifierUsecase<Contact> {
+class ContactsUsecase extends EntityUsecase<Contact> {
   ContactsUsecase({
     required ContactsRepository repository,
     required MessageService messageService,
