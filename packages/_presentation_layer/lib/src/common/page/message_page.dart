@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widget/message_widget.dart';
+
 /// Simple message page.
 ///
 /// Presents a page with title and a centralized message.
@@ -23,9 +25,7 @@ class MessagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text(message, style: Theme.of(context).textTheme.headline5),
-      ),
+      body: MessageWidget(message),
     );
   }
 }
