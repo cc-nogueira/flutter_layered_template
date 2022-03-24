@@ -16,6 +16,13 @@ class InMemoryNotifierRepository<T extends Entity>
   InMemoryNotifierRepository({List<T> initialData = const []})
       : super(initialData);
 
+  /// Returns the number of entities in the repository.
+  ///
+  /// May count only up to limit if adequate.
+  /// Count all if limit is set to default value of zero.
+  @override
+  int count({int limit = 0}) => state.length;
+
   /// Return a single entity from storage.
   ///
   /// Throws an [EntityNotFoundException] if no entity is found for the given id.

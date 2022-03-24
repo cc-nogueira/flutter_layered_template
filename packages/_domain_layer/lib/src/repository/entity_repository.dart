@@ -5,6 +5,12 @@ import '../entity/entity.dart';
 /// This API does not define state change notifications.
 /// Subclasses are expected, difining StateNotifiers or StreamNotifiers APIs.
 abstract class EntityRepository<T extends Entity> {
+  /// Returns the number of entities in the repository.
+  ///
+  /// May count only up to limit if adequate.
+  /// Count all if limit is set to default value of zero.
+  int count({int limit = 0});
+
   /// Return an entity by id.
   ///
   /// Throws an [EntityNotFoundException] if no entity is found with given id
