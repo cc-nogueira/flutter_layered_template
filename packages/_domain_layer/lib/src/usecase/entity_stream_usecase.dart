@@ -11,7 +11,7 @@ import '../repository/entity_stream_repository.dart';
 /// It provides an API to access and update [Entity]s mainly by its stream API.
 /// See providers.
 abstract class EntityStreamUsecase<T extends Entity> {
-  EntityStreamUsecase({required EntityStreamRepository<T> repository})
+  const EntityStreamUsecase({required EntityStreamRepository<T> repository})
       : _repository = repository;
 
   final EntityStreamRepository<T> _repository;
