@@ -10,7 +10,7 @@ import '../service/example/remote_message_service.dart';
 /// ServiceLayer exposed implementations are also available through providers.
 /// See [messageServiceProvider].
 class ServiceLayer extends AppLayer {
-  ServiceLayer(Reader reader) : messageService = RemoteMessageService(reader);
+  ServiceLayer(Reader read) : messageService = RemoteMessageService(read);
 
   final MessageService messageService;
 }

@@ -5,7 +5,7 @@ import 'package:riverpod/riverpod.dart';
 import '../../model/example/message_model.dart';
 
 class MessageMapper {
-  MessageMapper(Reader reader) : personMapper = PersonMapper(reader);
+  MessageMapper(Reader read) : personMapper = PersonMapper(read);
 
   final PersonMapper personMapper;
 
@@ -21,15 +21,15 @@ class MessageMapper {
 }
 
 class PersonMapper {
-  const PersonMapper(this.reader);
+  const PersonMapper(this.read);
 
-  final Reader reader;
+  final Reader read;
 
   Contact mapEntity(PersonModel model, {Contact? possibleMatch}) {
     if (model.uuid == possibleMatch?.uuid) {
       return possibleMatch!;
     }
-    return reader(contactsUsecaseProvider).getByUuid(
+    return read(contactsUsecaseProvider).getByUuid(
       model.uuid,
       orElse: () => Contact(uuid: model.uuid, name: model.name),
     );
