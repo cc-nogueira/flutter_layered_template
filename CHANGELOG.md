@@ -1,3 +1,6 @@
+## [0.0.4] - 2022-04-05
+Fix clean command in project.dart that would not run without building
+
 ## [0.0.3] - 2022-03-22
 
 ### Placing example files in example subfolders. Adding Stream API abstract classes and interfaces in Domain Layer.

@@ -508,7 +508,6 @@ class Execution {
         title: 'running flutter clean',
         command: 'flutter',
         args: ['clean'],
-        skip: layer.hasBuildFiles,
       );
 
   Future<bool> _pubGet(Package layer) => _runIn(
