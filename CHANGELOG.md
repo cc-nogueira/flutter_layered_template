@@ -1,5 +1,5 @@
 ## [0.0.4] - 2022-04-05
-Fix clean command in project.dart that would not run without building.
+Fix clean command in project.dart that would not run without building.  
 Add --org parameter to project.dart
 
 ## [0.0.3] - 2022-03-22
