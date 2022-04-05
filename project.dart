@@ -233,7 +233,7 @@ abstract class Arguments {
     read(arguments);
   }
 
-  static final _argRX = RegExp(r'([\w-]+)=?([\w-]+$)?');
+  static final _argRX = RegExp(r'([\w-]+)=?([\w-.]+$)?');
 
   static const help = '--help';
   static const showOutput = '--show-output';
@@ -256,7 +256,7 @@ abstract class Arguments {
     for (final arg in arguments) {
       final entry = _parseArg(arg);
       if (entry != null && allOptions.contains(entry.key)) {
-        options[arg] = entry.value;
+        options[entry.key] = entry.value;
       } else {
         invalidArgs.add(arg);
       }
@@ -294,6 +294,7 @@ class InitArguments extends Arguments {
 
   static const force = '--force';
   static const noBuild = '--no-build';
+  static const org = '--org';
 
   bool get hasNoBuild => contains(noBuild);
 
@@ -302,6 +303,7 @@ class InitArguments extends Arguments {
         ...super.allOptions,
         noBuild,
         force,
+        org,
       ];
 
   @override
@@ -312,6 +314,7 @@ class InitArguments extends Arguments {
     super.printOptions(padLeft, padRight);
     _writeln('Init options:\n'
         '${' ' * padLeft}${force.padRight(30)} force initialization even on already initilized packages.\n'
+        '${' ' * padLeft}${(org + "=<domain.name>").padRight(30)} define the organization name in reverse domain name notation, defaults to "com.example".\n'
         '${' ' * padLeft}${noBuild.padRight(30)} do not build after init.\n');
   }
 }
@@ -490,18 +493,24 @@ class Execution {
 
   static final _testOutputRX = RegExp(r': (.* test.* passed!)');
 
-  Future<bool> _init(Package layer) => _runIn(
-        runOnParent: true,
-        layer: layer,
-        title: 'initializing flutter package',
-        command: 'flutter',
-        args: [
-          'create',
-          '--template=${layer.isMainProject ? 'app' : 'package'}',
-          '--no-pub',
-          layer.name,
-        ],
-      );
+  Future<bool> _init(Package layer) {
+    // print("contains --org: " + options.args.contains('--org').toString());
+    return _runIn(
+      runOnParent: true,
+      layer: layer,
+      title: 'initializing flutter package',
+      command: 'flutter',
+      args: [
+        'create',
+        if (layer.isMainProject && options.args.contains('--org')) '--org',
+        if (layer.isMainProject && options.args.contains('--org'))
+          options.args["--org"],
+        '--template=${layer.isMainProject ? 'app' : 'package'}',
+        '--no-pub',
+        layer.name,
+      ],
+    );
+  }
 
   Future<bool> _clean(Package layer) => _runIn(
         layer: layer,
@@ -567,6 +576,7 @@ class Execution {
     late final ProcessResult result;
     final dir = runOnParent ? layer.dir.parent : layer.dir;
     try {
+      // print('would run: $command $args');
       result = await Process.run(
         command,
         args,
