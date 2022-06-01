@@ -7,10 +7,9 @@ import '../in_memory_notifier_repository.dart';
 /// All its implementation in the generic [InMemoryNotifierRepository].
 ///
 /// This repository uses the StateNotifier API (in contrast to a Stream API).
-class InMemoryContactsNotifierRepository
-    extends InMemoryNotifierRepository<Contact> implements ContactsRepository {
-  InMemoryContactsNotifierRepository({List<Contact> initialData = const []})
-      : super(initialData: initialData);
+class InMemoryContactsNotifierRepository extends InMemoryNotifierRepository<Contact>
+    implements ContactsRepository {
+  InMemoryContactsNotifierRepository({super.initialData});
 
   /// Get a Contact from storage by uuid.
   ///

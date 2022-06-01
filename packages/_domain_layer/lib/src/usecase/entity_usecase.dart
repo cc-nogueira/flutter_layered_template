@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../entity/entity.dart';
 import '../exception/entity_not_found_exception.dart';
 import '../repository/entity_repository.dart';
@@ -9,26 +11,26 @@ import '../repository/entity_repository.dart';
 /// It provides an API to access and update [Entity]s without a stream API.
 /// See providers.
 abstract class EntityUsecase<T extends Entity> {
-  const EntityUsecase({required EntityRepository<T> repository})
-      : _repository = repository;
+  const EntityUsecase({required this.repository});
 
-  final EntityRepository<T> _repository;
+  @internal
+  final EntityRepository<T> repository;
 
   /// Returns the number of entities in storage.
-  int count() => _repository.count();
+  int count() => repository.count();
 
   /// Returns a single entity from storage by id.
   ///
   /// Expects that the repository throws a EntityNotFoundException when id is not
   /// found.
-  T get(int id) => _repository.get(id);
+  T get(int id) => repository.get(id);
 
   /// Returns all entities from storage.
   ///
   /// The returned list is sorted using [_compare] function that is subclass
   /// responsibility.
   List<T> getAll() {
-    final list = _repository.getAll();
+    final list = repository.getAll();
     sort(list);
     return list;
   }
@@ -50,7 +52,7 @@ abstract class EntityUsecase<T extends Entity> {
   ///
   /// Pass on the [EntityNotFoundException] thrown by the repositoty if the
   /// entity to remove is not found in storage.
-  void remove(int id) => _repository.remove(id);
+  void remove(int id) => repository.remove(id);
 
   /// Save an entity in the repository and return the saved entity.
   ///
@@ -68,7 +70,7 @@ abstract class EntityUsecase<T extends Entity> {
   T save(T entity) {
     validate(entity);
     final adjusted = adjust(entity);
-    return _repository.save(adjusted);
+    return repository.save(adjusted);
   }
 
   /// Validate contact's content.
