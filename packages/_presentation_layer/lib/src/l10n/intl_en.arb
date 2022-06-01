@@ -1,0 +1,13 @@
+{
+  "@@locale": "en",
+
+  "title_home_page": "Example App",
+  "@title_home_page": {
+    "description": "Title for home page"
+  },
+
+  "title_error_page": "Error",
+  "@title_error_page": {
+    "description": "Title for error page"
+  }
+}

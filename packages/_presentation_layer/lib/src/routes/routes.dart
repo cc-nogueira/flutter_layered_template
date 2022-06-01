@@ -29,7 +29,7 @@ class Routes {
         );
       default:
         return _route(
-          (_) => MessagePage.error('Unknown route "${settings.name}"'),
+          (_) => ErrorMessagePage('Unknown route "${settings.name}"'),
         );
     }
   }
@@ -43,8 +43,7 @@ class Routes {
     required Widget Function(BuildContext, T) builder,
   }) =>
       MaterialPageRoute(
-        builder: (context) => arg is T
-            ? builder(context, arg)
-            : MessagePage.error('Illegal argument for route'),
+        builder: (context) =>
+            arg is T ? builder(context, arg) : const ErrorMessagePage('Illegal argument for route'),
       );
 }

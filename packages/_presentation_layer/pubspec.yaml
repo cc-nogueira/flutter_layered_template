@@ -16,7 +16,11 @@ dependencies:
   faker: ^2.0.0
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
   flutter_riverpod: any
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_lints: ^2.0.1

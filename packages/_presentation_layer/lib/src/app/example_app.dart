@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../common/page/message_page.dart';
+import '../l10n/translations.dart';
 import '../routes/routes.dart';
 
 /// Example App is this application MaterialApp.
@@ -8,11 +9,9 @@ import '../routes/routes.dart';
 /// Besides the regular constructor there is ExampleApp.error constructor to
 /// handle initialization errors.
 class ExampleApp extends StatelessWidget {
-  const ExampleApp({Key? key})
-      : error = null,
-        super(key: key);
+  const ExampleApp({super.key}) : error = null;
 
-  const ExampleApp.error(this.error, {Key? key}) : super(key: key);
+  const ExampleApp.error(this.error, {super.key});
 
   final _routes = const Routes();
   final Object? error;
@@ -22,16 +21,20 @@ class ExampleApp extends StatelessWidget {
 
   Widget get _app => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Layered Example',
         theme: ThemeData(primarySwatch: Colors.blue),
+        localizationsDelegates: Translations.localizationsDelegates,
+        supportedLocales: Translations.supportedLocales,
+        onGenerateTitle: (context) => Translations.of(context)!.title_home_page,
         onGenerateRoute: _routes.onGenerateRoute,
         initialRoute: Routes.home,
       );
 
   Widget get _errorApp => MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Layered Example',
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: MessagePage.error(error!),
+        localizationsDelegates: Translations.localizationsDelegates,
+        supportedLocales: Translations.supportedLocales,
+        onGenerateTitle: (context) => Translations.of(context)!.title_home_page,
+        home: ErrorMessagePage(error!),
       );
 }
