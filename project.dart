@@ -127,7 +127,7 @@ class LayersProject extends Package {
   bool get isOK => layers.isNotEmpty;
 
   void _init() {
-    packagesDir = Directory(dir.path + '/packages');
+    packagesDir = Directory('${dir.path}/packages');
     if (!packagesDir.existsSync()) {
       return;
     }
@@ -142,7 +142,7 @@ class LayersProject extends Package {
 
     layerEntries.sort(_layerOrder);
     for (final each in layerEntries) {
-      final dir = Directory(packagesDir.path + '/' + each[1]);
+      final dir = Directory('${packagesDir.path}/${each[1]}');
       if (dir.existsSync()) {
         layers.add(Package(name: each[1], dir: dir));
       }
@@ -189,7 +189,7 @@ class Package {
   String get description => name;
 
   bool hasDependency(String dep) {
-    final pubspec = File(dir.path + '/pubspec.yaml');
+    final pubspec = File('${dir.path}/pubspec.yaml');
     if (!pubspec.existsSync()) {
       return false;
     }
@@ -199,13 +199,13 @@ class Package {
   }
 
   bool get hasBuildFiles {
-    final packagesFile = File(dir.path + '/.packages');
-    final dartToolDir = Directory(dir.path + '/.dart_tool');
+    final packagesFile = File('${dir.path}/.packages');
+    final dartToolDir = Directory('${dir.path}/.dart_tool');
     return packagesFile.existsSync() || dartToolDir.existsSync();
   }
 
   bool hasTestCases() {
-    final testDir = Directory(dir.path + '/test');
+    final testDir = Directory('${dir.path}/test');
     return _hasAnyTestIn(testDir);
   }
 
@@ -269,8 +269,7 @@ abstract class Arguments {
         '${' ' * padLeft}${showOutput.padRight(30)} show commands output.\n');
   }
 
-  void printInvalidArgsForCommand(String command,
-      [int padLeft = 6, int padRight = 30]) {
+  void printInvalidArgsForCommand(String command, [int padLeft = 6, int padRight = 30]) {
     if (invalidArgs.length == 1) {
       _writeln('Invalid option for $command command: "${invalidArgs.first}"\n');
     } else if (invalidArgs.length > 1) {
@@ -314,7 +313,7 @@ class InitArguments extends Arguments {
     super.printOptions(padLeft, padRight);
     _writeln('Init options:\n'
         '${' ' * padLeft}${force.padRight(30)} force initialization even on already initilized packages.\n'
-        '${' ' * padLeft}${(org + "=<domain.name>").padRight(30)} define the organization name in reverse domain name notation, defaults to "com.example".\n'
+        '${' ' * padLeft}${("$org=<domain.name>").padRight(30)} define the organization name in reverse domain name notation, defaults to "com.example".\n'
         '${' ' * padLeft}${noBuild.padRight(30)} do not build after init.\n');
   }
 }
@@ -379,8 +378,7 @@ class TestArguments extends Arguments {
 
   @override
   void printOptions([int padLeft = 6, int padRight = 30]) {
-    _writeln(
-        'Test the main project and all layer packages that have test cases.\n');
+    _writeln('Test the main project and all layer packages that have test cases.\n');
     super.printOptions(padLeft, padRight);
   }
 }
@@ -488,8 +486,7 @@ class Execution {
   }
 
   static final _pubGetOutputRX = RegExp(r'([\d,\.]*\d+m?s)');
-  static final _buildRunnerOutputRX =
-      RegExp(r'([\d,\.]*\d+m?s with \d+ outputs \(\d+ actions\))');
+  static final _buildRunnerOutputRX = RegExp(r'([\d,\.]*\d+m?s with \d+ outputs \(\d+ actions\))');
 
   static final _testOutputRX = RegExp(r': (.* test.* passed!)');
 
@@ -503,8 +500,7 @@ class Execution {
       args: [
         'create',
         if (layer.isMainProject && options.args.contains('--org')) '--org',
-        if (layer.isMainProject && options.args.contains('--org'))
-          options.args["--org"],
+        if (layer.isMainProject && options.args.contains('--org')) options.args["--org"],
         '--template=${layer.isMainProject ? 'app' : 'package'}',
         '--no-pub',
         layer.name,
@@ -536,13 +532,7 @@ class Execution {
       layer: layer,
       title: 'running build_runner',
       command: 'flutter',
-      args: [
-        'pub',
-        'run',
-        'build_runner',
-        'build',
-        '--delete-conflicting-outputs'
-      ],
+      args: ['pub', 'run', 'build_runner', 'build', '--delete-conflicting-outputs'],
       outputRX: _buildRunnerOutputRX,
     );
   }
@@ -630,14 +620,13 @@ class Execution {
   void _cleanAfterInit(Package layer) {
     final dirPath = layer.dir.path;
     if (layer.isNotMainProject) {
-      _tryRemove(dirPath + '/.gitignore', '${layer.name}/.gitignore');
+      _tryRemove('$dirPath/.gitignore', '${layer.name}/.gitignore');
     }
     if (layer.isMainProject) {
-      _tryRemove(dirPath + '/test/widget_test.dart', 'test/widget_test.dart');
+      _tryRemove('$dirPath/test/widget_test.dart', 'test/widget_test.dart');
     } else {
-      _tryRemove(dirPath + '/lib/${layer.name}.dart', 'lib/${layer.name}.dart');
-      _tryRemove(dirPath + '/test/${layer.name}_test.dart',
-          'test/${layer.name}_test.dart');
+      _tryRemove('$dirPath/lib/${layer.name}.dart', 'lib/${layer.name}.dart');
+      _tryRemove('$dirPath/test/${layer.name}_test.dart', 'test/${layer.name}_test.dart');
     }
   }
 
