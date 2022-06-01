@@ -1,3 +1,12 @@
+## [0.0.5] - 2022-06-01
+> Flutter updated to 3.0 and Dart to 2.17.  
+> Configuring internationalization.  
+>  
+> - Using DART 2.17 new super arguments.
+> - Using lint 2.0.1.
+> - Using Flutter l10n for internationalization with ARB files.
+
+
 ## [0.0.4] - 2022-04-05
 Fix clean command in project.dart that would not run without building.  
 Add --org parameter to project.dart
