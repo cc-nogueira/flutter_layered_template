@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:riverpod/riverpod.dart';
 
 import '../entity/example/contact.dart';
@@ -12,15 +14,17 @@ final domainLayerProvider = Provider((_) => DomainLayer());
 final domainConfigurationProvider = Provider<DomainConfiguration>(
     (ref) => ref.watch(domainLayerProvider.select((layer) => layer.configure)));
 
+/// System locales obtained on main()
+final systemLocalesProvider = StateProvider<List<Locale>>((ref) => []);
+
 /// Usecase provider
-final contactsUsecaseProvider = Provider(((ref) =>
-    ref.watch(domainLayerProvider.select((layer) => layer.contactsUsecase))));
+final contactsUsecaseProvider =
+    Provider(((ref) => ref.watch(domainLayerProvider.select((layer) => layer.contactsUsecase))));
 
 /// Private provider used bellow.
 final _contactsRepositoryNotifierProvider =
     StateNotifierProvider<StateNotifier<List<Contact>>, List<Contact>>((ref) =>
-        ref.watch(domainLayerProvider
-            .select((layer) => layer.contactsRepositoryNotifier)));
+        ref.watch(domainLayerProvider.select((layer) => layer.contactsRepositoryNotifier)));
 
 /// This providers relies on using a StateNotifier API for the
 /// contacts repository. A stream API would have a StreamProvider instead.
@@ -42,6 +46,6 @@ final contactProvider = Provider.autoDispose.family<Contact, int>((ref, id) {
 
 /// MessageProvider for a contact
 final messageProvider = FutureProvider.autoDispose.family<Message?, Contact>(
-  (ref, contact) => ref.watch(contactsUsecaseProvider
-      .select((usecase) => usecase.getMessageFor(contact))),
+  (ref, contact) =>
+      ref.watch(contactsUsecaseProvider.select((usecase) => usecase.getMessageFor(contact))),
 );

@@ -5,6 +5,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../l10n/translations.dart';
 import '../../../routes/routes.dart';
 
 /// Contacts page.
@@ -31,9 +32,10 @@ class _ContactsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tr = Translations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Contacts')),
-      body: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
+      appBar: AppBar(title: Text(tr.title_contacts_page)),
+      body: contacts.isEmpty ? _buildNoContactsMessage(context, tr) : _buildContactsList(context),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _newContact(),
@@ -41,9 +43,9 @@ class _ContactsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNoContactsMessage(BuildContext context) {
+  Widget _buildNoContactsMessage(BuildContext context, Translations tr) {
     final textStyle = Theme.of(context).textTheme.headline4;
-    return Center(child: Text('No contacts', style: textStyle));
+    return Center(child: Text(tr.message_no_contacts, style: textStyle));
   }
 
   Widget _buildContactsList(BuildContext context) => Padding(

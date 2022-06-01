@@ -4,6 +4,7 @@ import 'package:_domain_layer/domain_layer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../l10n/translations.dart';
 import '../widget/message_widget.dart';
 
 class ViewContactPage extends ConsumerWidget {
@@ -25,8 +26,9 @@ class _ViewContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tr = Translations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Contact')),
+      appBar: AppBar(title: Text(tr.title_contact_page)),
       body: _contactDetails(context),
     );
   }

@@ -3,6 +3,8 @@ import 'package:_domain_layer/domain_layer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../l10n/translations.dart';
+
 /// Widget to display contact's message
 ///
 /// This consumer widget fetchs this contact message from the messageProvider.
@@ -68,52 +70,56 @@ class _MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tr = Translations.of(context)!;
     if (loading) {
-      return _buildLoading(context);
+      return _buildLoading(context, tr);
     }
     if (error != null) {
-      return _buildError(context);
+      return _buildError(context, tr);
     }
     if (message == null) {
-      return _buildNoMessage(context);
+      return _buildNoMessage(context, tr);
     }
-    return _buildMessage(context);
+    return _buildMessage(context, tr);
   }
 
-  Widget _buildLoading(BuildContext context) {
+  Widget _buildLoading(BuildContext context, Translations tr) {
     const loading = Padding(
       padding: EdgeInsets.all(12),
       child: CircularProgressIndicator(color: Colors.grey),
     );
     return _buildCard(
       context,
+      tr,
       leading: const SizedBox(height: 60, width: 60, child: loading),
-      subtitle: 'Loading...',
+      subtitle: '${tr.message_loading}...',
     );
   }
 
-  Widget _buildNoMessage(BuildContext context) {
+  Widget _buildNoMessage(BuildContext context, Translations tr) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
           context,
+          tr,
           leading: _icon(),
-          subtitle: 'No message!',
+          subtitle: '${tr.message_no_message}!',
         ),
         _buildRefreshButton(context),
       ],
     );
   }
 
-  Widget _buildMessage(BuildContext context) {
+  Widget _buildMessage(BuildContext context, Translations tr) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
           context,
+          tr,
           leading: _icon(),
-          subtitle: 'From: ${message!.sender.name}',
+          subtitle: '${tr.label_from}: ${message!.sender.name}',
         ),
         _buildText(context),
         _buildRefreshButton(context),
@@ -121,12 +127,13 @@ class _MessageWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildError(BuildContext context) {
+  Widget _buildError(BuildContext context, Translations tr) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildCard(
           context,
+          tr,
           leading: _icon(Icons.error),
           subtitle: error.toString(),
         ),
@@ -136,7 +143,8 @@ class _MessageWidget extends StatelessWidget {
   }
 
   Widget _buildCard(
-    BuildContext context, {
+    BuildContext context,
+    Translations tr, {
     required Widget leading,
     required String subtitle,
   }) {
@@ -145,7 +153,7 @@ class _MessageWidget extends StatelessWidget {
       child: Card(
         child: ListTile(
           leading: leading,
-          title: const Text('Pending Message:'),
+          title: Text('${tr.title_pending_message}:'),
           subtitle: Text(subtitle),
         ),
       ),
