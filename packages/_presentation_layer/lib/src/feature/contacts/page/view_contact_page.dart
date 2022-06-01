@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widget/message_widget.dart';
 
 class ViewContactPage extends ConsumerWidget {
-  const ViewContactPage({Key? key, required this.id}) : super(key: key);
+  const ViewContactPage({super.key, required this.id});
 
   final int id;
 

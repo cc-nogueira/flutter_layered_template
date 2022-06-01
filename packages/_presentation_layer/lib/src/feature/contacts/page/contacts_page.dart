@@ -13,7 +13,7 @@ import '../../../routes/routes.dart';
 /// to add pseudo random contacts (4 fixed contacts and fake contacts from there
 /// on)
 class ContactsPage extends ConsumerWidget {
-  const ContactsPage({Key? key}) : super(key: key);
+  const ContactsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,8 +24,7 @@ class ContactsPage extends ConsumerWidget {
 }
 
 class _ContactsPage extends StatelessWidget {
-  const _ContactsPage({Key? key, required this.contacts, required this.usecase})
-      : super(key: key);
+  const _ContactsPage({required this.contacts, required this.usecase});
 
   final List<Contact> contacts;
   final ContactsUsecase usecase;
@@ -34,9 +33,7 @@ class _ContactsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Contacts')),
-      body: contacts.isEmpty
-          ? _buildNoContactsMessage(context)
-          : _buildContactsList(context),
+      body: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _newContact(),
@@ -89,12 +86,8 @@ class _ContactsPage extends StatelessWidget {
 }
 
 class _ContactCard extends StatelessWidget {
-  const _ContactCard({
-    Key? key,
-    required this.contact,
-    required this.onDelete,
-    required this.onTap,
-  }) : super(key: key);
+  const _ContactCard({required this.contact, required this.onDelete, required this.onTap});
+
   final Contact contact;
   final Function() onDelete;
   final Function() onTap;

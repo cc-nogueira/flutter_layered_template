@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MessageWidget extends StatelessWidget {
-  const MessageWidget(this.message, {Key? key}) : super(key: key);
+  const MessageWidget(this.message, {super.key});
 
   final String message;
 

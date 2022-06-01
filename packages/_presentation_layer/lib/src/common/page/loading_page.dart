@@ -6,7 +6,7 @@ import '../widget/loading_widget.dart';
 ///
 /// Presents a page with title and a circular progress indicator.
 class LoadingPage extends StatelessWidget {
-  const LoadingPage(this.title, {Key? key}) : super(key: key);
+  const LoadingPage(this.title, {super.key});
 
   static Widget Function() builder(String title) => () => LoadingPage(title);
 

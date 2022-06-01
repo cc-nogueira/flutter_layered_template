@@ -6,7 +6,7 @@ import '../../routes/routes.dart';
 ///
 /// Shows a page with main navigation cards.
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

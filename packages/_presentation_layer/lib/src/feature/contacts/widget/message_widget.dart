@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// This consumer widget fetchs this contact message from the messageProvider.
 /// This is in turn makes an async call to
 class MessageWidget extends ConsumerWidget {
-  const MessageWidget(this.contact, {Key? key}) : super(key: key);
+  const MessageWidget(this.contact, {super.key});
 
   final Contact contact;
 
@@ -24,8 +24,8 @@ class MessageWidget extends ConsumerWidget {
             message: data,
             onRefresh: () => _refresh(ref),
           ),
-          error: (error, _) => _MessageWidget.error(
-              contact: contact, error: error, onRefresh: () => _refresh(ref)),
+          error: (error, _) =>
+              _MessageWidget.error(contact: contact, error: error, onRefresh: () => _refresh(ref)),
         );
   }
 
@@ -43,13 +43,12 @@ class MessageWidget extends ConsumerWidget {
 ///  - With message
 class _MessageWidget extends StatelessWidget {
   const _MessageWidget({
-    Key? key,
     required this.contact,
     this.loading = false,
     this.message,
     this.error,
     required this.onRefresh,
-  }) : super(key: key);
+  });
 
   factory _MessageWidget.loading(Contact contact) =>
       _MessageWidget(contact: contact, loading: true, onRefresh: null);
@@ -178,8 +177,7 @@ class _MessageWidget extends StatelessWidget {
 
   Widget _buildRefreshButton(BuildContext context) => Padding(
         padding: const EdgeInsets.only(left: 20.0, top: 12.0),
-        child:
-            OutlinedButton(onPressed: onRefresh, child: const Text('Refresh')),
+        child: OutlinedButton(onPressed: onRefresh, child: const Text('Refresh')),
       );
 
   Widget _icon([IconData? data]) =>
