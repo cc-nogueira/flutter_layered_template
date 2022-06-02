@@ -17,9 +17,13 @@ import '../../model/example/message_model.dart';
 class RemoteMessageService implements MessageService {
   RemoteMessageService(Reader read) : mapper = MessageMapper(read);
 
+  /// Internal - Message mapper
   final MessageMapper mapper;
-  int invocationCount = 0;
 
+  /// internal - control the number of invocations to throw pseudo-random expections.
+  int _invocationCount = 0;
+
+  /// Pretends to fetch a message from a remote provider.
   @override
   Future<Message?> getMessageFor(Contact receiver) async {
     if (receiver.uuid.isEmpty) {
@@ -38,8 +42,12 @@ class RemoteMessageService implements MessageService {
     throw const ServiceException();
   }
 
+  /// Internal - Pretend to invoke a remote server.
+  ///
+  /// Return a decoded JSON map.
+  /// Throws ServiceException on any generated exceptions.
   Future<Map<String, dynamic>> _invokeRemoteServer(Contact receiver) async {
-    ++invocationCount;
+    ++_invocationCount;
     try {
       final response = await _fakeHttpCall(receiver);
       final map = json.decode(response);
@@ -49,13 +57,18 @@ class RemoteMessageService implements MessageService {
     }
   }
 
+  /// Internal - Fake call a remote server.
+  ///
+  /// Return a delayed String with a fake server response.
+  /// One in every 3 returns have status 204 (no message).
+  /// Throws pseudo random exceptions every 7 calls.
   Future<String> _fakeHttpCall(Contact receiver) async {
     const duration = Duration(seconds: 1);
     await Future.delayed(duration);
-    if (invocationCount % 3 == 0) {
+    if (_invocationCount % 3 == 0) {
       return '{"statusCode": 204}';
     }
-    if (invocationCount % 7 == 0) {
+    if (_invocationCount % 7 == 0) {
       throw TimeoutException(null, duration);
     }
     return '{"statusCode": 200, '
