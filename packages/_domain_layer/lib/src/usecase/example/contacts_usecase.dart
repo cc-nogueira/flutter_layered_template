@@ -16,10 +16,9 @@ import '../entity_usecase.dart';
 /// It provides an API to access and update [Contact] entities.
 class ContactsUsecase extends EntityUsecase<Contact> {
   ContactsUsecase({
-    required ContactsRepository repository,
+    required ContactsRepository super.repository,
     required MessageService messageService,
-  })  : _messageService = messageService,
-        super(repository: repository);
+  }) : _messageService = messageService;
 
   @internal
   @override
