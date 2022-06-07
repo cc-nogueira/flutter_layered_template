@@ -8,7 +8,7 @@ import '../exception/entity_not_found_exception.dart';
 import '../layer/domain_layer.dart';
 
 /// Domain Layer provider
-final domainLayerProvider = Provider((_) => DomainLayer());
+final domainLayerProvider = Provider((ref) => DomainLayer(read: ref.read));
 
 /// Function provider for dependency configuration (implementation injection)
 final domainConfigurationProvider = Provider<DomainConfiguration>(
