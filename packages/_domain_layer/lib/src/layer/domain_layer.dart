@@ -56,6 +56,16 @@ class DomainLayer extends AppLayer with WidgetsBindingObserver {
     return SynchronousFuture(null);
   }
 
+  /// Handle system locales changes.
+  ///
+  /// Keep the systemLocalesProvier up to date with the system locales.
+  @override
+  void didChangeLocales(List<Locale>? locales) {
+    if (locales != null) {
+      read(systemLocalesProvider.notifier).state = locales;
+    }
+  }
+
   void configure({
     required ContactsRepository contactsRepository,
     required MessageService messageService,
