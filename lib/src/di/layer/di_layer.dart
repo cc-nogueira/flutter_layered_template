@@ -1,0 +1,84 @@
+import 'package:riverpod/riverpod.dart';
+
+import '../../core/layer/app_layer.dart';
+import '../../core/provider/providers.dart';
+import '../../data/provider/providers.dart';
+import '../../domain/provider/providers.dart';
+import '../../presentation/provider/providers.dart';
+import '../../service/provider/providers.dart';
+
+/// Dependency Injection layer.
+///
+/// This layers is responsible for init() and dispose() of all other layers.
+/// It is also responsible for layer configuration injecting interface
+/// implementations into layers configuration functions.
+///
+/// This layer object should be initialized in main(), something like this:
+///
+/// void main() => runApp
+///       ProviderScope(
+///         child: Consumer(
+///           builder: (_, ref, __) => ref.watch(_appProvider).when(
+///                 loading: () => const Center(child: CircularProgressIndicator()),
+///                 data: (app) => app,
+///                 error: (error, _) => ExampleApp.error(error),
+///               ),
+///         ),
+///       ),
+///     );
+///
+/// final _appProvider = FutureProvider.autoDispose<Widget>((ref) async {
+///   final diLayer = ref.watch(diLayerProvider);
+///   await diLayer.init();
+///   return const ExampleApp();
+/// });
+///
+/// The DILayer instance should be accessed through diLayerProvider.
+/// And in tests it may be instatiated using a ProviderContainer, like this:
+///
+/// late DILayer diLayer;
+///
+/// setUp(() {
+///   final container = ProviderContainer();
+///   addTearDown(container.dispose);
+///   diLayer = DILayer(read: container.read);
+/// });
+class DiLayer extends AppLayer {
+  DiLayer(this._ref);
+
+  final Ref _ref;
+
+  final _layerProviders = [
+    coreLayerProvider,
+    domainLayerProvider,
+    dataLayerProvider,
+    serviceLayerProvider,
+    presentationLayerProvider,
+  ];
+
+  /// Init all layers and configure those that requires dependency injections.
+  @override
+  Future<void> init() async {
+    for (final layerProvider in _layerProviders) {
+      await _ref.read(layerProvider).init();
+    }
+    _configureDomainLayer();
+  }
+
+  /// Dispose all layers.
+  @override
+  void dispose() {
+    for (final layerProvider in _layerProviders.reversed) {
+      _ref.read(layerProvider).dispose();
+    }
+  }
+
+  /// Configure domain layer with required implementations.
+  void _configureDomainLayer() {
+    final domainConfiguration = _ref.read(domainConfigurationProvider);
+    domainConfiguration(
+      contactsRepository: _ref.read(contactsRepositoryProvider),
+      messageService: _ref.read(messageServiceProvider),
+    );
+  }
+}

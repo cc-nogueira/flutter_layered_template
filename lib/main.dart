@@ -1,8 +1,8 @@
-import 'package:_di_layer/di_layer.dart';
-import 'package:_presentation_layer/presentation_layer.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'src/di/provider/providers.dart';
+import 'src/presentation/app/example_app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
