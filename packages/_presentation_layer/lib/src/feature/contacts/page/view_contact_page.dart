@@ -50,13 +50,13 @@ class _ViewContactPage extends StatelessWidget {
             radius: 40.0,
             child: Text(
               contact.name.cut(max: 2),
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             )),
       );
 
   Widget _name(BuildContext context) => Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Text(contact.name, style: Theme.of(context).textTheme.headline5),
+        child: Text(contact.name, style: Theme.of(context).textTheme.headlineSmall),
       );
 
   Widget _messageForContact(BuildContext context) => MessageWidget(contact);

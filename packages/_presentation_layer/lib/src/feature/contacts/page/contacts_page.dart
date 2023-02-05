@@ -44,7 +44,7 @@ class _ContactsPage extends StatelessWidget {
   }
 
   Widget _buildNoContactsMessage(BuildContext context, Translations tr) {
-    final textStyle = Theme.of(context).textTheme.headline4;
+    final textStyle = Theme.of(context).textTheme.headlineMedium;
     return Center(child: Text(tr.message_no_contacts, style: textStyle));
   }
 

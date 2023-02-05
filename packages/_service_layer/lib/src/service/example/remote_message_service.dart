@@ -15,7 +15,7 @@ import '../../model/example/message_model.dart';
 ///
 /// Throws a ServiceException if cannot access the remote service.
 class RemoteMessageService implements MessageService {
-  RemoteMessageService(Reader read) : mapper = MessageMapper(read);
+  RemoteMessageService(Ref ref) : mapper = MessageMapper(ref);
 
   /// Internal - Message mapper
   final MessageMapper mapper;

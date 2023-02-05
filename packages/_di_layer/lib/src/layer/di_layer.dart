@@ -43,9 +43,9 @@ import 'package:riverpod/riverpod.dart';
 ///   diLayer = DILayer(read: container.read);
 /// });
 class DiLayer extends AppLayer {
-  DiLayer(this._read);
+  DiLayer(this._ref);
 
-  final Reader _read;
+  final Ref _ref;
 
   final _layerProviders = [
     coreLayerProvider,
@@ -59,7 +59,7 @@ class DiLayer extends AppLayer {
   @override
   Future<void> init() async {
     for (final layerProvider in _layerProviders) {
-      await _read(layerProvider).init();
+      await _ref.read(layerProvider).init();
     }
     _configureDomainLayer();
   }
@@ -68,16 +68,16 @@ class DiLayer extends AppLayer {
   @override
   void dispose() {
     for (final layerProvider in _layerProviders.reversed) {
-      _read(layerProvider).dispose();
+      _ref.read(layerProvider).dispose();
     }
   }
 
   /// Configure domain layer with required implementations.
   void _configureDomainLayer() {
-    final domainConfiguration = _read(domainConfigurationProvider);
+    final domainConfiguration = _ref.read(domainConfigurationProvider);
     domainConfiguration(
-      contactsRepository: _read(contactsRepositoryProvider),
-      messageService: _read(messageServiceProvider),
+      contactsRepository: _ref.read(contactsRepositoryProvider),
+      messageService: _ref.read(messageServiceProvider),
     );
   }
 }

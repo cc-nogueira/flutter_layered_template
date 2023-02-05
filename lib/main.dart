@@ -13,7 +13,7 @@ void main() {
         builder: (_, ref, __) => ref.watch(appProvider).when(
               loading: () => const Center(child: CircularProgressIndicator()),
               data: (app) => app,
-              error: (error, _) => ExampleApp.error(error, read: ref.read),
+              error: (error, _) => ExampleApp(error: error),
             ),
       ),
     ),
@@ -27,6 +27,5 @@ final appProvider = FutureProvider.autoDispose<Widget>((ref) async {
   final diLayer = ref.watch(diLayerProvider);
   await diLayer.init();
 
-  final app = ExampleApp(read: ref.read);
-  return app;
+  return const ExampleApp();
 });

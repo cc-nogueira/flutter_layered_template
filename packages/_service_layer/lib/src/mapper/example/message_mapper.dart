@@ -9,7 +9,7 @@ import '../../model/example/message_model.dart';
 /// This is a one-way only conversion. Only from Model to Entity.
 class MessageMapper {
   /// Constructor reveives a Riverpod Reader.
-  MessageMapper(Reader read) : personMapper = PersonMapper(read);
+  MessageMapper(Ref ref) : personMapper = PersonMapper(ref);
 
   /// Person helper mapper
   final PersonMapper personMapper;
@@ -31,10 +31,10 @@ class MessageMapper {
 /// This is a one-way only conversion. Only from Model to Entity.
 class PersonMapper {
   /// Constructor reveives a Riverpod Reader.
-  const PersonMapper(this.read);
+  const PersonMapper(this.ref);
 
   /// Internal - Riverpod Reader.
-  final Reader read;
+  final Ref ref;
 
   /// Maps a Person service Model to a [Contact] domain Entity.
   ///
@@ -44,9 +44,9 @@ class PersonMapper {
     if (model.uuid == possibleMatch?.uuid) {
       return possibleMatch!;
     }
-    return read(contactsUsecaseProvider).getByUuid(
-      model.uuid,
-      orElse: () => Contact(uuid: model.uuid, name: model.name),
-    );
+    return ref.read(contactsUsecaseProvider).getByUuid(
+          model.uuid,
+          orElse: () => Contact(uuid: model.uuid, name: model.name),
+        );
   }
 }

@@ -10,19 +10,29 @@ import '../routes/routes.dart';
 ///
 /// Besides the regular constructor there is ExampleApp.error constructor to
 /// handle initialization errors.
-class ExampleApp extends StatelessWidget with WidgetsBindingObserver {
-  const ExampleApp({super.key, required this.read}) : error = null;
+class ExampleApp extends ConsumerWidget {
+  const ExampleApp({super.key, this.error});
 
-  const ExampleApp.error(this.error, {super.key, required this.read});
-
-  final Reader read;
-  final _routes = const Routes();
   final Object? error;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(systemLocalesProvider.notifier);
+    return _ExampleApp(systemLocalesController: controller, error: error);
+  }
+}
+
+class _ExampleApp extends StatelessWidget with WidgetsBindingObserver {
+  const _ExampleApp({required this.systemLocalesController, this.error});
+
+  final StateController<List<Locale>> systemLocalesController;
+  final Object? error;
+  final _routes = const Routes();
 
   @override
   void didChangeLocales(List<Locale>? locales) {
     if (locales != null) {
-      read(systemLocalesProvider.notifier).state = locales;
+      systemLocalesController.state = locales;
     }
   }
 

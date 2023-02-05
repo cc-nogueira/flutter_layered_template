@@ -26,13 +26,12 @@ class MessageWidget extends ConsumerWidget {
             message: data,
             onRefresh: () => _refresh(ref),
           ),
-          error: (error, _) =>
-              _MessageWidget.error(contact: contact, error: error, onRefresh: () => _refresh(ref)),
+          error: (error, _) => _MessageWidget.error(contact: contact, error: error, onRefresh: () => _refresh(ref)),
         );
   }
 
   void _refresh(WidgetRef ref) {
-    ref.refresh(messageProvider(contact));
+    ref.invalidate(messageProvider(contact));
   }
 }
 
@@ -52,8 +51,7 @@ class _MessageWidget extends StatelessWidget {
     required this.onRefresh,
   });
 
-  factory _MessageWidget.loading(Contact contact) =>
-      _MessageWidget(contact: contact, loading: true, onRefresh: null);
+  factory _MessageWidget.loading(Contact contact) => _MessageWidget(contact: contact, loading: true, onRefresh: null);
 
   factory _MessageWidget.error({
     required Contact contact,
@@ -174,7 +172,7 @@ class _MessageWidget extends StatelessWidget {
                   child: Text(
                     message!.text,
                     maxLines: null,
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
               ),
@@ -188,6 +186,5 @@ class _MessageWidget extends StatelessWidget {
         child: OutlinedButton(onPressed: onRefresh, child: const Text('Refresh')),
       );
 
-  Widget _icon([IconData? data]) =>
-      SizedBox(height: 60, width: 60, child: Icon(data ?? Icons.message));
+  Widget _icon([IconData? data]) => SizedBox(height: 60, width: 60, child: Icon(data ?? Icons.message));
 }

@@ -33,11 +33,11 @@ class DomainLayer extends AppLayer with WidgetsBindingObserver {
   /// Constructor.
   ///
   /// Required a Riverpod Reader to instantite the [PreferencesUsecase].
-  DomainLayer({required this.read});
+  DomainLayer({required this.ref});
 
   /// Internal reader
   @internal
-  final Reader read;
+  final Ref ref;
 
   late final ContactsUsecase contactsUsecase;
   late final StateNotifier<List<Contact>> contactsRepositoryNotifier;
@@ -49,7 +49,7 @@ class DomainLayer extends AppLayer with WidgetsBindingObserver {
   @override
   Future<void> init() {
     final systemLocales = WidgetsBinding.instance.platformDispatcher.locales;
-    read(systemLocalesProvider.notifier).state = systemLocales;
+    ref.read(systemLocalesProvider.notifier).state = systemLocales;
 
     WidgetsBinding.instance.addObserver(this);
 
@@ -62,7 +62,7 @@ class DomainLayer extends AppLayer with WidgetsBindingObserver {
   @override
   void didChangeLocales(List<Locale>? locales) {
     if (locales != null) {
-      read(systemLocalesProvider.notifier).state = locales;
+      ref.read(systemLocalesProvider.notifier).state = locales;
     }
   }
 
