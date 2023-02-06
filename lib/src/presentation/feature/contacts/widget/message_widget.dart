@@ -8,31 +8,44 @@ import '../../../l10n/translations.dart';
 
 /// Widget to display contact's message
 ///
-/// This consumer widget fetchs this contact message from the messageProvider.
-/// This is in turn makes an async call to
+/// This consumer widget watchs pending messages for this contact from the messageProvider.
+/// Displays distinct Loading, Message and Error states from the async messageProvider.
 class MessageWidget extends ConsumerWidget {
-  const MessageWidget(this.contact, {super.key});
+  /// Constructor.
+  const MessageWidget(this.contact, {super.key, required this.onRefresh});
 
+  /// Contact to fetch messages for.
   final Contact contact;
 
+  /// Refresh function that will invalidate the current message in the provider.
+  ///
+  /// When the provider is invalidated the watch is triggered and the widget rebuilds.
+  final void Function() onRefresh;
+
+  /// Display contact's message.
+  ///
+  /// This consumer widget watchs pending messages for this contact from the messageProvider.
+  /// Displays distinct Loading, Message and Error states from the async messageProvider.
+  ///
+  /// The watch is configured to redisplay the loading state when the provider is invalidated to check for a new message.
+  /// See [onRefresh].
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (contact.uuid.isEmpty) {
       return Container();
     }
     return ref.watch(messageStateProvider(contact)).when(
+          skipLoadingOnRefresh: false,
           loading: () => _MessageWidget.loading(contact),
-          data: (data) => _MessageWidget(
-            contact: contact,
-            message: data,
-            onRefresh: () => _refresh(ref),
-          ),
-          error: (error, _) => _MessageWidget.error(contact: contact, error: error, onRefresh: () => _refresh(ref)),
+          data: (data) {
+            return _MessageWidget(
+              contact: contact,
+              message: data,
+              onRefresh: onRefresh,
+            );
+          },
+          error: (error, _) => _MessageWidget.error(contact: contact, error: error, onRefresh: onRefresh),
         );
-  }
-
-  void _refresh(WidgetRef ref) {
-    ref.invalidate(messageStateProvider(contact));
   }
 }
 
@@ -52,7 +65,11 @@ class _MessageWidget extends StatelessWidget {
     required this.onRefresh,
   });
 
-  factory _MessageWidget.loading(Contact contact) => _MessageWidget(contact: contact, loading: true, onRefresh: null);
+  factory _MessageWidget.loading(Contact contact) => _MessageWidget(
+        contact: contact,
+        loading: true,
+        onRefresh: null,
+      );
 
   factory _MessageWidget.error({
     required Contact contact,

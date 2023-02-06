@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/routes/routes.dart';
 import '../../l10n/translations.dart';
 
-/// Projects landing page.
+/// Project landing page.
 ///
 /// Shows a page with main navigation cards.
 class HomePage extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain/entity/contact.dart';
-import '../../../domain/entity/message.dart';
-import '../../../domain/usecase/contacts_usecase.dart';
-import '../../model/example/message_model.dart';
+import '../../domain/entity/contact.dart';
+import '../../domain/entity/message.dart';
+import '../../domain/usecase/contacts_usecase.dart';
+import '../model/example/message_model.dart';
 
 /// MessageMapper converts [MessageModel] to [Message] entity.
 ///

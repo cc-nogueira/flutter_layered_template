@@ -3,13 +3,23 @@ import 'dart:convert';
 
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../domain/entity/contact.dart';
 import '../../../domain/entity/message.dart';
 import '../../../domain/exception/service_exception.dart';
 import '../../../domain/service/message_service.dart';
-import '../../mapper/example/message_mapper.dart';
+import '../../mapper/message_mapper.dart';
 import '../../model/example/message_model.dart';
+
+part 'remote_message_service.g.dart';
+
+/// [MessageService] implementation provider.
+///
+/// This provider has internal state to simulate fake behaviuour.
+/// Thus we use a keepAlive provider.
+@Riverpod(keepAlive: true)
+MessageService remoteMessageService(RemoteMessageServiceRef ref) => RemoteMessageService(ref);
 
 /// Fake implementation class for a Remote Message service.
 ///
@@ -67,11 +77,11 @@ class RemoteMessageService implements MessageService {
   Future<String> _fakeHttpCall(Contact receiver) async {
     const duration = Duration(seconds: 1);
     await Future.delayed(duration);
-    if (_invocationCount % 3 == 0) {
-      return '{"statusCode": 204}';
-    }
     if (_invocationCount % 7 == 0) {
       throw TimeoutException(null, duration);
+    }
+    if (_invocationCount % 3 == 0) {
+      return '{"statusCode": 204}';
     }
     return '{"statusCode": 200, '
         '"sender": {"uuid": "${faker.guid.guid()}", "name": "${faker.person.name()}"}, '

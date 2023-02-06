@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../../domain/layer/app_layer.dart';
-import '../../domain/layer/domain_provisioning.dart';
+import '../../domain/layer/domain_layer.dart';
 import '../isar/model/contact_model.dart';
 import '../isar/repository/isar_contacts_repository.dart';
 
@@ -26,6 +26,6 @@ class DataLayer extends AppLayer {
       ContactModelSchema,
     ]);
 
-    provision = DataLayerProvision(contactsRepository: IsarContactsRepository(isar));
+    provision = DataLayerProvision(contactsRepositoryBuilder: () => IsarContactsRepository(isar));
   }
 }

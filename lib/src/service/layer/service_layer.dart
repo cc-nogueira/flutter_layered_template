@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/layer/app_layer.dart';
-import '../../domain/layer/domain_provisioning.dart';
+import '../../domain/layer/domain_layer.dart';
 import '../service/example/remote_message_service.dart';
 
 final serviceLayer = ServiceLayer();
@@ -18,6 +18,6 @@ class ServiceLayer extends AppLayer {
 
   @override
   Future<void> init(Ref ref) async {
-    provision = ServiceLayerProvision(messageService: RemoteMessageService(ref));
+    provision = ServiceLayerProvision(messageServiceBuilder: () => ref.read(remoteMessageServiceProvider));
   }
 }

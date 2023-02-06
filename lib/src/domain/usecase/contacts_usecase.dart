@@ -13,7 +13,7 @@ part 'contacts_usecase.g.dart';
 
 @riverpod
 ContactsUsecase contactsUsecase(ContactsUsecaseRef ref) => ContactsUsecase(
-      repository: domainLayer.dataProvision.contactsRepository,
+      repository: domainLayer.dataProvision.contactsRepositoryBuilder(),
     );
 
 /// Usecase with Contacts business rules.
