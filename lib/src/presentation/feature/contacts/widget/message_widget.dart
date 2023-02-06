@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain/entity/example/contact.dart';
-import '../../../../domain/entity/example/message.dart';
-import '../../../../domain/provider/providers.dart';
+import '../../../../domain/entity/contact.dart';
+import '../../../../domain/entity/message.dart';
+import '../../../../domain/usecase/message_usecase.dart';
 import '../../../l10n/translations.dart';
 
 /// Widget to display contact's message
@@ -20,7 +20,7 @@ class MessageWidget extends ConsumerWidget {
     if (contact.uuid.isEmpty) {
       return Container();
     }
-    return ref.watch(messageProvider(contact)).when(
+    return ref.watch(messageStateProvider(contact)).when(
           loading: () => _MessageWidget.loading(contact),
           data: (data) => _MessageWidget(
             contact: contact,
@@ -32,7 +32,7 @@ class MessageWidget extends ConsumerWidget {
   }
 
   void _refresh(WidgetRef ref) {
-    ref.invalidate(messageProvider(contact));
+    ref.invalidate(messageStateProvider(contact));
   }
 }
 

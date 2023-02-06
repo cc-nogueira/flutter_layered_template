@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/string_utils.dart';
-import '../../../../domain/entity/example/contact.dart';
-import '../../../../domain/provider/providers.dart';
+import '../../../../domain/entity/contact.dart';
+import '../../../../domain/usecase/contacts_usecase.dart';
 import '../../../l10n/translations.dart';
 import '../widget/message_widget.dart';
 
@@ -14,7 +14,7 @@ class ViewContactPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final contact = ref.watch(contactProvider(id));
+    final contact = ref.watch(contactStateProvider(id));
     return _ViewContactPage(contact);
   }
 }

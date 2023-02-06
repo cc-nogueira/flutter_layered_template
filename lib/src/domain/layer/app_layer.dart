@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 /// Application Layer Class
 ///
 /// Each layer of the application will have one instance of [AppLayer] to manage
@@ -24,7 +26,7 @@ class AppLayer {
   ///
   /// Application start up will wait on the init of each layer in onion order, from the most internal
   /// towards external layers.
-  Future<void> init() async {}
+  Future<void> init(Ref ref) async {}
 
   /// Layer disposing.
   ///

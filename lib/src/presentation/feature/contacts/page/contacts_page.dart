@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/string_utils.dart';
-import '../../../../domain/entity/example/contact.dart';
-import '../../../../domain/provider/providers.dart';
-import '../../../../domain/usecase/example/contacts_usecase.dart';
+import '../../../../domain/entity/contact.dart';
+import '../../../../domain/usecase/contacts_usecase.dart';
 import '../../../app/routes/routes.dart';
 import '../../../l10n/translations.dart';
 
@@ -19,24 +18,25 @@ class ContactsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final usecase = ref.watch(contactsUsecaseProvider);
-    final contacts = ref.watch(allContactsProvider);
-    return _ContactsPage(contacts: contacts, usecase: usecase);
+    final tr = Translations.of(context)!;
+    final usecase = ref.read(contactsUsecaseProvider);
+    final contacts = ref.watch(contactsStateProvider);
+    return _ContactsPage(tr: tr, contacts: contacts, usecase: usecase);
   }
 }
 
 class _ContactsPage extends StatelessWidget {
-  const _ContactsPage({required this.contacts, required this.usecase});
+  const _ContactsPage({required this.tr, required this.contacts, required this.usecase});
 
+  final Translations tr;
   final List<Contact> contacts;
   final ContactsUsecase usecase;
 
   @override
   Widget build(BuildContext context) {
-    final tr = Translations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(tr.title_contacts_page)),
-      body: contacts.isEmpty ? _buildNoContactsMessage(context, tr) : _buildContactsList(context),
+      body: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _newContact(),
@@ -44,7 +44,7 @@ class _ContactsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNoContactsMessage(BuildContext context, Translations tr) {
+  Widget _buildNoContactsMessage(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.headlineMedium;
     return Center(child: Text(tr.message_no_contacts, style: textStyle));
   }
@@ -64,10 +64,10 @@ class _ContactsPage extends StatelessWidget {
         ),
       );
 
-  void _removeContact(Contact contact) => usecase.remove(contact.id);
+  void _removeContact(Contact contact) => usecase.remove(contact.id!);
 
   void _viewContact(BuildContext context, Contact contact) =>
-      Navigator.pushNamed(context, Routes.viewContact, arguments: contact.id);
+      Navigator.pushNamed(context, Routes.viewContact, arguments: contact.id!);
 
   Contact _newContact() => usecase.save(_createContact());
 

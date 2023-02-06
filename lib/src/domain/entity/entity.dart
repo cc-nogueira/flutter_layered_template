@@ -4,7 +4,7 @@
 /// Freezed objects in subclasses
 abstract class Entity {
   /// Entity storage key
-  int get id;
+  int? get id;
 
   /// Suports Freezed copyWith generation
   get copyWith;

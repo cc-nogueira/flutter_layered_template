@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'src/di/provider/providers.dart';
+import 'src/data/layer/data_layer.dart';
+import 'src/domain/layer/domain_layer.dart';
 import 'src/presentation/app/example_app.dart';
+import 'src/presentation/layer/presentation_layer.dart';
+import 'src/service/layer/service_layer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,9 +26,17 @@ void main() {
 /// Provides the configured application.
 ///
 /// Async initializes all layers through DI Layer init method.
-final appProvider = FutureProvider.autoDispose<Widget>((ref) async {
-  final diLayer = ref.watch(diLayerProvider);
-  await diLayer.init();
+final appProvider = FutureProvider.autoDispose<Widget>((Ref ref) async {
+  await _initLayers(ref);
 
   return const ExampleApp();
 });
+
+Future<void> _initLayers(Ref ref) async {
+  await domainLayer.init(ref);
+  await dataLayer.init(ref);
+  await serviceLayer.init(ref);
+  await presentationLayer.init(ref);
+
+  domainLayer.provisioning(dataProvision: dataLayer.provision, serviceProvision: serviceLayer.provision);
+}

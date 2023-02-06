@@ -1,9 +1,9 @@
-import 'package:flutter_layered_template/src/domain/entity/example/contact.dart';
+import 'package:flutter_layered_template/src/domain/entity/contact.dart';
 import 'package:flutter_layered_template/src/domain/exception/entity_not_found_exception.dart';
 import 'package:flutter_layered_template/src/domain/exception/validation_exception.dart';
-import 'package:flutter_layered_template/src/domain/repository/example/contacts_repository.dart';
-import 'package:flutter_layered_template/src/domain/service/example/message_service.dart';
-import 'package:flutter_layered_template/src/domain/usecase/example/contacts_usecase.dart';
+import 'package:flutter_layered_template/src/domain/repository/contacts_repository.dart';
+import 'package:flutter_layered_template/src/domain/service/message_service.dart';
+import 'package:flutter_layered_template/src/domain/usecase/contacts_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -18,7 +18,7 @@ extension ContactsRepositoryAsMockExtension on ContactsRepository {
 void main() {
   late ContactsRepository mockRepository;
   late MessageService mockService;
-  late ContactsUsecase usecase;
+  late ContactsUsecase contactsUsecase;
 
   const newContact1 = Contact(name: 'Robert Martin', uuid: 'a1b2c3d4');
   const newContact2 = Contact(name: 'Martin Fowler', uuid: 'z9x8c7v6');
@@ -32,20 +32,17 @@ void main() {
   setUp(() {
     mockRepository = MockContactsRepository();
     mockService = MockMessageService();
-    usecase = ContactsUsecase(
-      repository: mockRepository,
-      messageService: mockService,
-    );
+    contactsUsecase = ContactsUsecase(repository: mockRepository);
   });
 
   group('get', () {
     test('should return a contact by id when it does exist in storage', () {
       when(mockRepository.asMock().get(any)).thenReturn(contact1);
 
-      final contact = usecase.get(contact1.id);
+      final contact = contactsUsecase.get(contact1.id!);
 
       expect(contact, contact1);
-      verify(mockRepository.get(contact1.id));
+      verify(mockRepository.get(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
     });
 
@@ -53,10 +50,10 @@ void main() {
       when(mockRepository.asMock().get(any)).thenThrow(const EntityNotFoundException());
 
       expect(
-        () => usecase.get(contact1.id),
+        () => contactsUsecase.get(contact1.id!),
         throwsA(isA<EntityNotFoundException>()),
       );
-      verify(mockRepository.get(contact1.id));
+      verify(mockRepository.get(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -66,7 +63,7 @@ void main() {
     test('should return an empty list when the repository is empty', () {
       when(mockRepository.getAll()).thenReturn([]);
 
-      final contacts = usecase.getAll();
+      final contacts = contactsUsecase.getAll();
 
       expect(contacts, isEmpty);
       verify(mockRepository.getAll());
@@ -77,7 +74,7 @@ void main() {
     test('should return an ordered list of contacts by name when the repository is not empty', () {
       when(mockRepository.getAll()).thenReturn([contact1, contact2]);
 
-      final contacts = usecase.getAll();
+      final contacts = contactsUsecase.getAll();
 
       expect(contacts, [contact2, contact1]);
       verify(mockRepository.getAll());
@@ -90,7 +87,7 @@ void main() {
     test('should add a new contact to storage delegating id generation to the repository', () {
       when(mockRepository.asMock().save(any)).thenReturn(contact1);
 
-      final savedContact = usecase.save(newContact1);
+      final savedContact = contactsUsecase.save(newContact1);
 
       expect(savedContact, contact1);
       verify(mockRepository.save(newContact1));
@@ -101,7 +98,7 @@ void main() {
     test('should update a contact in storage when id is not zero', () {
       when(mockRepository.asMock().save(any)).thenReturn(contact1);
 
-      final savedContact = usecase.save(contact1);
+      final savedContact = contactsUsecase.save(contact1);
 
       expect(savedContact, contact1);
       verify(mockRepository.save(contact1));
@@ -112,7 +109,7 @@ void main() {
     test('should trim contact\'s content before saving', () {
       when(mockRepository.asMock().save(any)).thenReturn(contactWithoutSpaces);
 
-      final savedContact = usecase.save(newContactWithSpaces);
+      final savedContact = contactsUsecase.save(newContactWithSpaces);
 
       expect(savedContact, contactWithoutSpaces);
       verify(mockRepository.save(newContactWithoutSpaces));
@@ -124,7 +121,7 @@ void main() {
       const emptyNameContact = Contact(name: '   ');
 
       expect(
-        () => usecase.save(emptyNameContact),
+        () => contactsUsecase.save(emptyNameContact),
         throwsA(isA<ValidationException>()),
       );
       verifyNoMoreInteractions(mockRepository);
@@ -135,7 +132,7 @@ void main() {
       when(mockRepository.asMock().save(any)).thenThrow(const EntityNotFoundException());
 
       expect(
-        () => usecase.save(contact1),
+        () => contactsUsecase.save(contact1),
         throwsA(isA<EntityNotFoundException>()),
       );
       verify(mockRepository.save(contact1));
@@ -148,9 +145,9 @@ void main() {
     test('should remove a contact from repository when its id exists', () {
       when(mockRepository.asMock().remove(any)).thenAnswer((_) {});
 
-      usecase.remove(contact1.id);
+      contactsUsecase.remove(contact1.id!);
 
-      verify(mockRepository.remove(contact1.id));
+      verify(mockRepository.remove(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -159,11 +156,11 @@ void main() {
       when(mockRepository.asMock().remove(any)).thenThrow(const EntityNotFoundException());
 
       expect(
-        () => usecase.remove(contact1.id),
+        () => contactsUsecase.remove(contact1.id!),
         throwsA(isA<EntityNotFoundException>()),
       );
 
-      verify(mockRepository.remove(contact1.id));
+      verify(mockRepository.remove(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -171,16 +168,16 @@ void main() {
 
   group('validate', () {
     test('should validate OK when contact has  name', () {
-      usecase.validate(contact1);
-      usecase.validate(contact2);
-      usecase.validate(newContact2);
+      contactsUsecase.validate(contact1);
+      contactsUsecase.validate(contact2);
+      contactsUsecase.validate(newContact2);
 
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
 
     test('should validate OK when contact has spaces in name', () {
-      usecase.validate(newContactWithSpaces);
+      contactsUsecase.validate(newContactWithSpaces);
 
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -189,7 +186,7 @@ void main() {
     test('should throw ValidationException when name is empty', () {
       const emptyNameContact = Contact(name: '   ');
       expect(
-        () => usecase.validate(emptyNameContact),
+        () => contactsUsecase.validate(emptyNameContact),
         throwsA(isA<ValidationException>()),
       );
       verifyNoMoreInteractions(mockRepository);

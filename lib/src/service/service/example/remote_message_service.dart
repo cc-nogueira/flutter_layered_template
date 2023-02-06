@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:faker/faker.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain/entity/example/contact.dart';
-import '../../../domain/entity/example/message.dart';
+import '../../../domain/entity/contact.dart';
+import '../../../domain/entity/message.dart';
 import '../../../domain/exception/service_exception.dart';
-import '../../../domain/service/example/message_service.dart';
+import '../../../domain/service/message_service.dart';
 import '../../mapper/example/message_mapper.dart';
 import '../../model/example/message_model.dart';
 
