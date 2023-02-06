@@ -1,7 +1,7 @@
 ## [0.1.0] - 2023-02-06
-> Refactore the whole structure to use a single project.
+> Refactor the whole structure to use a single project.
 > DomainLayer runtime dependencies expressed as Provisions classes.
-> Dependencies upgrates (riverpod 2.1.3)
+> Dependencies upgrades (riverpod 2.1.3)
 > Use of riverpod_annotations.
 
 ## [0.0.5] - 2022-06-01
