@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/string_utils.dart';
-import '../../../../domain/entity/contact.dart';
-import '../../../../domain/usecase/contacts_usecase.dart';
+import '../../../../domain_layer.dart';
 import '../../../app/routes/routes.dart';
 import '../../../l10n/translations.dart';
 

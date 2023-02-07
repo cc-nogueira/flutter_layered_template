@@ -1,4 +1,4 @@
-import '../../../domain/entity/entity.dart';
+import '../../../domain_layer.dart';
 import '../model/isar_model.dart';
 
 /// Mapper API to convert domain entities to persistence models and vice-versa.

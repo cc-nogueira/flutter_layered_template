@@ -1,4 +1,4 @@
-import '../../../domain/entity/contact.dart';
+import '../../../domain_layer.dart';
 import '../model/contact_model.dart';
 import 'entity_mapper.dart';
 

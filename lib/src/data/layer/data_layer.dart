@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-import '../../domain/layer/app_layer.dart';
-import '../../domain/layer/domain_layer.dart';
+import '../../domain_layer.dart';
 import '../isar/model/contact_model.dart';
 import '../isar/repository/isar_contacts_repository.dart';
 
@@ -10,9 +9,6 @@ final dataLayer = DataLayer();
 
 /// DataLayer has the responsibility to provide repository implementaions.
 class DataLayer extends AppLayer {
-  /// Constructor.
-  DataLayer();
-
   /// Implementations provisioned by the data layer
   late final DataLayerProvision provision;
 

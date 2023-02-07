@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+typedef ProvisionBuilder<T> = T Function();
+
 /// Application Layer Class
 ///
 /// Each layer of the application will have one instance of [AppLayer] to manage

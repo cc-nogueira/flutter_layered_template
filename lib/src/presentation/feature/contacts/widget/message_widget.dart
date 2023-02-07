@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain/entity/contact.dart';
-import '../../../../domain/entity/message.dart';
-import '../../../../domain/usecase/message_usecase.dart';
+import '../../../../domain_layer.dart';
 import '../../../l10n/translations.dart';
 
 /// Widget to display contact's message

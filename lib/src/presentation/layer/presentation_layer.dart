@@ -1,3 +1,3 @@
-import '../../domain/layer/app_layer.dart';
+import '../../domain_layer.dart';
 
 const presentationLayer = AppLayer();

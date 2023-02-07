@@ -5,12 +5,9 @@ import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../domain/entity/contact.dart';
-import '../../../domain/entity/message.dart';
-import '../../../domain/exception/service_exception.dart';
-import '../../../domain/service/message_service.dart';
-import '../../mapper/message_mapper.dart';
-import '../../model/example/message_model.dart';
+import '../../domain_layer.dart';
+import '../mapper/message_mapper.dart';
+import '../model/message_model.dart';
 
 part 'remote_message_service.g.dart';
 

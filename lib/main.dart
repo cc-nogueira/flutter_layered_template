@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'src/data/layer/data_layer.dart';
-import 'src/domain/layer/domain_layer.dart';
-import 'src/presentation/app/example_app.dart';
-import 'src/presentation/layer/presentation_layer.dart';
-import 'src/service/layer/service_layer.dart';
+import 'src/data_layer.dart';
+import 'src/domain_layer.dart';
+import 'src/presentation_layer.dart';
+import 'src/service_layer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

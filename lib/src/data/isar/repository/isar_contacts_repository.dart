@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:isar/isar.dart';
 
-import '../../../domain/entity/contact.dart';
-import '../../../domain/exception/entity_not_found_exception.dart';
-import '../../../domain/repository/contacts_repository.dart';
+import '../../../domain_layer.dart';
 import '../mapper/contact_mapper.dart';
 import '../model/contact_model.dart';
 
