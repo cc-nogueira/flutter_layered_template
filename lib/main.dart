@@ -15,7 +15,7 @@ void main() {
         builder: (_, ref, __) => ref.watch(appProvider).when(
               loading: () => const Center(child: CircularProgressIndicator()),
               data: (app) => app,
-              error: (error, _) => ExampleApp(error: error),
+              error: (error, _) => App(error: error),
             ),
       ),
     ),
@@ -28,7 +28,7 @@ void main() {
 final appProvider = FutureProvider.autoDispose<Widget>((Ref ref) async {
   await _initLayers(ref);
 
-  return const ExampleApp();
+  return const App();
 });
 
 Future<void> _initLayers(Ref ref) async {

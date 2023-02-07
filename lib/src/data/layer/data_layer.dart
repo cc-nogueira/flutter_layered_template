@@ -9,19 +9,30 @@ final dataLayer = DataLayer();
 
 /// DataLayer has the responsibility to provide repository implementaions.
 class DataLayer extends AppLayer {
+  /// Internal Isar reference.
+  ///
+  /// Opened in [init]. Closed in [dispose].
+  late final Isar _isar;
+
   /// Implementations provisioned by the data layer
   late final DataLayerProvision provision;
 
   /// Initialize the ISAR container.
   ///
-  /// Configures the [DataLayer.internal] module.
-  /// Enable runtime provisioning of interface implementations.
+  /// Configures the instance [DataLayerProvision] that enables runtime provisioning of interface implementations.
   @override
   Future<void> init(Ref ref) async {
-    final isar = await Isar.open([
+    _isar = await Isar.open([
       ContactModelSchema,
     ]);
 
-    provision = DataLayerProvision(contactsRepositoryBuilder: () => IsarContactsRepository(isar));
+    provision = DataLayerProvision(contactsRepositoryBuilder: () => IsarContactsRepository(_isar));
+  }
+
+  /// Close the Isar instance.
+  @override
+  void dispose() {
+    _isar.close();
+    super.dispose();
   }
 }
