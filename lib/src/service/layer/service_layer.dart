@@ -5,14 +5,21 @@ import '../service/remote_message_service.dart';
 
 final serviceLayer = ServiceLayer();
 
-/// ServiceLayer has the responsibility to provide service implementaions.
+/// Service Layer provisioning service implementations.
 ///
-/// ServiceLayer exposed implementations are also available through providers.
-/// See [messageServiceProvider].
+/// This is a satelite layer to the DomainLayer, it's types are not visible to DomainLayer (use cases).
+/// Instead runtime implementations of Domain service interfaces will be provisioned to the domain layer on
+/// app initialization (by the outer layer, main.dart).
+///
+/// In this case provision a fake [RemoteMessageService] builder.
+
 class ServiceLayer extends AppLayer {
   /// Implementations provisioned by the service layer
   late final ServiceLayerProvision provision;
 
+  /// Configures the instance [ServiceLayerProvision] that enables runtime provisioning of interface implementations.
+  ///
+  /// Uses a persistent singleton implementation of this service that holds state.
   @override
   Future<void> init(Ref ref) async {
     provision = ServiceLayerProvision(messageServiceBuilder: () => ref.read(remoteMessageServiceProvider));

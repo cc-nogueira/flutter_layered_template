@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain_layer.dart';
 import '../model/message_model.dart';
 
-/// MessageMapper converts [MessageModel] to [Message] entity.
+/// Map [MessageModel] objects to [Message] entities.
 ///
 /// This is a one-way only conversion. Only from Model to Entity.
 class MessageMapper {
   /// Constructor reveives a Riverpod Reader.
+  ///
+  /// Its child mapper user this Ref to access a domain use case.
   MessageMapper(Ref ref) : personMapper = PersonMapper(ref);
 
   /// Person helper mapper
@@ -43,7 +45,7 @@ class PersonMapper {
     if (model.uuid == possibleMatch?.uuid) {
       return possibleMatch!;
     }
-    return ref.read(contactsUsecaseProvider).getByUuid(
+    return ref.read(contactsUseCaseProvider).getByUuid(
           model.uuid,
           orElse: () => Contact(uuid: model.uuid, name: model.name),
         );
