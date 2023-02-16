@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -7,38 +8,42 @@ import '../exception/validation_exception.dart';
 import '../layer/domain_layer.dart';
 import '../repository/contacts_repository.dart';
 
-part 'state/contact_state.dart';
 part 'state/contacts_state.dart';
-part 'contacts_usecase.g.dart';
+part 'contacts_use_case.g.dart';
+
+@Riverpod(keepAlive: true)
+Uuid uuid(UuidRef ref) => const Uuid();
+
+@Riverpod(keepAlive: true)
+List<Contact> personalities(PersonalitiesRef ref) => [
+      const Contact(id: 0, name: 'Trygve Reenskaug', uuid: 'c6d85b7c-8f77-4447-9f80-2ae4ab061f20'),
+      const Contact(id: 1, name: 'Robert Martin', uuid: '6381eb68-e200-490c-a227-cb64648f2a23'),
+      const Contact(id: 2, name: 'Martin Fowler', uuid: 'b7525456-ce67-4df0-8760-9c4f5d76cac7'),
+      const Contact(id: 3, name: 'Gilad Bracha', uuid: '8ad5b6ca-8b37-489a-a95f-11a1f8cdd110'),
+    ];
 
 @riverpod
-ContactsUsecase contactsUsecase(ContactsUsecaseRef ref) => ContactsUsecase(
+ContactsUseCase contactsUseCase(ContactsUseCaseRef ref) => ContactsUseCase(
+      ref,
+      uuid: ref.read(uuidProvider),
       repository: domainLayer.dataProvision.contactsRepositoryBuilder(),
     );
 
-/// Usecase with Contacts business rules.
+/// Use case with Contacts business rules.
 ///
 /// It provides an API to access and update [Contact] entities.
-class ContactsUsecase {
+class ContactsUseCase {
   /// Constructor.
-  ContactsUsecase({required this.repository});
+  ContactsUseCase(this.ref, {required this.uuid, required this.repository});
 
+  /// Riverpod provider ref.
+  final ProviderRef ref;
+
+  /// Provisioned [ContactsRepository] implementation.
   final ContactsRepository repository;
-  final _uuid = const Uuid();
 
-  /// Returns a single contact from storage by id.
-  ///
-  /// Expects that the repository throws an [EntityNotFoundException] when id is not found.
-  Contact get(int id) {
-    return repository.get(id);
-  }
-
-  /// Returns all contacts from storage.
-  ///
-  /// Expects the repository to return the list sorted by name.
-  List<Contact> getAll() {
-    return repository.getAll();
-  }
+  /// [Uuid] generator.
+  final Uuid uuid;
 
   /// Get a Contact from repository by uuid.
   ///
@@ -63,7 +68,9 @@ class ContactsUsecase {
   Contact save(Contact value) {
     validate(value);
     final adjusted = _adjust(value);
-    return repository.save(adjusted);
+    final saved = repository.save(adjusted);
+    ref.invalidate(contactsStateProvider);
+    return saved;
   }
 
   /// Removes an entity by id from the repository.
@@ -71,6 +78,7 @@ class ContactsUsecase {
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
   void remove(int id) {
     repository.remove(id);
+    ref.invalidate(contactsStateProvider);
   }
 
   /// Validate contact's content.
@@ -87,7 +95,7 @@ class ContactsUsecase {
   /// Generates contact's uuid when it is empty.
   /// Trim contacts name if necessary.
   Contact _adjust(Contact contact) {
-    var adjusted = contact.uuid.isEmpty ? contact.copyWith(uuid: _uuid.v4()) : contact;
+    var adjusted = contact.uuid.isEmpty ? contact.copyWith(uuid: uuid.v4()) : contact;
 
     final adjustedName = contact.name.trim();
     if (contact.name != adjustedName) {
@@ -97,14 +105,21 @@ class ContactsUsecase {
     return adjusted;
   }
 
-  Stream<Contact> _watch(int id) {
-    return repository.watch(id);
+  List<Contact> get personalities => ref.read(personalitiesProvider);
+
+  Contact? missingPersonality(List<Contact> contacts) {
+    final candidates = personalities;
+    final found = candidates.indexWhere((element) => !contacts.contains(element));
+    return found == -1 ? null : candidates[found];
   }
 
-  /// Internal for the [ContactsState].
+  /// Private - Load all contacts from repository.
   ///
-  /// Return a repository watch on all contacts.
-  Stream<void> _watchAll() {
-    return repository.watchAll();
+  /// It is expected it returns the list sorted by name.
+  /// This action will also initialize the storage repository on its very first invocation.
+  ///
+  /// Used by [ContactsState.build] method.
+  List<Contact> _loadContacts() {
+    return repository.getAll();
   }
 }

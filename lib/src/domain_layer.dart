@@ -1,5 +1,4 @@
 export 'domain/entity/contact.dart';
-export 'domain/entity/entity.dart';
 export 'domain/entity/message.dart';
 export 'domain/exception/entity_not_found_exception.dart';
 export 'domain/exception/service_exception.dart';
@@ -8,5 +7,5 @@ export 'domain/layer/app_layer.dart';
 export 'domain/layer/domain_layer.dart';
 export 'domain/repository/contacts_repository.dart';
 export 'domain/service/message_service.dart';
-export 'domain/usecase/contacts_usecase.dart';
-export 'domain/usecase/message_usecase.dart';
+export 'domain/usecase/contacts_use_case.dart';
+export 'domain/usecase/message_use_case.dart';

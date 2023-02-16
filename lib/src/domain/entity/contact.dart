@@ -1,14 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'entity.dart';
-
 part 'contact.freezed.dart';
 
-/// Contact domain entity.
+/// Contact entity.
 ///
 /// Immutable class with contact properties.
 @freezed
-class Contact with _$Contact implements Entity {
+class Contact with _$Contact {
+  /// Freezed factory.
   const factory Contact({
     int? id,
     @Default('') String uuid,

@@ -1,19 +1,31 @@
-part of '../contacts_usecase.dart';
+part of '../contacts_use_case.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ContactsState extends _$ContactsState {
-  late Stream<void> storageWatch;
-
   @override
   List<Contact> build() {
-    final usecase = ref.read(contactsUsecaseProvider);
-    storageWatch = usecase._watchAll();
-    storageWatch.listen(__refresh);
-
-    return usecase.getAll();
+    return ref.read(contactsUseCaseProvider)._loadContacts();
   }
 
-  void __refresh(void event) {
-    state = ref.read(contactsUsecaseProvider).getAll();
+  /// State setter is private. Use [ContactsUseCase] API.
+  @override
+  @protected
+  set state(List<Contact> value) {
+    super.state = value;
   }
+
+  /// Update the list of contacts in this state notifier.
+  void update(List<Contact> list) {
+    state = list;
+  }
+}
+
+@riverpod
+Contact contactState(ContactStateRef ref, int id) {
+  return ref.watch(contactsStateProvider.select(
+    (value) => value.firstWhere(
+      (element) => element.id == id,
+      orElse: () => throw const EntityNotFoundException(),
+    ),
+  ));
 }

@@ -6,15 +6,15 @@ import '../layer/domain_layer.dart';
 import '../service/message_service.dart';
 
 part 'state/message_state.dart';
-part 'message_usecase.g.dart';
+part 'message_use_case.g.dart';
 
 @riverpod
-MessageUsecase messageUsecase(MessageUsecaseRef ref) => MessageUsecase(
+MessageUseCase messageUseCase(MessageUseCaseRef ref) => MessageUseCase(
       messageService: domainLayer.serviceProvision.messageServiceBuilder(),
     );
 
-class MessageUsecase {
-  const MessageUsecase({required this.messageService});
+class MessageUseCase {
+  const MessageUseCase({required this.messageService});
 
   final MessageService messageService;
 

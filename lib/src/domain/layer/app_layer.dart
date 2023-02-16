@@ -1,24 +1,46 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Function type for building a runtime provision.
+///
+/// Runtime provisions are implementations of domain interfaces.
 typedef ProvisionBuilder<T> = T Function();
 
-/// Application Layer Class
+/// Application Layer Class.
 ///
-/// Each layer of the application will have one instance of [AppLayer] to manage
-/// the interaction between layers. Its basic responsibility is to provide an API to initialize
-/// a layer at application startup and to dispose resources just before runtime exit.
+/// Each layer of the application will have one instance of [AppLayer].
+/// These are the basic interalations between layers:
 ///
-/// On a broader perspective subclasses will expose its initialization requirements and
-/// public features for its specific layer.
+/// - DomainLayer is the central layer accessible to all other layers.
+///   It defines types used by the whole application including:
+///     - Entities (immutable state modeling objects).
+///     - Exceptions (domain exceptions).
+///     - Resitory interfaces to be provisioned by the DataLayer (optional).
+///     - Service interfaces to be provisioned by the ServiceLayer (optional).
+///     - Use cases defining business rules. These are the common gateway API to
+///       access repositories, services and change internal app state.
+///       Use cases will often expose StateNotifiers that are observed by the PresentationLayer.
 ///
-/// For example: DomainLayer will expose its initialization requirements in terms of required
-/// implementations of known interfaces it need to  setup its usecase. DomainLayer will also expose
-/// public configured use case objects for layers that depend on it.
+/// - DataLayer is a satelite layer to the DomainLayer.
+///   It's types are not visible to DomainLayer (use cases). Instead runtime implementations of Domain repositories
+///   will be provisioned to the domain layer on app initialization (by the outer layer, main.dart).
 ///
-/// This base AppLayer class defines the basic API for asynchronous initialization and layer disposal
-/// with empty implementations. It is responsibility of subclasses, for specific Layers to redefine
-/// these methods and define its richer API.
+/// - ServiceLayer is analogous to the DataLayer, provisoning Service interface implementations.
+///
+/// - PresentationLayer will present and watch state exposed by the DomainLayer.
+///   All user action are captured by the presentation layer and acted on usecases potentially affecting domain state,
+///   persisted state and external services.
+///
+/// - OuterLayer is contained in main.dart. This is the only scope that have access to all layers and is responsible to:
+///     - await async initialization of all layers.
+///     - provision the domain layer with required implementations.
+///     - instantiate and open the MaterialApp.
+///     - dispose all layers when the app finishes.
+///
+/// In this layered architecture PresentationLayer, DataLayer and ServiceLayer should not know anything about each
+/// other. All inter layer relations must be mediated by domain types and implementations of domain interfaces
+/// provisioned to domain use cases.
 class AppLayer {
+  /// Const constructor.
   const AppLayer();
 
   /// Async initialization.
