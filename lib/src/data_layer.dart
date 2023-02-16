@@ -1,4 +1,6 @@
-/// DataLayer only need to expose its layer object.
+/// Data Layer exports:
+///
+/// Data layer only needs to expose its layer object.
 ///
 /// This layer object will be accessed by main.dart to:
 ///   - be initialized.
