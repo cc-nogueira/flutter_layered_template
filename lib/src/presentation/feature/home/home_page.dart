@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/routes/routes.dart';
 import '../../l10n/translations.dart';
@@ -25,12 +26,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  /// Contacts page card.
   Card _contactsPageCard(BuildContext context, Translations tr) => Card(
         color: Theme.of(context).colorScheme.background.withOpacity(0.5),
         child: ListTile(
           leading: const CircleAvatar(child: Icon(Icons.people)),
           title: Text(tr.title_contacts_page),
-          onTap: () => Navigator.pushNamed(context, Routes.contacts),
+          onTap: () => context.goNamed(Routes.contacts),
         ),
       );
 }

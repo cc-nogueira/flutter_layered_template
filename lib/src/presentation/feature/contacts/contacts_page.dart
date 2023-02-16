@@ -1,35 +1,43 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../core/utils/string_utils.dart';
-import '../../../../domain_layer.dart';
-import '../../../app/routes/routes.dart';
-import '../../../l10n/translations.dart';
+import '../../../core/utils/string_utils.dart';
+import '../../../domain_layer.dart';
+import '../../app/routes/routes.dart';
+import '../../l10n/translations.dart';
 
 /// Contacts page.
 ///
-/// Display the list of contacts from [ContactsUsecase] and a floating button
-/// to add pseudo random contacts (4 fixed contacts and fake contacts from there
-/// on)
+/// Display the list of contacts from [ContactsUseCase] and a floating button
+/// to add pseudo random contacts (use case personalities and fake contacts).
+///
+/// This consumer widget watches the list of contacts and rebuilds its
+/// internal stateless widget when the list changes.
 class ContactsPage extends ConsumerWidget {
+  /// Const constructor.
   const ContactsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context)!;
-    final usecase = ref.read(contactsUsecaseProvider);
+    final usecase = ref.read(contactsUseCaseProvider);
     final contacts = ref.watch(contactsStateProvider);
     return _ContactsPage(tr: tr, contacts: contacts, usecase: usecase);
   }
 }
 
+/// Internal stateless widget.
+///
+/// Display the list of contacts from [ContactsUseCase] and a floating button
+/// to add pseudo random contacts (use case personalities and fake contacts).
 class _ContactsPage extends StatelessWidget {
   const _ContactsPage({required this.tr, required this.contacts, required this.usecase});
 
   final Translations tr;
   final List<Contact> contacts;
-  final ContactsUsecase usecase;
+  final ContactsUseCase usecase;
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +51,13 @@ class _ContactsPage extends StatelessWidget {
     );
   }
 
+  /// When there are no contacts.
   Widget _buildNoContactsMessage(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.headlineMedium;
     return Center(child: Text(tr.message_no_contacts, style: textStyle));
   }
 
+  /// List of [_ContactCard] items.
   Widget _buildContactsList(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.builder(
@@ -63,30 +73,29 @@ class _ContactsPage extends StatelessWidget {
         ),
       );
 
+  /// Handler to remove a contact invoking [ContactsUseCase.remove].
   void _removeContact(Contact contact) => usecase.remove(contact.id!);
 
+  /// Handler to navigate to a contact page passing the contact id.
   void _viewContact(BuildContext context, Contact contact) =>
-      Navigator.pushNamed(context, Routes.viewContact, arguments: contact.id!);
+      context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
 
+  /// Handler to save a new contact (create for you!).
   Contact _newContact() => usecase.save(_createContact());
 
+  /// Creates a contact for example purposes.
+  ///
+  /// The contact will be a missing personality or a new fake named contact.
   Contact _createContact() {
-    if (!contacts.any((element) => element.name == 'Trygve Reenskaug')) {
-      return const Contact(name: 'Trygve Reenskaug');
-    }
-    if (!contacts.any((element) => element.name == 'Gilad Bracha')) {
-      return const Contact(name: 'Gilad Bracha');
-    }
-    if (!contacts.any((element) => element.name == 'Robert Martin')) {
-      return const Contact(name: 'Robert Martin');
-    }
-    if (!contacts.any((element) => element.name == 'Martin Fowler')) {
-      return const Contact(name: 'Martin Fowler');
-    }
-    return Contact(name: Faker().person.name());
+    return usecase.missingPersonality(contacts) ?? Contact(name: Faker().person.name());
   }
 }
 
+/// List tile for a contact.
+///
+/// Generates a leading initials avatar.
+/// Display the contact name.
+/// Includes a delete button to remove the contact.
 class _ContactCard extends StatelessWidget {
   const _ContactCard({required this.contact, required this.onDelete, required this.onTap});
 

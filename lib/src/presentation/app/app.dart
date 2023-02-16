@@ -16,22 +16,18 @@ class App extends StatelessWidget {
   /// Error object to be describe a possible initialization error.
   final Object? error;
 
-  /// Internal [Routes] object with the application static route names and generateRoute handler.
-  final _routes = const Routes();
-
   /// Build the application starting with [Routes.home];
   @override
   Widget build(BuildContext context) => error == null ? _app : _errorApp;
 
   /// The MaterialApp
-  Widget get _app => MaterialApp(
+  Widget get _app => MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
         localizationsDelegates: Translations.localizationsDelegates,
         supportedLocales: Translations.supportedLocales,
         onGenerateTitle: (context) => Translations.of(context)!.title_home_page,
-        onGenerateRoute: _routes.onGenerateRoute,
-        initialRoute: Routes.home,
+        routerConfig: goRouter,
       );
 
   /// A MaterialApp just to show an [ErrorMessagePage].

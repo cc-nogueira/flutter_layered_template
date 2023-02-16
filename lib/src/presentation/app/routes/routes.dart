@@ -1,47 +1,39 @@
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../common/page/message_page.dart';
-import '../../feature/contacts/page/contacts_page.dart';
-import '../../feature/contacts/page/view_contact_page.dart';
+import '../../feature/contacts/contacts_page.dart';
+import '../../feature/contacts/view_contact_page.dart';
 import '../../feature/home/home_page.dart';
 
-/// Routes management class.
+/// Route names and path.
 ///
-/// Uses static const variables to enumerate available routes and implements
-/// onGenerateRoute callback used for named routes navigation.
+/// Only root routes may start with '/'.
+/// Navigation will use context.goNamed for direct navigation.
 class Routes {
-  const Routes();
-
   static const home = '/';
   static const contacts = '/contacts';
-  static const viewContact = '/viewContact';
+  static const viewContact = 'viewContact';
+}
 
-  Route onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case home:
-        return _route((_) => const HomePage());
-      case contacts:
-        return _route((_) => const ContactsPage());
-      case viewContact:
-        return _routeWithArg<int>(
-          arg: settings.arguments,
-          builder: (_, arg) => ViewContactPage(id: arg),
-        );
-      default:
-        return _route(
-          (_) => ErrorMessagePage('Unknown route "${settings.name}"'),
-        );
-    }
-  }
-
-  Route _route(Widget Function(BuildContext context) builder) => MaterialPageRoute(builder: builder);
-
-  // ignore: unused_element
-  Route _routeWithArg<T>({
-    required Object? arg,
-    required Widget Function(BuildContext, T) builder,
-  }) =>
-      MaterialPageRoute(
-        builder: (context) => arg is T ? builder(context, arg) : const ErrorMessagePage('Illegal argument for route'),
-      );
+GoRouter get goRouter {
+  return GoRouter(
+    routes: [
+      GoRoute(
+        name: Routes.home,
+        path: Routes.home,
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        name: Routes.contacts,
+        path: Routes.contacts,
+        builder: (context, state) => const ContactsPage(),
+        routes: [
+          GoRoute(
+            name: Routes.viewContact,
+            path: '${Routes.viewContact}/:id',
+            builder: (context, state) => ViewContactPage(id: int.parse(state.params['id']!)),
+          ),
+        ],
+      ),
+    ],
+  );
 }

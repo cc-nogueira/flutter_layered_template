@@ -6,8 +6,8 @@ import '../../../l10n/translations.dart';
 
 /// Widget to display contact's message
 ///
-/// This consumer widget watchs pending messages for this contact from the messageProvider.
-/// Displays distinct Loading, Message and Error states from the async messageProvider.
+/// This consumer widget watchs pending messages for this contact from the [messageStateProvider].
+/// Displays distinct Loading, Message and Error states from the async message provider.
 class MessageWidget extends ConsumerWidget {
   /// Constructor.
   const MessageWidget(this.contact, {super.key, required this.onRefresh});
@@ -22,7 +22,7 @@ class MessageWidget extends ConsumerWidget {
 
   /// Display contact's message.
   ///
-  /// This consumer widget watchs pending messages for this contact from the messageProvider.
+  /// This consumer widget watchs that last pending message for this contact from the messageProvider.
   /// Displays distinct Loading, Message and Error states from the async messageProvider.
   ///
   /// The watch is configured to redisplay the loading state when the provider is invalidated to check for a new message.
