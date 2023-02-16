@@ -5,9 +5,18 @@ import '../../domain_layer.dart';
 import '../isar/model/contact_model.dart';
 import '../isar/repository/isar_contacts_repository.dart';
 
+/// [DataLayer] singleton.
+
 final dataLayer = DataLayer();
 
-/// DataLayer has the responsibility to provide repository implementaions.
+/// Data Layer provisioning data repository implementations.
+///
+/// This is a satelite layer to the DomainLayer, it's types are not visible to DomainLayer (use cases).
+/// Instead runtime implementations of Domain repositories will be provisioned to the domain layer on
+/// app initialization (by the outer layer, main.dart).
+///
+/// Initializes the [Isar] instance and injects it into provision builders.
+/// Provides the [DataLayerProvision] that enables runtime provisioning of interface implementations.
 class DataLayer extends AppLayer {
   /// Internal Isar reference.
   ///

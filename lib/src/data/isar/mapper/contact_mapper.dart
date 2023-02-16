@@ -2,7 +2,9 @@ import '../../../domain_layer.dart';
 import '../model/contact_model.dart';
 import 'entity_mapper.dart';
 
+/// Map [Contact] entities to/from Isar [ContactModel] objects.
 class ContactMapper extends EntityMapper<Contact, ContactModel> {
+  /// Const constructor.
   const ContactMapper();
 
   @override

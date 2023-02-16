@@ -1,12 +1,14 @@
 import 'package:isar/isar.dart';
 
-import 'isar_model.dart';
-
 part 'contact_model.g.dart';
 
+/// Contact model for [Isar] persistence.
 @collection
-class ContactModel implements IsarModel {
-  @override
+class ContactModel {
+  /// Model primary key.
+
+  /// If id is null Isar will generate the next id when persisting.
+  /// If id is not null Isar will update the model with this id.
   Id? id;
 
   @Index(type: IndexType.hash, unique: true)
