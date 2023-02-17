@@ -10,7 +10,7 @@ part 'message_use_case.g.dart';
 
 @riverpod
 MessageUseCase messageUseCase(MessageUseCaseRef ref) => MessageUseCase(
-      messageService: domainLayer.serviceProvision.messageServiceBuilder(),
+      messageService: ref.read(domainLayerProvider).serviceProvision.messageServiceBuilder(),
     );
 
 class MessageUseCase {

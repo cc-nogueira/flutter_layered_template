@@ -1,6 +1,8 @@
+import 'package:flutter_layered_template/src/data_layer.dart';
 import 'package:flutter_layered_template/src/domain/entity/contact.dart';
 import 'package:flutter_layered_template/src/domain/exception/entity_not_found_exception.dart';
 import 'package:flutter_layered_template/src/domain/exception/validation_exception.dart';
+import 'package:flutter_layered_template/src/domain/layer/domain_layer.dart';
 import 'package:flutter_layered_template/src/domain/repository/contacts_repository.dart';
 import 'package:flutter_layered_template/src/domain/service/message_service.dart';
 import 'package:flutter_layered_template/src/domain/usecase/contacts_use_case.dart';
@@ -33,13 +35,18 @@ void main() {
   final contactWithoutSpaces = newContactWithoutSpaces.copyWith(id: 3);
 
   setUp(() {
-    container = ProviderContainer(overrides: [
-      contactsUseCaseProvider.overrideWith((ref) {
-        return ContactsUseCase(ref, uuid: ref.read(uuidProvider), repository: mockRepository);
-      }),
-    ]);
     mockRepository = MockContactsRepository();
     mockService = MockMessageService();
+
+    container = ProviderContainer(overrides: [
+      domainLayerProvider.overrideWithValue(
+        DomainLayer()
+          ..provisioning(
+            dataProvision: DataLayerProvision(contactsRepositoryBuilder: () => mockRepository),
+            serviceProvision: ServiceLayerProvision(messageServiceBuilder: () => mockService),
+          ),
+      ),
+    ]);
   });
 
   group('contactState', () {

@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain_layer.dart';
 import '../service/remote_message_service.dart';
 
-final serviceLayer = ServiceLayer();
+/// [ServiceLayer] singleton provider.
+final serviceLayerProvider = Provider((ref) => ServiceLayer());
 
 /// Service Layer provisioning service implementations.
 ///

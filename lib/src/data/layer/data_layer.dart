@@ -5,9 +5,8 @@ import '../../domain_layer.dart';
 import '../isar/model/contact_model.dart';
 import '../isar/repository/isar_contacts_repository.dart';
 
-/// [DataLayer] singleton.
-
-final dataLayer = DataLayer();
+/// [DataLayer] singleton provider.
+final dataLayerProvider = Provider((ref) => DataLayer());
 
 /// Data Layer provisioning data repository implementations.
 ///

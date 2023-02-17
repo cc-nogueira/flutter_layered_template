@@ -1,9 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../repository/contacts_repository.dart';
 import '../service/message_service.dart';
 import 'app_layer.dart';
 
-/// [DomainLayer] singleton.
-final domainLayer = DomainLayer();
+/// [DomainLayer] singleton provider.
+final domainLayerProvider = Provider((ref) => DomainLayer());
 
 /// Domain layer is the central layer accessible to all other layers.
 ///

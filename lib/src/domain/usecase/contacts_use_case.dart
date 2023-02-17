@@ -26,7 +26,7 @@ List<Contact> personalities(PersonalitiesRef ref) => [
 ContactsUseCase contactsUseCase(ContactsUseCaseRef ref) => ContactsUseCase(
       ref,
       uuid: ref.read(uuidProvider),
-      repository: domainLayer.dataProvision.contactsRepositoryBuilder(),
+      repository: ref.read(domainLayerProvider).dataProvision.contactsRepositoryBuilder(),
     );
 
 /// Use case with Contacts business rules.

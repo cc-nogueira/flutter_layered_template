@@ -9,14 +9,6 @@ import 'src/service_layer.dart';
 
 part 'main.g.dart';
 
-/// Application Layers.
-final _layers = [
-  domainLayer,
-  dataLayer,
-  serviceLayer,
-  presentationLayer,
-];
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -40,8 +32,8 @@ void main() {
 /// Provision the DomainLayer with runtime implementations.
 @riverpod
 Future<App> _app(_AppRef ref) async {
-  ref.onDispose(_disposeLayers);
-  await _initLayers(ref);
+  final layers = await _initLayers(ref);
+  ref.onDispose(() => _disposeLayers(layers));
   return const App();
 }
 
@@ -49,18 +41,30 @@ Future<App> _app(_AppRef ref) async {
 ///
 /// Async initializes each layers (inner to outer order).
 /// Provision the DomainLayer with runtime implementations.
-Future<void> _initLayers(Ref ref) async {
-  for (final layer in _layers) {
+///
+/// Return the list of layers in inside to outside order.
+Future<List<AppLayer>> _initLayers(Ref ref) async {
+  final domainLayer = ref.read(domainLayerProvider);
+  final dataLayer = ref.read(dataLayerProvider);
+  final serviceLayer = ref.read(serviceLayerProvider);
+  final presentationLayer = ref.read(presentationLayerProvider);
+
+  final layers = [domainLayer, dataLayer, serviceLayer, presentationLayer];
+  for (final layer in layers) {
     await layer.init(ref);
   }
-  domainLayer.provisioning(dataProvision: dataLayer.provision, serviceProvision: serviceLayer.provision);
+
+  domainLayer.provisioning(
+    dataProvision: dataLayer.provision,
+    serviceProvision: serviceLayer.provision,
+  );
+
+  return layers;
 }
 
-/// Dispose all layers.
-///
-/// Dispose each layer (outer to inner order).
-void _disposeLayers() {
-  for (final layer in _layers.reversed) {
+/// Dispose all layers in reverse order.
+void _disposeLayers(List<AppLayer> layers) {
+  for (final layer in layers.reversed) {
     layer.dispose();
   }
 }
