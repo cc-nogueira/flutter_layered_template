@@ -23,7 +23,7 @@ class ViewContactPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context)!;
-    final contact = ref.watch(contactStateProvider(id));
+    final contact = ref.watch(contactProvider(id));
     return Scaffold(
       appBar: AppBar(title: Text(tr.title_contact_page)),
       body: RefreshIndicator(
@@ -65,6 +65,6 @@ class ViewContactPage extends ConsumerWidget {
 
   /// Refresh function that may invoked by the [MessageWidget] or the [RefreshIndicator] widget.
   void _refresh(WidgetRef ref, Contact contact) {
-    ref.invalidate(messageStateProvider(contact));
+    ref.invalidate(messageProvider(contact));
   }
 }

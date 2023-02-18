@@ -1,4 +1,3 @@
-import 'package:flutter_layered_template/src/data_layer.dart';
 import 'package:flutter_layered_template/src/domain/entity/contact.dart';
 import 'package:flutter_layered_template/src/domain/exception/entity_not_found_exception.dart';
 import 'package:flutter_layered_template/src/domain/exception/validation_exception.dart';
@@ -53,7 +52,7 @@ void main() {
     test('should return a contact by id when it does exist in storage', () {
       when(mockRepository.asMock().getAll()).thenReturn([contact1, contact2]);
 
-      final contact = container.read(contactStateProvider(contact1.id!));
+      final contact = container.read(contactProvider(contact1.id!));
 
       expect(contact, contact1);
       verify(mockRepository.getAll());
@@ -64,7 +63,7 @@ void main() {
       when(mockRepository.asMock().getAll()).thenReturn([contact1, contact2]);
 
       expect(
-        () => container.read(contactStateProvider(inexistentId)),
+        () => container.read(contactProvider(inexistentId)),
         throwsA(isA<EntityNotFoundException>()),
       );
       verify(mockRepository.getAll());
@@ -77,7 +76,7 @@ void main() {
     test('should return an empty list when the repository is empty', () {
       when(mockRepository.getAll()).thenReturn([]);
 
-      final contacts = container.read(contactsStateProvider);
+      final contacts = container.read(contactsProvider);
 
       expect(contacts, isEmpty);
       verify(mockRepository.getAll());
@@ -88,7 +87,7 @@ void main() {
     test('should delgate order to the repository, not altering values or order', () {
       when(mockRepository.getAll()).thenReturn([contact2, contact1]);
 
-      final contacts = container.read(contactsStateProvider);
+      final contacts = container.read(contactsProvider);
 
       expect(contacts, [contact2, contact1]);
       verify(mockRepository.getAll());

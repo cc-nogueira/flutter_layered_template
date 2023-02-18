@@ -3,20 +3,16 @@ import 'dart:convert';
 
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../domain_layer.dart';
 import '../mapper/message_mapper.dart';
 import '../model/message_model.dart';
 
-part 'remote_message_service.g.dart';
-
 /// [MessageService] implementation provider.
 ///
 /// This provider has internal state to simulate fake behaviuour.
 /// Thus we use a keepAlive provider.
-@Riverpod(keepAlive: true)
-MessageService remoteMessageService(RemoteMessageServiceRef ref) => RemoteMessageService(ref);
+final remoteMessageServiceProvider = Provider((ref) => RemoteMessageService(ref));
 
 /// Fake implementation class for a Remote Message service.
 ///

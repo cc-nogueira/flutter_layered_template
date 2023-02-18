@@ -1,22 +1,25 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../entity/contact.dart';
 import '../entity/message.dart';
 import '../layer/domain_layer.dart';
 import '../service/message_service.dart';
+import 'use_case_notifier.dart';
 
-part 'state/message_state.dart';
-part 'message_use_case.g.dart';
+final messageProvider = AsyncNotifierProvider.family.autoDispose<MessageUseCase, Message?, Contact>(MessageUseCase.new);
 
-@riverpod
-MessageUseCase messageUseCase(MessageUseCaseRef ref) => MessageUseCase(
-      messageService: ref.read(domainLayerProvider).serviceProvision.messageServiceBuilder(),
-    );
+class MessageUseCase extends UseCaseAutoDisposeFamilyAsyncNotifier<Message?, Contact> {
+  late final Contact contact;
+  late final MessageService messageService;
 
-class MessageUseCase {
-  const MessageUseCase({required this.messageService});
+  @override
+  FutureOr<Message?> build(Contact arg) {
+    contact = arg;
+    messageService = ref.read(domainLayerProvider).serviceProvision.messageServiceBuilder();
+    return _getMessage();
+  }
 
-  final MessageService messageService;
-
-  Future<Message?> getMessageFor(contact) => messageService.getMessageFor(contact);
+  Future<Message?> _getMessage() => messageService.getMessageFor(contact);
 }

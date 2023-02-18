@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'src/data_layer.dart';
 import 'src/domain_layer.dart';
 import 'src/presentation_layer.dart';
 import 'src/service_layer.dart';
-
-part 'main.g.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,12 +27,11 @@ void main() {
 /// Register dispose callback.
 /// Async initializes all layers.
 /// Provision the DomainLayer with runtime implementations.
-@riverpod
-Future<App> _app(_AppRef ref) async {
+final _appProvider = FutureProvider((ref) async {
   final layers = await _initLayers(ref);
   ref.onDispose(() => _disposeLayers(layers));
   return const App();
-}
+});
 
 /// Initialize all layers.
 ///

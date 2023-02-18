@@ -10,30 +10,27 @@ import '../../feature/home/home_page.dart';
 /// Navigation will use context.goNamed for direct navigation.
 class Routes {
   static const home = '/';
-  static const contacts = '/contacts';
+  static const contacts = 'contacts';
   static const viewContact = 'viewContact';
 }
 
 GoRouter get goRouter {
   return GoRouter(
     routes: [
-      GoRoute(
-        name: Routes.home,
-        path: Routes.home,
-        builder: (context, state) => const HomePage(),
-      ),
-      GoRoute(
-        name: Routes.contacts,
-        path: Routes.contacts,
-        builder: (context, state) => const ContactsPage(),
-        routes: [
-          GoRoute(
-            name: Routes.viewContact,
-            path: '${Routes.viewContact}/:id',
-            builder: (context, state) => ViewContactPage(id: int.parse(state.params['id']!)),
-          ),
-        ],
-      ),
+      GoRoute(name: Routes.home, path: Routes.home, builder: (context, state) => const HomePage(), routes: [
+        GoRoute(
+          name: Routes.contacts,
+          path: Routes.contacts,
+          builder: (context, state) => const ContactsPage(),
+          routes: [
+            GoRoute(
+              name: Routes.viewContact,
+              path: '${Routes.viewContact}/:id',
+              builder: (context, state) => ViewContactPage(id: int.parse(state.params['id']!)),
+            ),
+          ],
+        ),
+      ]),
     ],
   );
 }
