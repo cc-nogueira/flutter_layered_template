@@ -16,14 +16,11 @@ final dataLayerProvider = Provider((ref) => DataLayer());
 ///
 /// Initializes the [Isar] instance and injects it into provision builders.
 /// Provides the [DataLayerProvision] that enables runtime provisioning of interface implementations.
-class DataLayer extends AppLayer {
+class DataLayer extends ProvisioningLayer {
   /// Internal Isar reference.
   ///
   /// Opened in [init]. Closed in [dispose].
   late final Isar _isar;
-
-  /// Implementations provisioned by the data layer
-  late final DataLayerProvision provision;
 
   /// Initialize the ISAR container.
   ///
@@ -33,8 +30,12 @@ class DataLayer extends AppLayer {
     _isar = await Isar.open([
       ContactModelSchema,
     ]);
+  }
 
-    provision = DataLayerProvision(contactsRepositoryBuilder: () => IsarContactsRepository(_isar));
+  /// Provision [DomainLayer] with repository implementations.
+  @override
+  void provision(DomainLayer domainLayer) {
+    domainLayer.contactsRepositoryProvider = Provider<ContactsRepository>((ref) => IsarContactsRepository(_isar));
   }
 
   /// Close the Isar instance.

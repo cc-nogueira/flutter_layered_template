@@ -14,15 +14,10 @@ final serviceLayerProvider = Provider((ref) => ServiceLayer());
 ///
 /// In this case provision a fake [RemoteMessageService] builder.
 
-class ServiceLayer extends AppLayer {
-  /// Implementations provisioned by the service layer
-  late final ServiceLayerProvision provision;
-
-  /// Configures the instance [ServiceLayerProvision] that enables runtime provisioning of interface implementations.
-  ///
-  /// Uses a persistent singleton implementation of this service that holds state.
+class ServiceLayer extends ProvisioningLayer {
+  /// Provision [DomainLayer] with service implementations.
   @override
-  Future<void> init(Ref ref) async {
-    provision = ServiceLayerProvision(messageServiceBuilder: () => ref.read(remoteMessageServiceProvider));
+  void provision(DomainLayer domainLayer) {
+    domainLayer.messageServiceProvider = Provider((ref) => RemoteMessageService(ref));
   }
 }

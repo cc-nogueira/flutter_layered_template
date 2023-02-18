@@ -16,8 +16,10 @@ class MessageUseCase extends UseCaseAutoDisposeFamilyAsyncNotifier<Message?, Con
 
   @override
   FutureOr<Message?> build(Contact arg) {
+    final domainLayer = ref.read(domainLayerProvider);
     contact = arg;
-    messageService = ref.read(domainLayerProvider).serviceProvision.messageServiceBuilder();
+    messageService = ref.read(domainLayer.messageServiceProvider);
+
     return _getMessage();
   }
 

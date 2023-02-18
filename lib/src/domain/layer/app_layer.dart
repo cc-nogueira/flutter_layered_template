@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'domain_layer.dart';
+
 /// Function type for building a runtime provision.
 ///
 /// Runtime provisions are implementations of domain interfaces.
@@ -57,4 +59,17 @@ class AppLayer {
   /// Occurs at application exit. Available to release resources that are kept open for the whole
   /// execution of the application.
   void dispose() {}
+}
+
+/// Base class for layers that will provision runtime implementations to [DomainLayer].
+///
+/// There may be any number of provisioning layers, common examples are:
+///   - DataLayer that provision Repository implementations.
+///   - ServiceLayer that provision Service implementations.
+class ProvisioningLayer extends AppLayer {
+  /// Const constructor.
+  const ProvisioningLayer();
+
+  /// Provision the domain layer with interface implementations.
+  void provision(DomainLayer domainLayer) {}
 }

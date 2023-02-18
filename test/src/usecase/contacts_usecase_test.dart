@@ -40,10 +40,8 @@ void main() {
     container = ProviderContainer(overrides: [
       domainLayerProvider.overrideWithValue(
         DomainLayer()
-          ..provisioning(
-            dataProvision: DataLayerProvision(contactsRepositoryBuilder: () => mockRepository),
-            serviceProvision: ServiceLayerProvision(messageServiceBuilder: () => mockService),
-          ),
+          ..contactsRepositoryProvider = Provider((_) => mockRepository)
+          ..messageServiceProvider = Provider((_) => mockService),
       ),
     ]);
   });
@@ -88,8 +86,8 @@ void main() {
       when(mockRepository.getAll()).thenReturn([contact2, contact1]);
 
       final contacts = container.read(contactsProvider);
-
       expect(contacts, [contact2, contact1]);
+
       verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -101,8 +99,9 @@ void main() {
       when(mockRepository.asMock().save(any)).thenReturn(contact1);
 
       final savedContact = container.read(contactsUseCaseProvider).save(newContact1);
-
       expect(savedContact, contact1);
+
+      verify(mockRepository.getAll());
       verify(mockRepository.save(newContact1));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -112,8 +111,9 @@ void main() {
       when(mockRepository.asMock().save(any)).thenReturn(contact1);
 
       final savedContact = container.read(contactsUseCaseProvider).save(contact1);
-
       expect(savedContact, contact1);
+
+      verify(mockRepository.getAll());
       verify(mockRepository.save(contact1));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -123,8 +123,9 @@ void main() {
       when(mockRepository.asMock().save(any)).thenReturn(contactWithoutSpaces);
 
       final savedContact = container.read(contactsUseCaseProvider).save(newContactWithSpaces);
-
       expect(savedContact, contactWithoutSpaces);
+
+      verify(mockRepository.getAll());
       verify(mockRepository.save(newContactWithoutSpaces));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -137,6 +138,8 @@ void main() {
         () => container.read(contactsUseCaseProvider).save(emptyNameContact),
         throwsA(isA<ValidationException>()),
       );
+
+      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -148,6 +151,8 @@ void main() {
         () => container.read(contactsUseCaseProvider).save(contact1),
         throwsA(isA<EntityNotFoundException>()),
       );
+
+      verify(mockRepository.getAll());
       verify(mockRepository.save(contact1));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -160,6 +165,7 @@ void main() {
 
       container.read(contactsUseCaseProvider).remove(contact1.id!);
 
+      verify(mockRepository.getAll());
       verify(mockRepository.remove(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -173,6 +179,7 @@ void main() {
         throwsA(isA<EntityNotFoundException>()),
       );
 
+      verify(mockRepository.getAll());
       verify(mockRepository.remove(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -186,6 +193,7 @@ void main() {
       contactsUseCase.validate(contact2);
       contactsUseCase.validate(newContact2);
 
+      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -194,6 +202,7 @@ void main() {
       final contactsUseCase = container.read(contactsUseCaseProvider);
       contactsUseCase.validate(newContactWithSpaces);
 
+      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -205,6 +214,8 @@ void main() {
         () => contactsUseCase.validate(emptyNameContact),
         throwsA(isA<ValidationException>()),
       );
+
+      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });

@@ -44,7 +44,8 @@ class ContactsUseCase extends UseCaseNotifier<List<Contact>> {
 
   @override
   List<Contact> build() {
-    repository = ref.read(domainLayerProvider).dataProvision.contactsRepositoryBuilder();
+    final domainLayer = ref.read(domainLayerProvider);
+    repository = ref.read(domainLayer.contactsRepositoryProvider);
     uuid = ref.read(uuidProvider);
     return _loadContacts();
   }
