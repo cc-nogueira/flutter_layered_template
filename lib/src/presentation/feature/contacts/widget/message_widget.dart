@@ -32,7 +32,7 @@ class MessageWidget extends ConsumerWidget {
     if (contact.uuid.isEmpty) {
       return Container();
     }
-    return ref.watch(messageProvider(contact)).when(
+    return ref.watch(messageNotifierProvider(contact)).when(
           skipLoadingOnRefresh: false,
           loading: () => _MessageWidget.loading(contact),
           data: (data) {

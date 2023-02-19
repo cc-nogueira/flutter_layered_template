@@ -74,7 +74,7 @@ void main() {
     test('should return an empty list when the repository is empty', () {
       when(mockRepository.getAll()).thenReturn([]);
 
-      final contacts = container.read(contactsProvider);
+      final contacts = container.read(contactsNotifierProvider);
 
       expect(contacts, isEmpty);
       verify(mockRepository.getAll());
@@ -85,7 +85,7 @@ void main() {
     test('should delgate order to the repository, not altering values or order', () {
       when(mockRepository.getAll()).thenReturn([contact2, contact1]);
 
-      final contacts = container.read(contactsProvider);
+      final contacts = container.read(contactsNotifierProvider);
       expect(contacts, [contact2, contact1]);
 
       verify(mockRepository.getAll());
@@ -101,7 +101,6 @@ void main() {
       final savedContact = container.read(contactsUseCaseProvider).save(newContact1);
       expect(savedContact, contact1);
 
-      verify(mockRepository.getAll());
       verify(mockRepository.save(newContact1));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -113,7 +112,6 @@ void main() {
       final savedContact = container.read(contactsUseCaseProvider).save(contact1);
       expect(savedContact, contact1);
 
-      verify(mockRepository.getAll());
       verify(mockRepository.save(contact1));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -125,7 +123,6 @@ void main() {
       final savedContact = container.read(contactsUseCaseProvider).save(newContactWithSpaces);
       expect(savedContact, contactWithoutSpaces);
 
-      verify(mockRepository.getAll());
       verify(mockRepository.save(newContactWithoutSpaces));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -139,7 +136,6 @@ void main() {
         throwsA(isA<ValidationException>()),
       );
 
-      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -152,7 +148,6 @@ void main() {
         throwsA(isA<EntityNotFoundException>()),
       );
 
-      verify(mockRepository.getAll());
       verify(mockRepository.save(contact1));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -165,7 +160,6 @@ void main() {
 
       container.read(contactsUseCaseProvider).remove(contact1.id!);
 
-      verify(mockRepository.getAll());
       verify(mockRepository.remove(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -179,7 +173,6 @@ void main() {
         throwsA(isA<EntityNotFoundException>()),
       );
 
-      verify(mockRepository.getAll());
       verify(mockRepository.remove(contact1.id!));
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
@@ -193,7 +186,6 @@ void main() {
       contactsUseCase.validate(contact2);
       contactsUseCase.validate(newContact2);
 
-      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -202,7 +194,6 @@ void main() {
       final contactsUseCase = container.read(contactsUseCaseProvider);
       contactsUseCase.validate(newContactWithSpaces);
 
-      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });
@@ -215,7 +206,6 @@ void main() {
         throwsA(isA<ValidationException>()),
       );
 
-      verify(mockRepository.getAll());
       verifyNoMoreInteractions(mockRepository);
       verifyNoMoreInteractions(mockService);
     });

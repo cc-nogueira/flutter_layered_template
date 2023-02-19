@@ -65,6 +65,6 @@ class ViewContactPage extends ConsumerWidget {
 
   /// Refresh function that may invoked by the [MessageWidget] or the [RefreshIndicator] widget.
   void _refresh(WidgetRef ref, Contact contact) {
-    ref.invalidate(messageProvider(contact));
+    ref.invalidate(messageNotifierProvider(contact));
   }
 }

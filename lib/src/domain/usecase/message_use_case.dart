@@ -1,27 +1,32 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../entity/contact.dart';
 import '../entity/message.dart';
 import '../layer/domain_layer.dart';
 import '../service/message_service.dart';
-import 'use_case_notifier.dart';
 
-final messageProvider = AsyncNotifierProvider.family.autoDispose<MessageUseCase, Message?, Contact>(MessageUseCase.new);
+part 'notifier/message_notifier.dart';
 
-class MessageUseCase extends UseCaseAutoDisposeFamilyAsyncNotifier<Message?, Contact> {
-  late final Contact contact;
-  late final MessageService messageService;
+part 'message_use_case.g.dart';
 
-  @override
-  FutureOr<Message?> build(Contact arg) {
-    final domainLayer = ref.read(domainLayerProvider);
-    contact = arg;
-    messageService = ref.read(domainLayer.messageServiceProvider);
+final messageUseCaseProvider =
+    Provider((ref) => MessageUseCase(messageService: ref.read(ref.read(domainLayerProvider).messageServiceProvider)));
 
-    return _getMessage();
-  }
+class MessageUseCase {
+  const MessageUseCase({required this.messageService});
 
-  Future<Message?> _getMessage() => messageService.getMessageFor(contact);
+  final MessageService messageService;
+
+  // @override
+  // FutureOr<Message?> build(Contact arg) {
+  //   final domainLayer = ref.read(domainLayerProvider);
+  //   contact = arg;
+  //   messageService = ref.read(domainLayer.messageServiceProvider);
+
+  //   return _getMessage();
+  // }
+
+  Future<Message?> _getMessageFor(Contact contact) => messageService.getMessageFor(contact);
 }

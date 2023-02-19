@@ -48,12 +48,12 @@ Future<List<AppLayer>> _initLayers(Ref ref) async {
   final layers = [domainLayer, dataLayer, serviceLayer, presentationLayer];
   for (final layer in layers) {
     await layer.init(ref);
+    if (layer is ProvisioningLayer) {
+      layer.provision(domainLayer);
+    }
   }
 
-  domainLayer.provisioning(
-    dataProvision: dataLayer.provision,
-    serviceProvision: serviceLayer.provision,
-  );
+  assert(domainLayer.validateProvisioning(), "Domain Layer wasn't fully provisioned.");
 
   return layers;
 }

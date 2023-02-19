@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/contact.dart';
@@ -6,7 +7,9 @@ import '../exception/entity_not_found_exception.dart';
 import '../exception/validation_exception.dart';
 import '../layer/domain_layer.dart';
 import '../repository/contacts_repository.dart';
-import 'use_case_notifier.dart';
+
+part 'notifier/contacts_notifier.dart';
+part 'contacts_use_case.g.dart';
 
 final uuidProvider = Provider((ref) => const Uuid());
 
@@ -17,38 +20,27 @@ final personalitiesProvider = Provider((ref) => [
       const Contact(id: 3, name: 'Gilad Bracha', uuid: '8ad5b6ca-8b37-489a-a95f-11a1f8cdd110'),
     ]);
 
-final contactsProvider = NotifierProvider<ContactsUseCase, List<Contact>>(ContactsUseCase.new);
-
-final contactProvider = Provider.family.autoDispose<Contact, int>(
-  (ref, id) => ref.watch(
-    contactsProvider.select(
-      (value) => value.firstWhere(
-        (element) => element.id == id,
-        orElse: () => throw const EntityNotFoundException(),
-      ),
-    ),
-  ),
-);
-
-final contactsUseCaseProvider = Provider((ref) => ref.read(contactsProvider.notifier));
+final contactsUseCaseProvider = Provider((ref) => ContactsUseCase(
+      ref: ref,
+      repository: ref.read(ref.read(domainLayerProvider).contactsRepositoryProvider),
+      uuid: ref.read(uuidProvider),
+    ));
 
 /// Use case with Contacts business rules.
 ///
 /// It provides an API to access and update [Contact] entities.
-class ContactsUseCase extends UseCaseNotifier<List<Contact>> {
+class ContactsUseCase {
+  /// Const constructor.
+  const ContactsUseCase({required this.ref, required this.uuid, required this.repository});
+
+  /// Riverpod ref.
+  final Ref ref;
+
   /// Provisioned [ContactsRepository] implementation.
-  late final ContactsRepository repository;
+  final ContactsRepository repository;
 
   /// [Uuid] generator.
-  late final Uuid uuid;
-
-  @override
-  List<Contact> build() {
-    final domainLayer = ref.read(domainLayerProvider);
-    repository = ref.read(domainLayer.contactsRepositoryProvider);
-    uuid = ref.read(uuidProvider);
-    return _loadContacts();
-  }
+  final Uuid uuid;
 
   /// Get a Contact from repository by uuid.
   ///
@@ -74,7 +66,7 @@ class ContactsUseCase extends UseCaseNotifier<List<Contact>> {
     validate(value);
     final adjusted = _adjust(value);
     final saved = repository.save(adjusted);
-    ref.invalidate(contactsProvider);
+    ref.invalidate(contactsNotifierProvider);
     return saved;
   }
 
@@ -83,7 +75,7 @@ class ContactsUseCase extends UseCaseNotifier<List<Contact>> {
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
   void remove(int id) {
     repository.remove(id);
-    ref.invalidate(contactsProvider);
+    ref.invalidate(contactsNotifierProvider);
   }
 
   /// Validate contact's content.
