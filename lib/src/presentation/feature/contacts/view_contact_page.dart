@@ -22,7 +22,7 @@ class ViewContactPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tr = Translations.of(context)!;
+    final tr = Translations.of(context);
     final contact = ref.watch(contactProvider(id));
     return Scaffold(
       appBar: AppBar(title: Text(tr.title_contact_page)),

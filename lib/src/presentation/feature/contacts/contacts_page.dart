@@ -21,7 +21,7 @@ class ContactsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tr = Translations.of(context)!;
+    final tr = Translations.of(context);
     final usecase = ref.read(contactsUseCaseProvider);
     final contacts = ref.watch(contactsNotifierProvider);
     return _ContactsPage(tr: tr, contacts: contacts, usecase: usecase);

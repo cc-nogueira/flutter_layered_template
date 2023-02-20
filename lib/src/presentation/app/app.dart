@@ -31,7 +31,7 @@ class App extends ConsumerWidget {
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
       locale: locale,
-      onGenerateTitle: (context) => Translations.of(context)!.title_home_page,
+      onGenerateTitle: (context) => Translations.of(context).title_home_page,
       routerConfig: goRouter,
     );
   }
@@ -45,7 +45,7 @@ class App extends ConsumerWidget {
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
       locale: locale,
-      onGenerateTitle: (context) => Translations.of(context)!.title_home_page,
+      onGenerateTitle: (context) => Translations.of(context).title_home_page,
       home: ErrorMessagePage(error!),
     );
   }

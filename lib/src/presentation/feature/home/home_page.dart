@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tr = Translations.of(context)!;
+    final tr = Translations.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(tr.title_home_page)),
       body: Padding(

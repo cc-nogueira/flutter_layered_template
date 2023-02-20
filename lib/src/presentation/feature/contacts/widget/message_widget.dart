@@ -84,7 +84,7 @@ class _MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tr = Translations.of(context)!;
+    final tr = Translations.of(context);
     if (loading) {
       return _buildLoading(context, tr);
     }
