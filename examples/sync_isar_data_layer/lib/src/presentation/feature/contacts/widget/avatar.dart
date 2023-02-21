@@ -18,10 +18,13 @@ class Avatar extends StatelessWidget {
     final backColor = _backgroundColor() ?? defaultBackgroundColor(colors);
     final foreColor = _foregroundColor(backColor);
     final style = textStyle == null ? TextStyle(color: foreColor) : textStyle?.copyWith(color: foreColor);
-    return CircleAvatar(
-      radius: radius,
-      backgroundColor: backColor,
-      child: Text(contact.name.cut(max: 2), style: style),
+    return Hero(
+      tag: contact.uuid,
+      child: CircleAvatar(
+        radius: radius,
+        backgroundColor: backColor,
+        child: Text(contact.name.cut(max: 2), style: style),
+      ),
     );
   }
 

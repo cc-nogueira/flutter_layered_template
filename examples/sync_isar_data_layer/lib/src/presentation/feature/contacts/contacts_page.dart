@@ -108,15 +108,17 @@ class _ContactCard extends StatelessWidget {
   final Function() onTap;
 
   @override
-  Widget build(BuildContext context) => Card(
-        child: ListTile(
-          leading: Avatar(contact),
-          title: Text(contact.name),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: onDelete,
-          ),
-          onTap: onTap,
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: Avatar(contact),
+        title: Text(contact.name),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Color(0xFF770000)),
+          onPressed: onDelete,
         ),
-      );
+        onTap: onTap,
+      ),
+    );
+  }
 }
