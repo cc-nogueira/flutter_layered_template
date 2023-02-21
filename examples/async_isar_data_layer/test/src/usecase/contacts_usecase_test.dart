@@ -134,10 +134,10 @@ void main() {
     });
 
     test('should pass repository\'s EntityNotFoundException when trying to updated a contact not found in storage', () {
-      when(mockRepository.asMock().save(any)).thenThrow(const EntityNotFoundException());
+      when(mockRepository.asMock().save(any)).thenAnswer((_) async => throw const EntityNotFoundException());
 
       expect(
-        () => container.read(contactsUseCaseProvider).save(contact1),
+        container.read(contactsUseCaseProvider).save(contact1),
         throwsA(isA<EntityNotFoundException>()),
       );
 
@@ -158,17 +158,17 @@ void main() {
       verifyNoMoreInteractions(mockRepository);
     });
 
-    // test('should pass repository\'s EntityNotFoundException when id is not found in repository', () {
-    //   when(mockRepository.remove(contact1.id!)).thenThrow(const EntityNotFoundException());
+    test('should pass repository\'s EntityNotFoundException when id is not found in repository', () async {
+      when(mockRepository.remove(contact1.id!)).thenAnswer((_) async => throw const EntityNotFoundException());
 
-    //   expect(
-    //     () => container.read(contactsUseCaseProvider).remove(contact1.id!),
-    //     throwsA(isA<EntityNotFoundException>()),
-    //   );
+      expect(
+        container.read(contactsUseCaseProvider).remove(contact1.id!),
+        throwsA(isA<EntityNotFoundException>()),
+      );
 
-    //   verify(mockRepository.remove(contact1.id!));
-    //   verifyNoMoreInteractions(mockRepository);
-    // });
+      verify(mockRepository.remove(contact1.id!));
+      verifyNoMoreInteractions(mockRepository);
+    });
   });
 
   group('validate', () {

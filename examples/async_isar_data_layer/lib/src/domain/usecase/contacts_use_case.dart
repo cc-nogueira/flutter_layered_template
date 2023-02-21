@@ -67,7 +67,7 @@ class ContactsUseCase {
   ///
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
   Future<void> remove(int id) async {
-    _processingGuard(() => repository.remove(id));
+    return _processingGuard(() => repository.remove(id));
   }
 
   /// Validate contact's content.
