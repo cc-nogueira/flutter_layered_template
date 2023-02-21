@@ -6,7 +6,7 @@ mixin AppBarBuilderMixin {
   /// Has convenient flags to show this action widget or not.
   /// And to set padding right value (default to 20.0).
   AppBar appBarWithActionButton(
-      {Widget? title, required Widget? button, double? paddingRight = 20.0, bool showButton = true}) {
+      {required bool showButton, required Widget? button, Widget? title, double paddingRight = 20.0}) {
     return AppBar(
       title: title,
       actions: button == null || !showButton ? null : [_paddingRight(paddingRight, child: button)],
@@ -14,8 +14,8 @@ mixin AppBarBuilderMixin {
   }
 
   /// Internal function to create optional padding.
-  Widget _paddingRight(double? paddingRight, {required Widget child}) {
-    if (paddingRight == null || paddingRight == 0) {
+  Widget _paddingRight(double paddingRight, {required Widget child}) {
+    if (paddingRight == 0) {
       return child;
     }
     return Padding(

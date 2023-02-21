@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain_layer.dart';
-import '../../common/widget/app_bar_builder_mixin.dart';
 import '../../common/widget/save_scaffold.dart';
 import '../../l10n/translations.dart';
 import 'widget/avatar_editor.dart';
 import 'widget/contact_name_and_about_editor.dart';
 
+/// Page for editing a contact in local scope.
+///
+/// See [_EditContactPage].
 class EditContactPage extends ConsumerWidget {
   /// Const constructor.
   const EditContactPage({super.key, required this.id});
 
-  /// [Contact.id]
+  /// [Contact.id] parameter for the page.
   final int id;
 
+  /// Build the page with an internal widget [_EditContactPage].
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final contact = ref.watch(contactProvider(id));
@@ -22,19 +25,35 @@ class EditContactPage extends ConsumerWidget {
   }
 }
 
-class _EditContactPage extends ConsumerWidget with AppBarBuilderMixin {
-  _EditContactPage(this.original) : editionProvider = StateProvider((ref) => original);
+/// Page for editing a contact in local scope.
+///
+/// The page will display a AppBar save when button when the contact is modified.
+///
+/// It uses the [SaveScaffold] component to build the [WillPopScope] guard and a [AppBar]
+/// with a save button.
+class _EditContactPage extends ConsumerWidget {
+  /// Constructor
+  _EditContactPage(this.original) : _editionProvider = StateProvider((ref) => original);
 
+  /// Original contact
   final Contact original;
-  final StateProvider<Contact> editionProvider;
+
+  /// Provider for the contact being edited.
+  final StateProvider<Contact> _editionProvider;
+
+  /// Provider that informs if the edited contact is different from the original.
+  late final Provider<bool> _modifiedProvider = Provider(
+    (ref) => ref.watch(_editionProvider.select((value) => value != original)),
+  );
+
+  /// Form key.
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
-    final modified = ref.watch(editionProvider.select((value) => value != original));
     return SaveScaffold(
-      modified: modified,
+      modifiedProvider: _modifiedProvider,
       willPopMessage: tr.contact_altered_message,
       saveButtonText: tr.save_title,
       validateAndSave: () => _validateAndSave(ref),
@@ -43,36 +62,31 @@ class _EditContactPage extends ConsumerWidget with AppBarBuilderMixin {
         key: _formKey,
         child: ListView(
           children: [
-            AvatarEditor(editionProvider),
+            AvatarEditor(_editionProvider),
             const Divider(thickness: 2),
-            ContactNameAndAboutEditor(editionProvider),
+            ContactNameAndAboutEditor(_editionProvider),
           ],
         ),
       ),
     );
   }
 
-  /// Validate the form (if any) and call the save action.
+  /// Validate the form and call the save action.
   ///
   /// This is used by the app bar save button and the [WillPopScope] dialog.
   bool _validateAndSave(WidgetRef ref) {
     if (_validate()) {
       final useCase = ref.read(contactsUseCaseProvider);
-      useCase.save(ref.read(editionProvider));
+      useCase.save(ref.read(_editionProvider));
       return true;
     }
     return false;
   }
 
-  /// Validate the form (if any).
-  ///
-  /// Returns form's validation or true if there is no form.
+  /// Validate the form.
   bool _validate() {
     final form = _formKey.currentState;
-    if (form == null) {
-      return true;
-    }
-    form.save();
-    return form.validate();
+    form?.save();
+    return form?.validate() ?? false;
   }
 }
