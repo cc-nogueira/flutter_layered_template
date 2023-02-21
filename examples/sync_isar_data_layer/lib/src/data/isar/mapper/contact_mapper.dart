@@ -14,6 +14,7 @@ class ContactMapper extends EntityMapper<Contact, ContactModel> {
       uuid: model.uuid,
       name: model.name,
       about: model.about,
+      avatarColor: model.avatarColor,
     );
   }
 
@@ -23,6 +24,7 @@ class ContactMapper extends EntityMapper<Contact, ContactModel> {
       ..id = entity.id
       ..uuid = entity.uuid
       ..name = entity.name
-      ..about = entity.about;
+      ..about = entity.about
+      ..avatarColor = entity.avatarColor;
   }
 }

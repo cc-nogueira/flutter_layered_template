@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/utils/string_utils.dart';
 import '../../../domain_layer.dart';
 import '../../app/routes/routes.dart';
 import '../../l10n/translations.dart';
+import 'widget/avatar.dart';
 
 /// Contacts page.
 ///
@@ -42,7 +42,7 @@ class _ContactsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(tr.title_contacts_page)),
+      appBar: AppBar(title: Text(tr.contacts_title)),
       body: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -54,7 +54,7 @@ class _ContactsPage extends StatelessWidget {
   /// When there are no contacts.
   Widget _buildNoContactsMessage(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.headlineMedium;
-    return Center(child: Text(tr.message_no_contacts, style: textStyle));
+    return Center(child: Text(tr.no_contacts_message, style: textStyle));
   }
 
   /// List of [_ContactCard] items.
@@ -87,7 +87,11 @@ class _ContactsPage extends StatelessWidget {
   ///
   /// The contact will be a missing personality or a new fake named contact.
   Contact _createContact() {
-    return usecase.missingPersonality(contacts) ?? Contact(name: Faker().person.name());
+    return usecase.missingPersonality(contacts) ??
+        Contact(
+          name: Faker().person.name(),
+          about: faker.lorem.sentences(4).join(),
+        );
   }
 }
 
@@ -106,7 +110,7 @@ class _ContactCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Card(
         child: ListTile(
-          leading: CircleAvatar(child: Text(contact.name.cut(max: 2))),
+          leading: Avatar(contact),
           title: Text(contact.name),
           trailing: IconButton(
             icon: const Icon(Icons.delete),

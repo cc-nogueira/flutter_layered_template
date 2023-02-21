@@ -44,7 +44,12 @@ class _ContactPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(tr.title_contact_page)),
       body: ListView(
-        children: [_avatar(textTheme), _name(textTheme), const Divider(thickness: 2), _about(textTheme)],
+        children: [
+          _avatar(textTheme),
+          _name(textTheme),
+          const Divider(thickness: 2),
+          _about(textTheme),
+        ],
       ),
     );
   }

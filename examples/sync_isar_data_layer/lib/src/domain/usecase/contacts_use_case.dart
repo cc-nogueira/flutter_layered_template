@@ -14,13 +14,6 @@ part 'contacts_use_case.g.dart';
 
 final uuidProvider = Provider((ref) => const Uuid());
 
-final personalitiesProvider = Provider((ref) => [
-      const Contact(id: 0, name: 'Trygve Reenskaug', uuid: 'c6d85b7c-8f77-4447-9f80-2ae4ab061f20'),
-      const Contact(id: 1, name: 'Robert Martin', uuid: '6381eb68-e200-490c-a227-cb64648f2a23'),
-      const Contact(id: 2, name: 'Martin Fowler', uuid: 'b7525456-ce67-4df0-8760-9c4f5d76cac7'),
-      const Contact(id: 3, name: 'Gilad Bracha', uuid: '8ad5b6ca-8b37-489a-a95f-11a1f8cdd110'),
-    ]);
-
 final contactsUseCaseProvider = Provider((ref) => ContactsUseCase(
       ref: ref,
       repository: ref.read(ref.read(domainLayerProvider).contactsRepositoryProvider),
@@ -82,16 +75,27 @@ class ContactsUseCase {
   /// Validate contact's content.
   ///
   /// Throws a validation exception if contact's name is empty.
+  /// Throws a validation exception if the contact has a personality id and has changed it's
+  /// name or about info. Personalities are not editable, but for their avatar color.
   void validate(Contact contact) {
     if (contact.name.trim().isEmpty) {
       throw const ValidationException('Contact\'s name should not be empty');
+    }
+    if (contact.id != null) {
+      final personIndex = personalities.indexWhere((each) => each.id == contact.id);
+      if (personIndex != -1) {
+        final person = personalities[personIndex];
+        if (contact.name != person.name || contact.about != person.about || contact.uuid != person.uuid) {
+          throw const ValidationException('A personality uuid, name and about info cannot be altered');
+        }
+      }
     }
   }
 
   /// Adjust contact's contents.
   ///
   /// Generates contact's uuid when it is empty.
-  /// Trim contacts name if necessary.
+  /// Trim contacts name and about if necessary.
   Contact _adjust(Contact contact) {
     var adjusted = contact.uuid.isEmpty ? contact.copyWith(uuid: uuid.v4()) : contact;
 
@@ -100,15 +104,19 @@ class ContactsUseCase {
       adjusted = adjusted.copyWith(name: adjustedName);
     }
 
+    final adjustedAbout = contact.about.trim();
+    if (contact.about != adjustedAbout) {
+      adjusted = adjusted.copyWith(about: adjustedAbout);
+    }
+
     return adjusted;
   }
 
-  List<Contact> get personalities => ref.read(personalitiesProvider);
-
   Contact? missingPersonality(List<Contact> contacts) {
-    final candidates = personalities;
-    final found = candidates.indexWhere((element) => !contacts.contains(element));
-    return found == -1 ? null : candidates[found];
+    final found = personalities.indexWhere((personality) {
+      return contacts.indexWhere((contact) => contact.id == personality.id) == -1;
+    });
+    return found == -1 ? null : personalities[found];
   }
 
   /// Private - Load all contacts from repository.

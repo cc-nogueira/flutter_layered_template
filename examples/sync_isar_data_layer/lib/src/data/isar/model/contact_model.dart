@@ -18,4 +18,6 @@ class ContactModel {
   late String name;
 
   late String about;
+
+  int? avatarColor;
 }

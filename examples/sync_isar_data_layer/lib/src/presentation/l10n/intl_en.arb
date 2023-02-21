@@ -1,48 +1,20 @@
 {
   "@@locale": "en",
 
-  "title_home_page": "Layered Example",
-  "@title_home_page": {
-    "description": "Title for home page"
-  },
-
-  "title_error_page": "Error",
-  "@title_error_page": {
-    "description": "Title for error page"
-  },
+  "error_title": "Error",
+  "loading_title": "Loading",
+  "confirm_title": "Confirm",
+  "cancel_title": "Cancel",
+  "save_title": "Save",
+  "discard_title": "Discard",
   
-  "title_contacts_page": "Contacts",
-  "@title_contacts_page": {
-    "description": "Title for contacts page"
-  },  
+  "save_or_discard_changes_message": "do you want to save or discard changes",
 
-  "title_contact_page": "Contact",
-  "@title_contact_page": {
-    "description": "Title for contact page"
-  },
-  
-  "message_no_contacts": "No contacts",
-  "@message_no_contacts": {
-    "description": "Message for no contacts"
-  },
+  "home_page_title": "Sync Data Layer Example",
 
-  "message_loading": "Loading",
-  "@message_loading": {
-    "description": "Message loading"
-  },
+  "contacts_title": "Contacts",  
+  "contact_title": "Contact",
 
-  "message_no_message": "No message",
-  "@message_no_message": {
-    "description": "Message for no message"
-  },
-
-  "label_from": "From",
-  "@label_from": {
-    "description": "Label for from"
-  },
-
-  "title_pending_message": "Pending Message",
-  "@title_pending_message": {
-    "description": "Title for pending message"
-  }
+  "no_contacts_message": "No contacts",
+  "contact_altered_message": "Contact altered"
 }
