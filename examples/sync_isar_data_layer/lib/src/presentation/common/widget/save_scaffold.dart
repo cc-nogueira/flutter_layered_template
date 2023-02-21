@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'app_bar_builder_mixin.dart';
 import 'confirm_discard_changes_dialog.dart';
 
-class SaveGuardScaffold extends StatelessWidget with AppBarBuilderMixin {
-  const SaveGuardScaffold({
+class SaveScaffold extends StatelessWidget with AppBarBuilderMixin {
+  const SaveScaffold({
     super.key,
     required this.modified,
     required this.willPopMessage,

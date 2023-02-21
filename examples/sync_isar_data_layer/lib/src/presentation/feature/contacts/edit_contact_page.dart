@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain_layer.dart';
 import '../../common/widget/app_bar_builder_mixin.dart';
-import '../../common/widget/save_guard_scaffold.dart';
+import '../../common/widget/save_scaffold.dart';
 import '../../l10n/translations.dart';
 import 'widget/avatar_editor.dart';
 import 'widget/contact_name_and_about_editor.dart';
@@ -33,7 +33,7 @@ class _EditContactPage extends ConsumerWidget with AppBarBuilderMixin {
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
     final modified = ref.watch(editionProvider.select((value) => value != original));
-    return SaveGuardScaffold(
+    return SaveScaffold(
       modified: modified,
       willPopMessage: tr.contact_altered_message,
       saveButtonText: tr.save_title,
