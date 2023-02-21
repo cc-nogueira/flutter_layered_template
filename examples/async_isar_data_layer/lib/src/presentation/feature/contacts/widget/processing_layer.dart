@@ -26,7 +26,7 @@ class ProcessingLayer extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(tr.title_processing, style: textTheme.titleLarge),
+            Text(tr.processing_title, style: textTheme.titleLarge),
             const Padding(
               padding: EdgeInsets.all(16.0),
               child: LoadingWidget(),

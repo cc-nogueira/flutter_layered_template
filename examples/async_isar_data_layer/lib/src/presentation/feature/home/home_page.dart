@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final tr = Translations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(tr.title_home_page)),
+      appBar: AppBar(title: Text(tr.home_page_title)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
         color: Theme.of(context).colorScheme.background.withOpacity(0.5),
         child: ListTile(
           leading: const CircleAvatar(child: Icon(Icons.people)),
-          title: Text(tr.title_contacts_page),
+          title: Text(tr.contacts_title),
           onTap: () => context.goNamed(Routes.contacts),
         ),
       );

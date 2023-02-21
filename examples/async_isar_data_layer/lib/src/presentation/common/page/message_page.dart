@@ -44,7 +44,7 @@ class ErrorMessagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MessagePage(
-      title: Translations.of(context).title_error_page,
+      title: Translations.of(context).error_title,
       message: error.toString(),
     );
   }

@@ -32,7 +32,7 @@ class App extends ConsumerWidget {
       darkTheme: Themes.darkTheme,
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
-      onGenerateTitle: (context) => Translations.of(context).title_home_page,
+      onGenerateTitle: (context) => Translations.of(context).home_page_title,
       locale: locale,
       routerConfig: goRouter,
     );
@@ -47,7 +47,7 @@ class App extends ConsumerWidget {
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
       locale: locale,
-      onGenerateTitle: (context) => Translations.of(context).title_home_page,
+      onGenerateTitle: (context) => Translations.of(context).home_page_title,
       home: ErrorMessagePage(error!),
     );
   }

@@ -66,16 +66,27 @@ class ContactsUseCase {
   /// Removes an entity by id from the repository.
   ///
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
-  void remove(int id) async {
+  Future<void> remove(int id) async {
     _processingGuard(() => repository.remove(id));
   }
 
   /// Validate contact's content.
   ///
   /// Throws a validation exception if contact's name is empty.
+  /// Throws a validation exception if the contact has a personality id and has changed it's
+  /// name or about info. Personalities are not editable, but for their avatar color.
   void validate(Contact contact) {
     if (contact.name.trim().isEmpty) {
       throw const ValidationException('Contact\'s name should not be empty');
+    }
+    if (contact.id != null) {
+      final personIndex = personalities.indexWhere((each) => each.id == contact.id);
+      if (personIndex != -1) {
+        final person = personalities[personIndex];
+        if (contact.name != person.name || contact.about != person.about || contact.uuid != person.uuid) {
+          throw const ValidationException('A personality uuid, name and about info cannot be altered');
+        }
+      }
     }
   }
 
@@ -91,11 +102,19 @@ class ContactsUseCase {
       adjusted = adjusted.copyWith(name: adjustedName);
     }
 
+    final adjustedAbout = contact.about.trim();
+    if (contact.about != adjustedAbout) {
+      adjusted = adjusted.copyWith(about: adjustedAbout);
+    }
+
     return adjusted;
   }
 
-  Contact? missingPersonality(List<Contact> contacts) {
-    final found = personalities.indexWhere((element) => !contacts.contains(element));
+  Future<Contact?> missingPersonality() async {
+    final contacts = await ref.read(contactsNotifierProvider.future);
+    final found = personalities.indexWhere((personality) {
+      return contacts.indexWhere((contact) => contact.id == personality.id) == -1;
+    });
     return found == -1 ? null : personalities[found];
   }
 

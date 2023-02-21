@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/utils/string_utils.dart';
 import '../../../domain_layer.dart';
 import '../../app/routes/routes.dart';
 import '../../common/page/loading_page.dart';
 import '../../common/page/message_page.dart';
 import '../../l10n/translations.dart';
+import 'widget/avatar.dart';
 import 'widget/processing_layer.dart';
 
 /// Contacts page.
@@ -27,13 +27,15 @@ class ContactsPage extends ConsumerWidget {
     final tr = Translations.of(context);
     final usecase = ref.read(contactsUseCaseProvider);
     final guarding = ref.watch(contactsGuardNotifierProvider);
+
+    // AsyncValue resolution:
     return ref.watch(contactsNotifierProvider).when(
-          loading: () => LoadingPage(tr.title_contacts_page),
+          loading: () => LoadingPage(tr.contacts_title),
           data: (data) => _ContactsPage(
-            tr: tr,
+            tr,
             contacts: data,
             usecase: usecase,
-            operationGuarding: guarding,
+            isWaitingAction: guarding,
           ),
           error: ErrorMessagePage.errorBuilder,
         );
@@ -45,35 +47,35 @@ class ContactsPage extends ConsumerWidget {
 /// Display the list of contacts from [ContactsUseCase] and a floating button
 /// to add pseudo random contacts (use case personalities and fake contacts).
 class _ContactsPage extends StatelessWidget {
-  const _ContactsPage(
-      {required this.tr, required this.contacts, required this.usecase, required this.operationGuarding});
+  /// Const constructor.
+  const _ContactsPage(this.tr, {required this.contacts, required this.usecase, required this.isWaitingAction});
 
   final Translations tr;
   final List<Contact> contacts;
   final ContactsUseCase usecase;
-  final bool operationGuarding;
+  final bool isWaitingAction;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(title: Text(tr.title_contacts_page)),
+      appBar: AppBar(title: Text(tr.contacts_title)),
       body: _asyncOperationLayer(
         context,
         colors,
         child: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: operationGuarding ? null : () => _newContact(),
-        backgroundColor: operationGuarding ? colors.secondaryContainer : null,
-        foregroundColor: operationGuarding ? colors.outline : null,
+        onPressed: isWaitingAction ? null : () => _newContact(),
+        backgroundColor: isWaitingAction ? colors.secondaryContainer : null,
+        foregroundColor: isWaitingAction ? colors.outline : null,
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _asyncOperationLayer(BuildContext context, ColorScheme colors, {required Widget child}) {
-    if (operationGuarding) {
+    if (isWaitingAction) {
       return Stack(children: [
         child,
         const ProcessingLayer(),
@@ -85,7 +87,7 @@ class _ContactsPage extends StatelessWidget {
   /// When there are no contacts.
   Widget _buildNoContactsMessage(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.headlineMedium;
-    return Center(child: Text(tr.message_no_contacts, style: textStyle));
+    return Center(child: Text(tr.no_contacts_message, style: textStyle));
   }
 
   /// List of [_ContactCard] items.
@@ -110,18 +112,20 @@ class _ContactsPage extends StatelessWidget {
   }
 
   /// Handler to navigate to a contact page passing the contact id.
-  void _viewContact(BuildContext context, Contact contact) =>
-      context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
+  void _viewContact(BuildContext context, Contact contact) {
+    context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
+  }
 
   /// Handler to save a new contact (create for you!).
-  Future<Contact> _newContact() => usecase.save(_createContact());
+  Future<Contact> _newContact() async {
+    return usecase.save(await _createContact());
+  }
 
   /// Creates a contact for example purposes.
   ///
   /// The contact will be a missing personality or a new fake named contact.
-  Contact _createContact() {
-    final faker = Faker();
-    return usecase.missingPersonality(contacts) ??
+  Future<Contact> _createContact() async {
+    return await usecase.missingPersonality() ??
         Contact(
           name: faker.person.name(),
           about: faker.lorem.sentences(4).join(),
@@ -144,10 +148,10 @@ class _ContactCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Card(
         child: ListTile(
-          leading: CircleAvatar(child: Text(contact.name.cut(max: 2))),
+          leading: Avatar(contact),
           title: Text(contact.name),
           trailing: IconButton(
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.delete, color: Color(0xFF770000)),
             onPressed: onDelete,
           ),
           onTap: onTap,
