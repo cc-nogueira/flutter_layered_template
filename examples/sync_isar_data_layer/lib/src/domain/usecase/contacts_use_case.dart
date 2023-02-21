@@ -112,7 +112,8 @@ class ContactsUseCase {
     return adjusted;
   }
 
-  Contact? missingPersonality(List<Contact> contacts) {
+  Contact? missingPersonality() {
+    final contacts = ref.read(contactsNotifierProvider);
     final found = personalities.indexWhere((personality) {
       return contacts.indexWhere((contact) => contact.id == personality.id) == -1;
     });

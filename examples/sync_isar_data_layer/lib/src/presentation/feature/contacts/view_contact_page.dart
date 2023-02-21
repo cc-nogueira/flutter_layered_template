@@ -18,7 +18,7 @@ class ViewContactPage extends ConsumerWidget {
   /// Const constructor.
   const ViewContactPage({super.key, required this.id});
 
-  /// [Contact.id]
+  /// [Contact.id] page parameter.
   final int id;
 
   @override

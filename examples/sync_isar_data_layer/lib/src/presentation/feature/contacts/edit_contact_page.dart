@@ -14,7 +14,7 @@ class EditContactPage extends ConsumerWidget {
   /// Const constructor.
   const EditContactPage({super.key, required this.id});
 
-  /// [Contact.id] parameter for the page.
+  /// [Contact.id] page parameter.
   final int id;
 
   /// Build the page with an internal widget [_EditContactPage].

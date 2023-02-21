@@ -45,8 +45,8 @@ class _ContactsPage extends StatelessWidget {
       appBar: AppBar(title: Text(tr.contacts_title)),
       body: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
         onPressed: () => _newContact(),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -74,22 +74,27 @@ class _ContactsPage extends StatelessWidget {
       );
 
   /// Handler to remove a contact invoking [ContactsUseCase.remove].
-  void _removeContact(Contact contact) => usecase.remove(contact.id!);
+  void _removeContact(Contact contact) {
+    usecase.remove(contact.id!);
+  }
 
   /// Handler to navigate to a contact page passing the contact id.
-  void _viewContact(BuildContext context, Contact contact) =>
-      context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
+  void _viewContact(BuildContext context, Contact contact) {
+    context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
+  }
 
   /// Handler to save a new contact (create for you!).
-  Contact _newContact() => usecase.save(_createContact());
+  Contact _newContact() {
+    return usecase.save(_createContact());
+  }
 
   /// Creates a contact for example purposes.
   ///
   /// The contact will be a missing personality or a new fake named contact.
   Contact _createContact() {
-    return usecase.missingPersonality(contacts) ??
+    return usecase.missingPersonality() ??
         Contact(
-          name: Faker().person.name(),
+          name: faker.person.name(),
           about: faker.lorem.sentences(4).join(),
         );
   }
