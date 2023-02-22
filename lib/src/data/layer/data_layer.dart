@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../../domain_layer.dart';
-import '../isar/model/contact_model.dart';
-import '../isar/repository/isar_contacts_repository.dart';
+import '../isar/model/thing_model.dart';
+import '../isar/repository/isar_things_repository.dart';
 
 /// [DataLayer] singleton provider.
 final dataLayerProvider = Provider((ref) => DataLayer());
@@ -15,7 +15,7 @@ final dataLayerProvider = Provider((ref) => DataLayer());
 /// app initialization (by the outer layer, main.dart).
 ///
 /// Initializes the [Isar] instance and injects it into provision builders.
-/// Provides the [DataLayerProvision] that enables runtime provisioning of interface implementations.
+/// Do runtime provisioning of interface implementations.
 class DataLayer extends ProvisioningLayer {
   /// Internal Isar reference.
   ///
@@ -23,19 +23,17 @@ class DataLayer extends ProvisioningLayer {
   late final Isar _isar;
 
   /// Initialize the ISAR container.
-  ///
-  /// Configures the instance [DataLayerProvision] that enables runtime provisioning of interface implementations.
   @override
   Future<void> init(Ref ref) async {
     _isar = await Isar.open([
-      ContactModelSchema,
+      ThingModelSchema,
     ]);
   }
 
   /// Provision [DomainLayer] with repository implementations.
   @override
   void provision(DomainLayer domainLayer) {
-    domainLayer.contactsRepositoryProvider = Provider<ContactsRepository>((ref) => IsarContactsRepository(_isar));
+    domainLayer.thingsRepositoryProvider = Provider<ThingsRepository>((ref) => IsarThingsRepository(_isar));
   }
 
   /// Close the Isar instance.

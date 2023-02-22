@@ -2,8 +2,8 @@ import 'dart:core';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../repository/contacts_repository.dart';
-import '../service/message_service.dart';
+import '../repository/things_repository.dart';
+import '../service/some_service.dart';
 import 'app_layer.dart';
 
 /// [DomainLayer] singleton provider.
@@ -23,17 +23,17 @@ final domainLayerProvider = Provider((ref) => DomainLayer());
 /// This layer must be provisioned with runtime implementations of required interfaces.
 /// This is usually coordinated by the outer layer, main.dart.
 class DomainLayer extends AppLayer {
-  /// Runtime provision [ContactsRepository] implemention.
-  late final Provider<ContactsRepository> contactsRepositoryProvider;
+  /// Runtime provision [ThingsRepository] implemention.
+  late final Provider<ThingsRepository> thingsRepositoryProvider;
 
-  /// Runtime provision of [MessageService] implemention.
-  late final Provider<MessageService> messageServiceProvider;
+  /// Runtime provision of [SomeService] implemention.
+  late final Provider<SomeService> someServiceProvider;
 
   /// Validate the initialization of all expected provisions.
   bool validateProvisioning() {
     try {
-      contactsRepositoryProvider;
-      messageServiceProvider;
+      thingsRepositoryProvider;
+      someServiceProvider;
     } on Error {
       // LateError is an internal type.
       return false;

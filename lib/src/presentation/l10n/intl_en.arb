@@ -1,48 +1,13 @@
 {
   "@@locale": "en",
 
-  "title_home_page": "Layered Example",
-  "@title_home_page": {
-    "description": "Title for home page"
-  },
-
-  "title_error_page": "Error",
-  "@title_error_page": {
-    "description": "Title for error page"
-  },
+  "error_title": "Error",
+  "loading_title": "Loading",
+  "refresh_title": "Refresh",
   
-  "title_contacts_page": "Contacts",
-  "@title_contacts_page": {
-    "description": "Title for contacts page"
-  },  
+  "things_title": "Things",
+  "nothing_stored_message": "Nothing stored",
 
-  "title_contact_page": "Contact",
-  "@title_contact_page": {
-    "description": "Title for contact page"
-  },
-  
-  "message_no_contacts": "No contacts",
-  "@message_no_contacts": {
-    "description": "Message for no contacts"
-  },
-
-  "message_loading": "Loading",
-  "@message_loading": {
-    "description": "Message loading"
-  },
-
-  "message_no_message": "No message",
-  "@message_no_message": {
-    "description": "Message for no message"
-  },
-
-  "label_from": "From",
-  "@label_from": {
-    "description": "Label for from"
-  },
-
-  "title_pending_message": "Pending Message",
-  "@title_pending_message": {
-    "description": "Title for pending message"
-  }
+  "from_server_title": "What's happening",
+  "nothing_from_server_message": "Nothing..."
 }

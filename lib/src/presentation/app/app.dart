@@ -5,6 +5,7 @@ import '../common/page/message_page.dart';
 import '../l10n/locale_notifier.dart';
 import '../l10n/translations.dart';
 import 'routes/routes.dart';
+import 'theme/themes.dart';
 
 /// This is the MaterialApp.
 ///
@@ -18,20 +19,23 @@ class App extends ConsumerWidget {
   /// Error object to be describe a possible initialization error.
   final Object? error;
 
-  /// Build the application starting with [Routes.home];
+  /// Build the application starting with [Routes.things];
   @override
-  Widget build(BuildContext context, WidgetRef ref) => error == null ? _app(ref) : _errorApp(ref);
+  Widget build(BuildContext context, WidgetRef ref) {
+    return error == null ? _app(ref) : _errorApp(ref);
+  }
 
   /// The MaterialApp
   Widget _app(WidgetRef ref) {
     final locale = ref.watch(localeProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: Themes.lightTheme,
+      darkTheme: Themes.darkTheme,
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
       locale: locale,
-      onGenerateTitle: (context) => Translations.of(context).title_home_page,
+      onGenerateTitle: (context) => Translations.of(context).things_title,
       routerConfig: goRouter,
     );
   }
@@ -41,11 +45,12 @@ class App extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: Themes.lightTheme,
+      darkTheme: Themes.darkTheme,
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
       locale: locale,
-      onGenerateTitle: (context) => Translations.of(context).title_home_page,
+      onGenerateTitle: (context) => Translations.of(context).things_title,
       home: ErrorMessagePage(error!),
     );
   }
