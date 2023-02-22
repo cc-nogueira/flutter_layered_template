@@ -1,4 +1,3 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../../domain_layer.dart';
 import '../../app/routes/routes.dart';
 import '../../common/widget/confirm_dialog.dart';
-import '../../common/widget/confirm_discard_changes_dialog.dart';
 import '../../l10n/translations.dart';
 import 'widget/avatar.dart';
 
