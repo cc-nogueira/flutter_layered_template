@@ -42,13 +42,14 @@ class _ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(title: Text(tr.contact_title)),
       body: ListView(
         children: [
           _avatar(textTheme),
-          _name(textTheme),
+          _name(colors, textTheme),
           const Divider(thickness: 2),
           _about(textTheme),
         ],
@@ -67,11 +68,26 @@ class _ContactPage extends StatelessWidget {
         ),
       );
 
-  /// Text with contact's name.
-  Widget _name(TextTheme textTheme) => Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(contact.name, style: textTheme.headlineSmall),
-      );
+  /// Text with contact's name and personality tag.
+  Widget _name(ColorScheme colors, TextTheme textTheme) {
+    final name = Text(contact.name, style: textTheme.headlineSmall);
+    final widget = (contact.isPersonality)
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                tr.personality_title,
+                style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
+              ),
+              name,
+            ],
+          )
+        : name;
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: widget,
+    );
+  }
 
   Widget _about(TextTheme textTheme) => Padding(
         padding: const EdgeInsets.all(16.0),

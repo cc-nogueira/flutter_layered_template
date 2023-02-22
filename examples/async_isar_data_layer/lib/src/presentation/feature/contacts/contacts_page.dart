@@ -1,4 +1,3 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -91,24 +90,24 @@ class _ContactsPage extends StatelessWidget {
   }
 
   /// List of [_ContactCard] items.
-  Widget _buildContactsList(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: contacts.length,
-          itemBuilder: (context, index) {
-            final contact = contacts[index];
-            return _ContactCard(
-              contact: contact,
-              onDelete: () => _removeContact(contact),
-              onTap: () => _viewContact(context, contact),
-            );
-          },
-        ),
-      );
-
-  /// Handler to remove a contact invoking [ContactsUseCase.remove].
-  void _removeContact(Contact contact) {
-    usecase.remove(contact.id!);
+  Widget _buildContactsList(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+        itemCount: contacts.length,
+        itemBuilder: (context, index) {
+          final contact = contacts[index];
+          return _ContactCard(
+            tr,
+            colors,
+            contact: contact,
+            onDelete: () => _removeContact(contact),
+            onTap: () => _viewContact(context, contact),
+          );
+        },
+      ),
+    );
   }
 
   /// Handler to navigate to a contact page passing the contact id.
@@ -116,20 +115,14 @@ class _ContactsPage extends StatelessWidget {
     context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
   }
 
-  /// Handler to save a new contact (create for you!).
-  Future<Contact> _newContact() async {
-    return usecase.save(await _createContact());
+  /// Handler to remove a contact invoking [ContactsUseCase.remove].
+  Future<void> _removeContact(Contact contact) {
+    return usecase.remove(contact.id!);
   }
 
-  /// Creates a contact for example purposes.
-  ///
-  /// The contact will be a missing personality or a new fake named contact.
-  Future<Contact> _createContact() async {
-    return await usecase.missingPersonality() ??
-        Contact(
-          name: faker.person.name(),
-          about: faker.lorem.sentences(4).join(),
-        );
+  /// Handler to save a new contact (create for you!).
+  Future<Contact> _newContact() {
+    return usecase.createContact();
   }
 }
 
@@ -139,22 +132,32 @@ class _ContactsPage extends StatelessWidget {
 /// Display the contact name.
 /// Includes a delete button to remove the contact.
 class _ContactCard extends StatelessWidget {
-  const _ContactCard({required this.contact, required this.onDelete, required this.onTap});
+  const _ContactCard(this.tr, this.colors, {required this.contact, required this.onDelete, required this.onTap});
 
+  final Translations tr;
+  final ColorScheme colors;
   final Contact contact;
   final Function() onDelete;
   final Function() onTap;
 
   @override
-  Widget build(BuildContext context) => Card(
-        child: ListTile(
-          leading: Avatar(contact),
-          title: Text(contact.name),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete, color: Color(0xFF770000)),
-            onPressed: onDelete,
-          ),
-          onTap: onTap,
+  Widget build(BuildContext context) {
+    return Card(
+      color: contact.isPersonality ? colors.background : null,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+        side: BorderSide(color: contact.isPersonality ? colors.primary : colors.outline),
+      ),
+      child: ListTile(
+        leading: Avatar(contact),
+        title: Text(contact.name),
+        subtitle: contact.isPersonality ? Text(tr.personality_title) : null,
+        trailing: IconButton(
+          icon: Icon(contact.isPersonality ? Icons.delete : Icons.delete_forever, color: const Color(0xFF992200)),
+          onPressed: onDelete,
         ),
-      );
+        onTap: onTap,
+      ),
+    );
+  }
 }
