@@ -78,6 +78,11 @@ class _ContactsPage extends StatelessWidget {
     );
   }
 
+  /// Handler to navigate to a contact page passing the contact id.
+  void _viewContact(BuildContext context, Contact contact) {
+    context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
+  }
+
   /// Handler to remove a contact invoking [ContactsUseCase.remove].
   Future<void> _removeContact(BuildContext context, Contact contact) async {
     final ok = (contact.isPersonality)
@@ -86,11 +91,6 @@ class _ContactsPage extends StatelessWidget {
     if (ok == true) {
       usecase.remove(contact.id!);
     }
-  }
-
-  /// Handler to navigate to a contact page passing the contact id.
-  void _viewContact(BuildContext context, Contact contact) {
-    context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
   }
 
   /// Handler to create a new contact using business rules.

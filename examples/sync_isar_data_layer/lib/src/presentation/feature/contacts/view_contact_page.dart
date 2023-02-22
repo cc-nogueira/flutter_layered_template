@@ -51,7 +51,7 @@ class ViewContactPage extends ConsumerWidget {
         ),
       );
 
-  /// Text with contact's name.
+  /// Text with contact's name and personality tag.
   Widget _name(Translations tr, ColorScheme colors, TextTheme textTheme, Contact contact) {
     final name = Text(contact.name, style: textTheme.headlineSmall);
     final widget = (contact.isPersonality)

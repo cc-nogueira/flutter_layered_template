@@ -136,6 +136,7 @@ class ContactsUseCase {
     return null;
   }
 
+  /// Create a contact with fake data.
   Contact _fakeContact() {
     return Contact(
       name: faker.person.name(),

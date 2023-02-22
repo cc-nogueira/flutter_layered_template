@@ -7,6 +7,7 @@
   "cancel_title": "Cancel",
   "save_title": "Save",
   "discard_title": "Discard",
+  "processing_title": "Processing...",
   
   "save_or_discard_changes_message": "do you want to save or discard changes",
   "confirm_delete_personality_message": "Are you sure you want to delete such a famous personality?",
