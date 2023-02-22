@@ -45,7 +45,8 @@ class App extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: Themes.lightTheme,
+      darkTheme: Themes.darkTheme,
       localizationsDelegates: Translations.localizationsDelegates,
       supportedLocales: Translations.supportedLocales,
       locale: locale,

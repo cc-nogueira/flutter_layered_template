@@ -13,7 +13,7 @@ abstract class ContactsSyncRepository {
   /// Save a [Contact] in the repository and return the saved entity.
   ///
   /// If the entity id is 0 it should generate the next id, add the new entity to storage and return it.
-  /// If the entity id is not 0 update the entry with that id.
+  /// If the entity id is not 0 update/create an entry with that id.
   ///
   /// Returns the saved contact.
   Contact save(Contact value);

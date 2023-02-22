@@ -126,18 +126,6 @@ void main() {
 
       verifyNoMoreInteractions(mockRepository);
     });
-
-    test('should pass repository\'s EntityNotFoundException when trying to updated a contact not found in storage', () {
-      when(mockRepository.asMock().save(any)).thenThrow(const EntityNotFoundException());
-
-      expect(
-        () => container.read(contactsSyncUseCaseProvider).save(contact1),
-        throwsA(isA<EntityNotFoundException>()),
-      );
-
-      verify(mockRepository.save(contact1));
-      verifyNoMoreInteractions(mockRepository);
-    });
   });
 
   group('remove', () {
