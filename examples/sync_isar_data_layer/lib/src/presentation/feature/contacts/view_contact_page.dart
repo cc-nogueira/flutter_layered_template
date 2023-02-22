@@ -23,15 +23,16 @@ class ViewContactPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final textTheme = Theme.of(context).textTheme;
     final tr = Translations.of(context);
+    final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final contact = ref.watch(contactProvider(id));
     return Scaffold(
       appBar: AppBar(title: Text(tr.contact_title)),
       body: ListView(
         children: [
           _avatar(textTheme, contact),
-          _name(textTheme, contact),
+          _name(tr, colors, textTheme, contact),
           const Divider(thickness: 2),
           _about(textTheme, contact),
         ],
@@ -51,10 +52,25 @@ class ViewContactPage extends ConsumerWidget {
       );
 
   /// Text with contact's name.
-  Widget _name(TextTheme textTheme, Contact contact) => Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(contact.name, style: textTheme.headlineSmall),
-      );
+  Widget _name(Translations tr, ColorScheme colors, TextTheme textTheme, Contact contact) {
+    final name = Text(contact.name, style: textTheme.headlineSmall);
+    final widget = (contact.isPersonality)
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                tr.personality_title,
+                style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
+              ),
+              name,
+            ],
+          )
+        : name;
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: widget,
+    );
+  }
 
   Widget _about(TextTheme textTheme, Contact contact) => Padding(
         padding: const EdgeInsets.all(16.0),

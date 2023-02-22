@@ -11,6 +11,7 @@ class ContactMapper extends EntityMapper<Contact, ContactModel> {
   Contact mapEntity(ContactModel model) {
     return Contact(
       id: model.id,
+      isPersonality: model.isPersonality,
       uuid: model.uuid,
       name: model.name,
       about: model.about,
@@ -23,6 +24,7 @@ class ContactMapper extends EntityMapper<Contact, ContactModel> {
     return ContactModel()
       ..id = entity.id
       ..uuid = entity.uuid
+      ..isPersonality = entity.isPersonality
       ..name = entity.name
       ..about = entity.about
       ..avatarColor = entity.avatarColor;

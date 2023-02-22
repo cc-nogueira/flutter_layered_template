@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/translations.dart';
+import 'confirm_dialog.dart';
 
 /// Shows the Discard or Save dialog with a message to confirm the page can pop out.
 ///
@@ -18,7 +19,7 @@ Future<bool> confirmCanPop({
     return Future.value(true);
   }
 
-  final discard = await _showConfirmDiscardChangesDialog(context: context, message: message);
+  final discard = await showConfirmDiscardChangesDialog(context: context, message: message);
   if (discard == true) {
     /// tap on discard: canPop!
     return true;
@@ -37,41 +38,39 @@ Future<bool> confirmCanPop({
 /// TRUE for DISCARD button.
 /// FALSE for SAVE button.
 /// NULL for dialog dismiss.
-Future<bool?> _showConfirmDiscardChangesDialog({required BuildContext context, required String message}) async {
+Future<bool?> showConfirmDiscardChangesDialog({required BuildContext context, required String message}) async {
   return showDialog<bool>(
     context: context,
     builder: (_) => _ConfirmDiscardChangesDialog(message: message),
   );
 }
 
-/// Shows a dialog with a message and two buttons.
+/// Shows a dialog with a save or discard message and two buttons.
 ///
 /// The dialog closes returning one of three values:
 ///
 /// TRUE for DISCARD button.
 /// FALSE for SAVE button.
 /// NULL for dialog dismiss.
-class _ConfirmDiscardChangesDialog extends StatelessWidget {
-  const _ConfirmDiscardChangesDialog({required this.message});
-
-  final String message;
+class _ConfirmDiscardChangesDialog extends ConfirmDialog {
+  const _ConfirmDiscardChangesDialog({required super.message});
 
   @override
-  Widget build(BuildContext context) {
-    final tr = Translations.of(context);
-    return AlertDialog(
-      title: Text(tr.confirm_title),
-      content: Text('$message, ${tr.save_or_discard_changes_message}?'),
-      actions: [
-        FilledButton.tonal(
-          onPressed: () => Navigator.pop(context, true),
-          child: Text(tr.discard_title),
-        ),
-        OutlinedButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text(tr.save_title),
-        ),
-      ],
-    );
+  Widget content(BuildContext context, Translations tr) {
+    return Text('$message, ${tr.save_or_discard_changes_message}?');
+  }
+
+  @override
+  List<Widget> actions(BuildContext context, Translations tr) {
+    return [
+      FilledButton.tonal(
+        onPressed: () => Navigator.pop(context, true),
+        child: Text(tr.discard_title),
+      ),
+      OutlinedButton(
+        onPressed: () => Navigator.pop(context, false),
+        child: Text(tr.save_title),
+      ),
+    ];
   }
 }

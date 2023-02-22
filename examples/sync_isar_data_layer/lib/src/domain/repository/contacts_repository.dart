@@ -1,9 +1,8 @@
-
 import '../entity/contact.dart';
 
 /// Contacts Repository interface.
 abstract class ContactsRepository {
-  /// Get all [Contact]s from storage sorted by name.
+  /// Get all [Contact]s from storage sorted by personality then by name.
   List<Contact> getAll();
 
   /// Get a [Contact] from storage by uuid.

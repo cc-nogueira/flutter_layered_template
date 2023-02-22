@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -25,7 +28,7 @@ final contactsUseCaseProvider = Provider((ref) => ContactsUseCase(
 /// It provides an API to access and update [Contact] entities.
 class ContactsUseCase {
   /// Const constructor.
-  const ContactsUseCase({required this.ref, required this.uuid, required this.repository});
+  ContactsUseCase({required this.ref, required this.uuid, required this.repository});
 
   /// Riverpod ref.
   final Ref ref;
@@ -36,15 +39,20 @@ class ContactsUseCase {
   /// [Uuid] generator.
   final Uuid uuid;
 
-  /// Get a Contact from repository by uuid.
+  /// A random generator
+  final random = Random(DateTime.now().millisecond);
+
+  /// Random create a contact that may be a personality.
   ///
-  /// Expects repository to throw an [EntityNotFoundException] if no contact has this uuid.
-  Contact getByUuid(String uuid, {required Contact Function() orElse}) {
-    try {
-      return repository.getByUuid(uuid);
-    } on Exception {
-      return orElse();
-    }
+  /// Returns a new Contact.
+  /// Random choose between a Personality and a fake contact.
+  /// The change of being a personality is one in three.
+  ///
+  /// If there are no missing personalities then always return a fake contact.
+  Contact createContact() {
+    final randPreferPersonality = random.nextInt(3) == 1;
+    final contact = randPreferPersonality ? _missingPersonality() ?? _fakeContact() : _fakeContact();
+    return save(contact);
   }
 
   /// Save a [Contact] in the repository and return the saved entity.
@@ -112,17 +120,32 @@ class ContactsUseCase {
     return adjusted;
   }
 
-  Contact? missingPersonality() {
-    final contacts = ref.read(contactsNotifierProvider);
-    final found = personalities.indexWhere((personality) {
-      return contacts.indexWhere((contact) => contact.id == personality.id) == -1;
-    });
-    return found == -1 ? null : personalities[found];
+  /// Finds a random personality missing in contacts provider.
+  ///
+  /// Return null if all personlities are already included in contacts.
+  Contact? _missingPersonality() {
+    final existing = ref.read(contactsNotifierProvider).where((each) => each.isPersonality).toList();
+    final missingPersonalities = [
+      for (final personality in personalities)
+        if (existing.indexWhere((each) => each.uuid == personality.uuid) == -1) personality,
+    ];
+    if (missingPersonalities.isNotEmpty) {
+      final rand = random.nextInt(missingPersonalities.length);
+      return missingPersonalities[rand];
+    }
+    return null;
+  }
+
+  Contact _fakeContact() {
+    return Contact(
+      name: faker.person.name(),
+      about: faker.lorem.sentences(4).join(),
+    );
   }
 
   /// Private - Load all contacts from repository.
   ///
-  /// It is expected it returns the list sorted by name.
+  /// It is expected it returns the list sorted by personality then by name.
   /// This action will also initialize the storage repository on its very first invocation.
   ///
   /// Used by [ContactsState.build] method.

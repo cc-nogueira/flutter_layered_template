@@ -9,11 +9,13 @@
   "discard_title": "Discard",
   
   "save_or_discard_changes_message": "do you want to save or discard changes",
+  "confirm_delete_personality_message": "Are you sure you want to delete such a famous personality?",
 
   "home_page_title": "Sync Data Layer Example",
 
   "contacts_title": "Contacts",  
   "contact_title": "Contact",
+  "personality_title": "Personality",
 
   "no_contacts_message": "No contacts",
   "contact_altered_message": "Contact altered"

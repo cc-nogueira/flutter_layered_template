@@ -14,7 +14,9 @@ class ContactModel {
   @Index(type: IndexType.hash, unique: true)
   late String uuid;
 
-  @Index()
+  @Index(composite: [CompositeIndex('name')])
+  late bool isPersonality;
+
   late String name;
 
   late String about;

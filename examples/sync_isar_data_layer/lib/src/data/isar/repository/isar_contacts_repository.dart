@@ -22,7 +22,15 @@ class IsarContactsRepository implements ContactsRepository {
 
   @override
   List<Contact> getAll() {
-    return _mapper.mapEntities(_isar.contactModels.where().sortByName().findAllSync());
+    final all = _mapper
+        .mapEntities(
+          _isar.contactModels.where().isPersonalityEqualToAnyName(true).sortByName().findAllSync(),
+        )
+        .toList();
+    all.addAll(_mapper.mapEntities(
+      _isar.contactModels.where().isPersonalityEqualToAnyName(false).sortByName().findAllSync(),
+    ));
+    return all;
   }
 
   @override

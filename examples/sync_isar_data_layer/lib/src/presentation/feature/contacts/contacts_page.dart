@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../domain_layer.dart';
 import '../../app/routes/routes.dart';
+import '../../common/widget/confirm_dialog.dart';
+import '../../common/widget/confirm_discard_changes_dialog.dart';
 import '../../l10n/translations.dart';
 import 'widget/avatar.dart';
 
@@ -58,24 +60,34 @@ class _ContactsPage extends StatelessWidget {
   }
 
   /// List of [_ContactCard] items.
-  Widget _buildContactsList(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: contacts.length,
-          itemBuilder: (context, index) {
-            final contact = contacts[index];
-            return _ContactCard(
-              contact: contact,
-              onDelete: () => _removeContact(contact),
-              onTap: () => _viewContact(context, contact),
-            );
-          },
-        ),
-      );
+  Widget _buildContactsList(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+        itemCount: contacts.length,
+        itemBuilder: (context, index) {
+          final contact = contacts[index];
+          return _ContactCard(
+            tr,
+            colors,
+            contact: contact,
+            onDelete: () => _removeContact(context, contact),
+            onTap: () => _viewContact(context, contact),
+          );
+        },
+      ),
+    );
+  }
 
   /// Handler to remove a contact invoking [ContactsUseCase.remove].
-  void _removeContact(Contact contact) {
-    usecase.remove(contact.id!);
+  Future<void> _removeContact(BuildContext context, Contact contact) async {
+    final ok = (contact.isPersonality)
+        ? await showConfirmDialog(context: context, message: tr.confirm_delete_personality_message)
+        : true;
+    if (ok == true) {
+      usecase.remove(contact.id!);
+    }
   }
 
   /// Handler to navigate to a contact page passing the contact id.
@@ -83,20 +95,11 @@ class _ContactsPage extends StatelessWidget {
     context.goNamed(Routes.viewContact, params: {'id': contact.id!.toString()});
   }
 
-  /// Handler to save a new contact (create for you!).
-  Contact _newContact() {
-    return usecase.save(_createContact());
-  }
-
-  /// Creates a contact for example purposes.
+  /// Handler to create a new contact using business rules.
   ///
-  /// The contact will be a missing personality or a new fake named contact.
-  Contact _createContact() {
-    return usecase.missingPersonality() ??
-        Contact(
-          name: faker.person.name(),
-          about: faker.lorem.sentences(4).join(),
-        );
+  /// This may create a Personality or a Fake contact (random rules).
+  Contact _newContact() {
+    return usecase.createContact();
   }
 }
 
@@ -106,8 +109,10 @@ class _ContactsPage extends StatelessWidget {
 /// Display the contact name.
 /// Includes a delete button to remove the contact.
 class _ContactCard extends StatelessWidget {
-  const _ContactCard({required this.contact, required this.onDelete, required this.onTap});
+  const _ContactCard(this.tr, this.colors, {required this.contact, required this.onDelete, required this.onTap});
 
+  final Translations tr;
+  final ColorScheme colors;
   final Contact contact;
   final Function() onDelete;
   final Function() onTap;
@@ -115,11 +120,17 @@ class _ContactCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: contact.isPersonality ? colors.background : null,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+        side: BorderSide(color: contact.isPersonality ? colors.primary : colors.outline),
+      ),
       child: ListTile(
         leading: Avatar(contact),
         title: Text(contact.name),
+        subtitle: contact.isPersonality ? Text(tr.personality_title) : null,
         trailing: IconButton(
-          icon: const Icon(Icons.delete, color: Color(0xFF770000)),
+          icon: Icon(contact.isPersonality ? Icons.delete : Icons.delete_forever, color: const Color(0xFF992200)),
           onPressed: onDelete,
         ),
         onTap: onTap,
