@@ -1,12 +1,12 @@
 import '../../../domain_layer.dart';
 import '../model/contact_model.dart';
-import 'entity_mapper.dart';
 
 /// Map [Contact] entities to/from Isar [ContactModel] objects.
 class ContactMapper extends EntityMapper<Contact, ContactModel> {
   /// Const constructor.
   const ContactMapper();
 
+  /// Convert model to entity.
   @override
   Contact mapEntity(ContactModel model) {
     return Contact(
@@ -19,6 +19,7 @@ class ContactMapper extends EntityMapper<Contact, ContactModel> {
     );
   }
 
+  /// Convert entity to model.
   @override
   ContactModel mapModel(Contact entity) {
     return ContactModel()

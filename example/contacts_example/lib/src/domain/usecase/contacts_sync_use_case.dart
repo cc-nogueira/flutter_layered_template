@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/contact.dart';
@@ -12,8 +11,6 @@ import '../layer/domain_layer.dart';
 import '../repository/contacts_sync_repository.dart';
 
 part 'notifier/contacts_sync_notifier.dart';
-
-part 'contacts_sync_use_case.g.dart';
 
 final contactsSyncUseCaseProvider = Provider((ref) => ContactsSyncUseCase(
       ref: ref,
@@ -66,7 +63,7 @@ class ContactsSyncUseCase {
     validate(value);
     final adjusted = _adjust(value);
     final saved = repository.save(adjusted);
-    ref.invalidate(contactsSyncNotifierProvider);
+    ref.invalidate(contactsSyncProvider);
     return saved;
   }
 
@@ -75,7 +72,7 @@ class ContactsSyncUseCase {
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
   void remove(int id) {
     repository.remove(id);
-    ref.invalidate(contactsSyncNotifierProvider);
+    ref.invalidate(contactsSyncProvider);
   }
 
   /// Validate contact's content.
@@ -122,7 +119,7 @@ class ContactsSyncUseCase {
   ///
   /// Return null if all personlities are already included in contacts.
   Contact? _missingPersonality() {
-    final existing = ref.read(contactsSyncNotifierProvider).where((each) => each.isPersonality).toList();
+    final existing = ref.read(contactsSyncProvider).where((each) => each.isPersonality).toList();
     final missingPersonalities = [
       for (final personality in personalities)
         if (existing.indexWhere((each) => each.uuid == personality.uuid) == -1) personality,

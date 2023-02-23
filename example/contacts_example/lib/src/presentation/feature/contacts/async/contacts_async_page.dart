@@ -28,7 +28,7 @@ class ContactsAsyncPage extends ConsumerWidget {
     final usecase = ref.read(contactsAsyncUseCaseProvider);
 
     // AsyncValue resolution:
-    return ref.watch(contactsAsyncNotifierProvider).when(
+    return ref.watch(contactsAsyncProvider).when(
           loading: () => LoadingPage(tr.contacts_title),
           data: (data) => _ContactsPage(
             tr,
@@ -55,11 +55,11 @@ class _ContactsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
-    final isWaitingAction = ref.watch(contactsGuardNotifierProvider);
+    final isWaitingAction = ref.watch(contactsAsyncGuardProvider);
     return Scaffold(
       appBar: AppBar(title: Text(tr.contacts_title)),
       body: ProcessingLayer(
-        isProcessingProvider: contactsGuardNotifierProvider,
+        isProcessingProvider: contactsAsyncGuardProvider,
         child: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       ),
       floatingActionButton: FloatingActionButton(

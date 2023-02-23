@@ -11,12 +11,13 @@ final dataLayerProvider = Provider((ref) => DataLayer());
 
 /// Data Layer provisioning data repository implementations.
 ///
-/// This is a satelite layer to the DomainLayer, it's types are not visible to DomainLayer (use cases).
-/// Instead runtime implementations of Domain repositories will be provisioned to the domain layer on
-/// app initialization (by the outer layer, main.dart).
+/// It is a satelite layer to the DomainLayer.
+/// It is visible only to the outer layer.
+/// It's types are not visible to DomainLayer (use cases). Instead runtime implementations of domain repositories
+/// will be provisioned to the domain layer on app initialization (orchestrated by the outer layer, main.dart).
 ///
-/// Initializes the [Isar] instance and injects it into provision builders.
-/// Provides the [DataLayerProvision] that enables runtime provisioning of interface implementations.
+/// Initializes the [Isar] instance and injects it into provision providers.
+/// Do runtime provisioning of repository implementations.
 class DataLayer extends ProvisioningLayer {
   /// Internal Isar reference.
   ///
@@ -24,8 +25,6 @@ class DataLayer extends ProvisioningLayer {
   late final Isar _isar;
 
   /// Initialize the ISAR container.
-  ///
-  /// Configures the instance [DataLayerProvision] that enables runtime provisioning of interface implementations.
   @override
   Future<void> init(Ref ref) async {
     _isar = await Isar.open([

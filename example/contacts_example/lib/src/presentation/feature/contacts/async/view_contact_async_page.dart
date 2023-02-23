@@ -48,7 +48,7 @@ class _ContactPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(tr.contact_title)),
       body: ProcessingLayer(
-        isProcessingProvider: contactsGuardNotifierProvider,
+        isProcessingProvider: contactsAsyncGuardProvider,
         child: ListView(
           children: [
             _avatar(textTheme),

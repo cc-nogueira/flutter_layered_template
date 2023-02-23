@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:faker/faker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/contact.dart';
@@ -10,11 +9,11 @@ import '../exception/entity_not_found_exception.dart';
 import '../exception/validation_exception.dart';
 import '../layer/domain_layer.dart';
 import '../repository/contacts_async_repository.dart';
+import 'notifier/async_guard.dart';
 
 part 'notifier/contacts_async_notifier.dart';
-part 'notifier/contacts_async_guard_notifier.dart';
 
-part 'contacts_async_use_case.g.dart';
+final contactsAsyncGuardProvider = NotifierProvider<AsyncGuard, bool>(AsyncGuard.new);
 
 final contactsAsyncUseCaseProvider = Provider((ref) => ContactsAsyncUseCase(
       ref: ref,
@@ -64,6 +63,8 @@ class ContactsAsyncUseCase {
   ///
   /// Call [validate] before saving.
   /// Adjust the contents (trim contacts name) before saving.
+  /// Refresh the [contactsAsyncGuardNotifierProvider] after the operation completes.
+  /// We the refresh inside the asyncGuard for snappier UI experience.
   ///
   /// If contact's id is null the repository will be responsible to generate
   /// a unique id, persist and return this new entity with its generated id.
@@ -72,14 +73,22 @@ class ContactsAsyncUseCase {
   Future<Contact> save(Contact value) async {
     validate(value);
     final adjusted = _adjust(value);
-    return _processingGuard(() => repository.save(adjusted));
+    return _asyncGuardedExecution(
+      () => repository.save(adjusted),
+      postExecution: () => ref.refresh(contactsAsyncProvider.future),
+    );
   }
 
   /// Removes an entity by id from the repository.
   ///
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
+  /// Refresh the [contactsAsyncGuardNotifierProvider] after the operation completes,
+  /// We the refresh inside the asyncGuard for snappier UI experience.
   Future<void> remove(int id) async {
-    return _processingGuard(() => repository.remove(id));
+    return _asyncGuardedExecution(
+      () => repository.remove(id),
+      postExecution: () => ref.refresh(contactsAsyncProvider),
+    );
   }
 
   /// Validate contact's content.
@@ -126,8 +135,7 @@ class ContactsAsyncUseCase {
   ///
   /// Return null if all personlities are already included in contacts.
   Future<Contact?> _missingPersonality() async {
-    final existing =
-        (await ref.read(contactsAsyncNotifierProvider.future)).where((each) => each.isPersonality).toList();
+    final existing = (await ref.read(contactsAsyncProvider.future)).where((each) => each.isPersonality).toList();
     final missingPersonalities = [
       for (final personality in personalities)
         if (existing.indexWhere((each) => each.uuid == personality.uuid) == -1) personality,
@@ -157,22 +165,6 @@ class ContactsAsyncUseCase {
     return repository.getAll();
   }
 
-  Future<T> _processingGuard<T>(Future<T> Function() callback) async {
-    /// First signal processing start
-    ref.read(contactsGuardNotifierProvider.notifier)._startProcessing();
-    try {
-      /// Execute the guarded callback
-      final answer = await callback();
-
-      /// Refresh provider to prefetch state
-      // ignore: unused_result
-      await ref.refresh(contactsAsyncNotifierProvider.future);
-
-      /// Answer callback
-      return answer;
-    } finally {
-      /// Last signal processing finished.
-      ref.read(contactsGuardNotifierProvider.notifier)._finishedProcessing();
-    }
-  }
+  /// Handy getter for this use case [AsyncGuard.asyncGuardedExecution] function.
+  get _asyncGuardedExecution => ref.read(contactsAsyncGuardProvider.notifier).asyncGuardedExecution;
 }

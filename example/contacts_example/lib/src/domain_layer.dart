@@ -14,6 +14,7 @@
 ///   - Service interfaces to be provisioned by the ServiceLayer (optional).
 
 export 'domain/entity/contact.dart';
+export 'domain/entity/entity_mapper.dart';
 export 'domain/exception/entity_not_found_exception.dart';
 export 'domain/layer/app_layer.dart';
 export 'domain/layer/domain_layer.dart';

@@ -23,7 +23,7 @@ class ContactsSyncPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
     final usecase = ref.read(contactsSyncUseCaseProvider);
-    final contacts = ref.watch(contactsSyncNotifierProvider);
+    final contacts = ref.watch(contactsSyncProvider);
     return _ContactsPage(tr: tr, contacts: contacts, usecase: usecase);
   }
 }

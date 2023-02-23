@@ -67,7 +67,7 @@ void main() {
     test('should return an empty list when the repository is empty', () async {
       when(mockRepository.getAll()).thenAnswer((_) => Future.value([]));
 
-      final contacts = await container.read(contactsAsyncNotifierProvider.future);
+      final contacts = await container.read(contactsAsyncProvider.future);
 
       expect(contacts, isEmpty);
       verify(mockRepository.getAll());
@@ -77,7 +77,7 @@ void main() {
     test('should delegate order to the repository, not altering values or order', () async {
       when(mockRepository.getAll()).thenAnswer((_) => Future.value([contact2, contact1]));
 
-      final contacts = await container.read(contactsAsyncNotifierProvider.future);
+      final contacts = await container.read(contactsAsyncProvider.future);
       expect(contacts, [contact2, contact1]);
 
       verify(mockRepository.getAll());

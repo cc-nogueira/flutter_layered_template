@@ -10,6 +10,11 @@ abstract class ContactsSyncRepository {
   /// Throws an [EntityNotFoundException] if no contact has this uuid.
   Contact getByUuid(String uuid);
 
+  /// Removes a [Contact] by id from the repository.
+  ///
+  /// Throws [EntityNotFoundException] if the entity to remove is not found in storage.
+  void remove(int id);
+
   /// Save a [Contact] in the repository and return the saved entity.
   ///
   /// If the entity id is 0 it should generate the next id, add the new entity to storage and return it.
@@ -17,9 +22,4 @@ abstract class ContactsSyncRepository {
   ///
   /// Returns the saved contact.
   Contact save(Contact value);
-
-  /// Removes a [Contact] by id from the repository.
-  ///
-  /// Throws [EntityNotFoundException] if the entity to remove is not found in storage.
-  void remove(int id);
 }

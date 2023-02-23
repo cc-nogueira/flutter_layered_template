@@ -67,7 +67,7 @@ void main() {
     test('should return an empty list when the repository is empty', () {
       when(mockRepository.getAll()).thenReturn([]);
 
-      final contacts = container.read(contactsSyncNotifierProvider);
+      final contacts = container.read(contactsSyncProvider);
 
       expect(contacts, isEmpty);
       verify(mockRepository.getAll());
@@ -77,7 +77,7 @@ void main() {
     test('should delegate order to the repository, not altering values or order', () {
       when(mockRepository.getAll()).thenReturn([contact2, contact1]);
 
-      final contacts = container.read(contactsSyncNotifierProvider);
+      final contacts = container.read(contactsSyncProvider);
       expect(contacts, [contact2, contact1]);
 
       verify(mockRepository.getAll());

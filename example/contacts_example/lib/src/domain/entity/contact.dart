@@ -18,6 +18,7 @@ class Contact with _$Contact {
   }) = _Contact;
 }
 
+/// Constant collection of personalities that may be added/removed in the app.
 const personalities = [
   Contact(
     uuid: 'c6d85b7c-8f77-4447-9f80-2ae4ab061f20',
