@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../repository/things_repository.dart';
-import '../service/some_service.dart';
+import '../service/whats_happening_service.dart';
 import 'app_layer.dart';
 
 /// [DomainLayer] singleton provider.
@@ -27,8 +27,8 @@ class DomainLayer extends AppLayer {
   /// Runtime provision of [ThingsRepository] implemention.
   late final Provider<ThingsRepository> thingsRepositoryProvider;
 
-  /// Runtime provision of [SomeService] implemention.
-  late final Provider<SomeService> someServiceProvider;
+  /// Runtime provision of [WhatsHappeningService] implemention.
+  late final Provider<WhatsHappeningService> whatsHappeningServiceProvider;
 
   /// Validate the initialization of all expected provisions.
   ///
@@ -39,7 +39,7 @@ class DomainLayer extends AppLayer {
   bool validateProvisioning() {
     try {
       thingsRepositoryProvider;
-      someServiceProvider;
+      whatsHappeningServiceProvider;
     } on Error {
       // We use Error because LateError is an internal type.
       return false;

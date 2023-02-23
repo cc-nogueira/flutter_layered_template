@@ -1,14 +1,16 @@
 part of '../things_use_case.dart';
 
-/// All [Thing]s notifier and provider.
+/// Persitent [ThingsNotifier] provider (keepAlive: true)
+final thingsProvider = NotifierProvider<ThingsNotifier, List<Thing>>(ThingsNotifier.new);
+
+/// All [Thing]s notifier.
 ///
 /// It is initialized with things loaded through the use case.
 /// The use case will invalidate this notifier when there are changes in storage.
 /// There are no public methods to change the state it just fetches all [Thing]s when invalidated and observed.
 ///
-/// The singleton instance is kept by the generated persistent (keepAlive) provider.
-@Riverpod(keepAlive: true)
-class ThingsNotifier extends _$ThingsNotifier {
+/// The singleton instance is kept by the persistent (keepAlive) provider.
+class ThingsNotifier extends Notifier<List<Thing>> {
   @override
   List<Thing> build() {
     return ref.read(thingsUseCaseProvider)._loadThings();
@@ -26,7 +28,7 @@ class ThingsNotifier extends _$ThingsNotifier {
 /// Throws [EntityNotFoundException] if the id is not present in all known things.
 final thingProvider = Provider.family.autoDispose<Thing, int>(
   (ref, id) => ref.watch(
-    thingsNotifierProvider.select(
+    thingsProvider.select(
       (value) => value.firstWhere(
         (element) => element.id == id,
         orElse: () => throw const EntityNotFoundException(),

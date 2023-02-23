@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain_layer.dart';
 import '../../l10n/translations.dart';
-import 'widget/otherthing_widget.dart';
 import 'widget/things_list_view.dart';
+import 'widget/whats_happening_widget.dart';
 
 /// Things page.
 ///
@@ -33,7 +33,7 @@ class ThingsPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            OtherthingWidget(),
+            WhatsHappeningWidget(),
             ThingsListView(),
           ],
         ),

@@ -14,14 +14,14 @@
 ///   - Service interfaces to be provisioned by the ServiceLayer (optional).
 
 export 'domain/entity/entity_mapper.dart';
-export 'domain/entity/otherthing.dart';
 export 'domain/entity/thing.dart';
+export 'domain/entity/whats_happening.dart';
 export 'domain/exception/entity_not_found_exception.dart';
 export 'domain/exception/service_exception.dart';
 export 'domain/exception/validation_exception.dart';
 export 'domain/layer/app_layer.dart';
 export 'domain/layer/domain_layer.dart';
 export 'domain/repository/things_repository.dart';
-export 'domain/service/some_service.dart';
-export 'domain/usecase/otherthings_use_case.dart';
+export 'domain/service/whats_happening_service.dart';
 export 'domain/usecase/things_use_case.dart';
+export 'domain/usecase/whats_happening_use_case.dart';

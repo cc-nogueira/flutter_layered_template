@@ -16,7 +16,7 @@ class ThingsListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
-    final things = ref.watch(thingsNotifierProvider);
+    final things = ref.watch(thingsProvider);
     return things.isEmpty ? _noThingStoredMessage(context, tr) : _thingsList(context, ref, tr, things);
   }
 

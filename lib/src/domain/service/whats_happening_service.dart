@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../entity/otherthing.dart';
+import '../entity/whats_happening.dart';
 
 /// Some service interface.
 ///
@@ -10,12 +10,12 @@ import '../entity/otherthing.dart';
 /// Services usually have an async API to better cope with network delays and errors.
 ///
 /// Methods may throw a [ServiceException].
-abstract class SomeService {
-  /// Fetch [Otherthing] from a remote service.
+abstract class WhatsHappeningService {
+  /// Fetch [WhatsHappening] from a remote service.
   ///
   /// Expects an async implementaion that returns a Future object.
   ///
   /// Resolves to null if the remote service responds with no content.
   /// May throw a ServiceException.
-  Future<Otherthing?> getSomething();
+  Future<WhatsHappening?> getWhatsHappening();
 }

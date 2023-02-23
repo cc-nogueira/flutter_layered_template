@@ -8,8 +8,8 @@ import '../../../l10n/translations.dart';
 /// Display a widget with [_RemoteContent] from the server.
 ///
 /// The widget is a [Card] with a title and the remote content widget.
-class OtherthingWidget extends StatelessWidget {
-  const OtherthingWidget({super.key});
+class WhatsHappeningWidget extends StatelessWidget {
+  const WhatsHappeningWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _RemoteContent extends ConsumerWidget {
     final tr = Translations.of(context);
     final colors = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    return ref.watch(otherthingNotifierProvider).when(
+    return ref.watch(whatsHappeningProvider).when(
           skipLoadingOnRefresh: false,
           loading: _loading,
           data: (data) => _showView(ref, tr, colors, textTheme, data),
@@ -70,10 +70,13 @@ class _RemoteContent extends ConsumerWidget {
   }
 
   /// Show a [LoadingWidget] in a 40 pixels box.
-  Widget _loading() => const SizedBox(width: 40, height: 40, child: LoadingWidget());
+  Widget _loading() => const Padding(
+        padding: EdgeInsets.symmetric(vertical: 4.0),
+        child: SizedBox(width: 40, height: 40, child: LoadingWidget()),
+      );
 
   /// Show content and refresh button.
-  Widget _showView(WidgetRef ref, Translations tr, ColorScheme colors, TextTheme textTheme, Otherthing? data) {
+  Widget _showView(WidgetRef ref, Translations tr, ColorScheme colors, TextTheme textTheme, WhatsHappening? data) {
     final content = Text(data?.content ?? tr.nothing_from_server_message, style: textTheme.titleMedium);
     return _contentAndRefreshButton(ref, tr, content);
   }
@@ -104,6 +107,6 @@ class _RemoteContent extends ConsumerWidget {
 
   /// Invoke [OtherthingsUseCase.refresh].
   void _refresh(WidgetRef ref) {
-    ref.read(otherthingsUseCaseProvider).refresh();
+    ref.read(whatsHappeningUseCaseProvider).refresh();
   }
 }

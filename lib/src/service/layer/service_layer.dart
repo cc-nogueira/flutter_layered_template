@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain_layer.dart';
-import '../service/some_remote_service.dart';
+import '../service/whats_happening_remote_service.dart';
 
 /// [ServiceLayer] singleton provider.
 final serviceLayerProvider = Provider((ref) => ServiceLayer());
@@ -16,6 +16,6 @@ class ServiceLayer extends ProvisioningLayer {
   /// Provision [DomainLayer] with service implementations.
   @override
   void provision(DomainLayer domainLayer) {
-    domainLayer.someServiceProvider = Provider((ref) => SomeRemoteService());
+    domainLayer.whatsHappeningServiceProvider = Provider((ref) => SomeRemoteService());
   }
 }

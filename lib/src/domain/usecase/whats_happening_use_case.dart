@@ -1,23 +1,25 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../entity/otherthing.dart';
+import '../entity/whats_happening.dart';
 import '../layer/domain_layer.dart';
-import '../service/some_service.dart';
+import '../service/whats_happening_service.dart';
+import 'notifier/async_guard.dart';
 
-part 'notifier/otherthing_notifier.dart';
-part 'otherthings_use_case.g.dart';
+part 'notifier/whats_happening_notifier.dart';
+
+/// This use case [AsyncGuard] provider.
+final whatsHappeningAsynGuardProvider = NotifierProvider<AsyncGuard, bool>(AsyncGuard.new);
 
 /// [OtherthingsUseCase] singleton provider.
 ///
 /// This provider is an auto dispose provider (keepAlive: false).
 /// The state is kept in a [OtherthingNotifier] with a persistent provider.
-final otherthingsUseCaseProvider = Provider.autoDispose((ref) => OtherthingsUseCase(
+final whatsHappeningUseCaseProvider = Provider.autoDispose((ref) => OtherthingsUseCase(
       ref: ref,
       someService: ref.read(
-        ref.read(domainLayerProvider).someServiceProvider,
+        ref.read(domainLayerProvider).whatsHappeningServiceProvider,
       ),
     ));
 
@@ -36,21 +38,27 @@ class OtherthingsUseCase {
   /// Riverpod ref.
   final Ref ref;
 
-  /// Provisioned [SomeService] implementation.
-  final SomeService someService;
+  /// Provisioned [WhatsHappeningService] implementation.
+  final WhatsHappeningService someService;
 
   /// Refresh [Otherthing] data by invalidating the [OtherthingNotifier].
   ///
   /// Data fetch is lazy.
   /// It will be fetched when the notifier is observed next or if it is being watched.
   void refresh() {
-    ref.invalidate(otherthingNotifierProvider);
+    ref.invalidate(whatsHappeningProvider);
   }
 
   /// Protected - Load something from the service.
   ///
-  /// Async returns [Otherthing] or null from the service implementation.
+  /// Invoke the server in a async guarded execution.
+  /// Async returns [WhatsHappening] or null from the service implementation.
   ///
-  /// Used by [OtherthingNotifier.build] method.
-  Future<Otherthing?> _getSomething() => someService.getSomething();
+  /// Used by [WhatsHappeningNotifier.build] method.
+  Future<WhatsHappening?> _getWhatsHappening() {
+    return someService.getWhatsHappening();
+  }
+
+  /// Handy getter for this use case [AsyncGuard.asyncGuardedExecution] function.
+  AsyncExecution get _asyncGuardedExecution => ref.read(whatsHappeningAsynGuardProvider.notifier).asyncGuardedExecution;
 }
