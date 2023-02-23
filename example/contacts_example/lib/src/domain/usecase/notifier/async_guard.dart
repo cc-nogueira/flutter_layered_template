@@ -2,6 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../exception/async_guard_violation.dart';
 
+typedef AsyncGuardedExecution = Future<T> Function<T>(
+  Future<T> Function() callback, {
+  Function()? postExecution,
+  bool throwsOnGuardViolation,
+});
+
 /// A boolean notifier to mark async guarded actions in execution.
 ///
 /// The user interface observes this provider to block user interaction in pages

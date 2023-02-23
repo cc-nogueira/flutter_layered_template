@@ -166,5 +166,6 @@ class ContactsAsyncUseCase {
   }
 
   /// Handy getter for this use case [AsyncGuard.asyncGuardedExecution] function.
-  get _asyncGuardedExecution => ref.read(contactsAsyncGuardProvider.notifier).asyncGuardedExecution;
+  AsyncGuardedExecution get _asyncGuardedExecution =>
+      ref.read(contactsAsyncGuardProvider.notifier).asyncGuardedExecution;
 }
