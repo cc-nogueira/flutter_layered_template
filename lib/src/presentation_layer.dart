@@ -1,6 +1,6 @@
-/// Presentation Layer exports:
+/// Presentation Layer exports.
 ///
-/// Presentation layer only needs to expose its layer object and the MaterialApp.
+/// Presentation layer only needs to expose its layer object and the Material App.
 ///
 /// Both will be accessed by main.dart.
 

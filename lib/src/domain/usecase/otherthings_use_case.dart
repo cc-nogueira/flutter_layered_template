@@ -10,8 +10,11 @@ import '../service/some_service.dart';
 part 'notifier/otherthing_notifier.dart';
 part 'otherthings_use_case.g.dart';
 
-/// Use case singleton provider.
-final otherthingsUseCaseProvider = Provider((ref) => OtherthingsUseCase(
+/// [OtherthingsUseCase] singleton provider.
+///
+/// This provider is an auto dispose provider (keepAlive: false).
+/// The state is kept in a [OtherthingNotifier] with a persistent provider.
+final otherthingsUseCaseProvider = Provider.autoDispose((ref) => OtherthingsUseCase(
       ref: ref,
       someService: ref.read(
         ref.read(domainLayerProvider).someServiceProvider,
@@ -20,7 +23,12 @@ final otherthingsUseCaseProvider = Provider((ref) => OtherthingsUseCase(
 
 /// Use case with [Otherthing]s business rules.
 ///
-/// It provides an API to access and update [Otherthing] entities.
+/// It provides an API to access [Otherthing] services.
+/// This a stateless class that may be instantiated on demand by the provider.
+///
+/// The state is kept in a [OtherthingNotifier] with a persistent provider.
+///
+/// This is an use case with asynchronous API, as is common in Services APIs.
 class OtherthingsUseCase {
   /// Const constructor.
   const OtherthingsUseCase({required this.ref, required this.someService});
@@ -39,7 +47,9 @@ class OtherthingsUseCase {
     ref.invalidate(otherthingNotifierProvider);
   }
 
-  /// Private - Load something from the service.
+  /// Protected - Load something from the service.
+  ///
+  /// Async returns [Otherthing] or null from the service implementation.
   ///
   /// Used by [OtherthingNotifier.build] method.
   Future<Otherthing?> _getSomething() => someService.getSomething();

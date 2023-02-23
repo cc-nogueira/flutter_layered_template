@@ -1,4 +1,8 @@
-import 'package:flutter_layered_template/src/domain_layer.dart';
+import 'package:flutter_layered_template/src/domain/entity/otherthing.dart';
+import 'package:flutter_layered_template/src/domain/exception/service_exception.dart';
+import 'package:flutter_layered_template/src/domain/layer/domain_layer.dart';
+import 'package:flutter_layered_template/src/domain/service/some_service.dart';
+import 'package:flutter_layered_template/src/domain/usecase/otherthings_use_case.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

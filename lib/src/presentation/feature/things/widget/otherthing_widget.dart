@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain/entity/otherthing.dart';
-import '../../../../domain/usecase/otherthings_use_case.dart';
+import '../../../../domain_layer.dart';
 import '../../../common/widget/loading_widget.dart';
 import '../../../l10n/translations.dart';
 
+/// Display a widget with [_RemoteContent] from the server.
+///
+/// The widget is a [Card] with a title and the remote content widget.
 class OtherthingWidget extends StatelessWidget {
   const OtherthingWidget({super.key});
 
@@ -39,9 +41,21 @@ class OtherthingWidget extends StatelessWidget {
   }
 }
 
+/// Consumer widget that watches the [otherthingNotifierProvider] to display the latest
+/// content from the server.
+///
+/// Displays the latest content from the server and
+/// a refresh button to request the [OtherthingsUseCase] to refresh server data.
 class _RemoteContent extends ConsumerWidget {
+  /// Const constructor.
   const _RemoteContent();
 
+  /// Watches [otherthingNotifierProvider] and display loading, data or error states.
+  ///
+  /// Configures riverpod to show a new loading widget every time the server is fetching new content.
+  ///
+  /// Displays the latest content from the server and
+  /// a refresh button to request the [OtherthingsUseCase] to refresh server data.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
@@ -55,13 +69,16 @@ class _RemoteContent extends ConsumerWidget {
         );
   }
 
+  /// Show a [LoadingWidget] in a 40 pixels box.
   Widget _loading() => const SizedBox(width: 40, height: 40, child: LoadingWidget());
 
+  /// Show content and refresh button.
   Widget _showView(WidgetRef ref, Translations tr, ColorScheme colors, TextTheme textTheme, Otherthing? data) {
     final content = Text(data?.content ?? tr.nothing_from_server_message, style: textTheme.titleMedium);
     return _contentAndRefreshButton(ref, tr, content);
   }
 
+  /// Show servive error and refresh button.
   Widget _showError(WidgetRef ref, Translations tr, ColorScheme colors, Object error) {
     final content = Row(
       mainAxisSize: MainAxisSize.min,

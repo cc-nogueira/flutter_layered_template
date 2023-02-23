@@ -10,6 +10,7 @@ class Routes {
   static const things = '/';
 }
 
+/// [GoRouter] final instance (singleton).
 final goRouter = GoRouter(
   routes: [
     GoRoute(

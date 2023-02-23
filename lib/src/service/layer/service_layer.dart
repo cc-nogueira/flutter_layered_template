@@ -8,9 +8,10 @@ final serviceLayerProvider = Provider((ref) => ServiceLayer());
 
 /// Service Layer provisioning service implementations.
 ///
-/// This is a satelite layer to the DomainLayer, it's types are not visible to DomainLayer (use cases).
-/// Instead runtime implementations of Domain service interfaces will be provisioned to the domain layer on
-/// app initialization (by the outer layer, main.dart).
+/// It is a satelite layer to the DomainLayer.
+/// It is visible only to the outer layer.
+/// It's types are not visible to DomainLayer (use cases). Instead runtime implementations of domain services
+/// will be provisioned to the domain layer on app initialization (orchestrated by the outer layer, main.dart).
 class ServiceLayer extends ProvisioningLayer {
   /// Provision [DomainLayer] with service implementations.
   @override

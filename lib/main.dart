@@ -24,9 +24,9 @@ void main() {
 
 /// Provides the configured application.
 ///
-/// Register dispose callback.
 /// Async initializes all layers.
 /// Provision the DomainLayer with runtime implementations.
+/// Register a dispose callback.
 final _appProvider = FutureProvider((ref) async {
   final layers = await _initLayers(ref);
   ref.onDispose(() => _disposeLayers(layers));
@@ -36,7 +36,9 @@ final _appProvider = FutureProvider((ref) async {
 /// Initialize all layers.
 ///
 /// Async initializes each layers (inner to outer order).
-/// Provision the DomainLayer with runtime implementations.
+/// Provision the [DomainLayer] with runtime implementations.
+///
+/// Asserts the domain layer is fully provisioned.
 ///
 /// Return the list of layers in inside to outside order.
 Future<List<AppLayer>> _initLayers(Ref ref) async {

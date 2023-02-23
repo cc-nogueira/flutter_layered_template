@@ -7,7 +7,7 @@ import '../l10n/translations.dart';
 import 'routes/routes.dart';
 import 'theme/themes.dart';
 
-/// This is the MaterialApp.
+/// This is the MaterialApp builder.
 ///
 /// The constructor may recieve an initialization error to display just an [ErrorMessagePage].
 class App extends ConsumerWidget {
@@ -25,7 +25,7 @@ class App extends ConsumerWidget {
     return error == null ? _app(ref) : _errorApp(ref);
   }
 
-  /// The MaterialApp
+  /// The [MaterialApp].
   Widget _app(WidgetRef ref) {
     final locale = ref.watch(localeProvider);
     return MaterialApp.router(
@@ -40,7 +40,7 @@ class App extends ConsumerWidget {
     );
   }
 
-  /// A MaterialApp just to show an [ErrorMessagePage].
+  /// A [MaterialApp] just to show an [ErrorMessagePage].
   Widget _errorApp(WidgetRef ref) {
     final locale = ref.watch(localeProvider);
     return MaterialApp(

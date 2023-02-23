@@ -10,8 +10,11 @@ import '../repository/things_repository.dart';
 part 'notifier/things_notifier.dart';
 part 'things_use_case.g.dart';
 
-/// Use case singleton provider.
-final thingsUseCaseProvider = Provider((ref) => ThingsUseCase(
+/// [ThingsUseCase] singleton provider.
+///
+/// This provider is an auto dispose provider (keepAlive: false).
+/// The state is kept in a [ThingsNotifier] with a persistent provider.
+final thingsUseCaseProvider = Provider.autoDispose((ref) => ThingsUseCase(
       ref: ref,
       repository: ref.read(ref.read(domainLayerProvider).thingsRepositoryProvider),
     ));
@@ -19,11 +22,18 @@ final thingsUseCaseProvider = Provider((ref) => ThingsUseCase(
 /// Use case with [Thing]s business rules.
 ///
 /// It provides an API to access and update [Thing] entities.
+/// This a stateless class that may be instantiated on demand by the provider.
+///
+/// The state is kept in a [ThingsNotifier] with a persistent provider.
+///
+/// This is an use case for a synchronous API.
+/// If the [ThingsRepository] had an async API this use case would need to be adapted to
+/// a matching async API.
 class ThingsUseCase {
   /// Const constructor.
   const ThingsUseCase({required this.ref, required this.repository});
 
-  /// Riverpod ref.
+  /// Riverpod ref to access [thingsNotifierProvider].
   final Ref ref;
 
   /// Provisioned [ThingsRepository] implementation.
@@ -37,7 +47,9 @@ class ThingsUseCase {
   /// If thing's id is null the repository will be responsible to generate
   /// a unique id, persist and return this new entity with its generated id.
   ///
-  /// If thing's id is not null the repository should update the entity with the given id.
+  /// If thing's id is not null the repository should update/insert the entity with the given id.
+  ///
+  /// After saving [thingsNotifierProvider] is invalidated to be ready to get fresh updated data.
   Thing save(Thing value) {
     validate(value);
     final adjusted = _adjust(value);
@@ -49,6 +61,8 @@ class ThingsUseCase {
   /// Removes an entity by id from the repository.
   ///
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
+  ///
+  /// After removing [thingsNotifierProvider] is invalidated to be ready to get fresh updated data.
   void remove(int id) {
     repository.remove(id);
     ref.invalidate(thingsNotifierProvider);
@@ -75,7 +89,7 @@ class ThingsUseCase {
     return adjusted;
   }
 
-  /// Private - Load all things from repository.
+  /// Protected - Load all things from repository.
   ///
   /// It is expected that the repository returns the list sorted by name.
   ///

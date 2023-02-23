@@ -6,6 +6,7 @@ class ThingMapper extends EntityMapper<Thing, ThingModel> {
   /// Const constructor.
   const ThingMapper();
 
+  /// Convert model to entity.
   @override
   Thing mapEntity(ThingModel model) {
     return Thing(
@@ -14,6 +15,7 @@ class ThingMapper extends EntityMapper<Thing, ThingModel> {
     );
   }
 
+  /// Convert entity to model.
   @override
   ThingModel mapModel(Thing entity) {
     return ThingModel()

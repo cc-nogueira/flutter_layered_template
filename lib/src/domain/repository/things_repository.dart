@@ -1,9 +1,17 @@
 import '../entity/thing.dart';
 
 /// Things repository interface.
+///
+/// This is a required dependency for Domain Layer initial configuration when an
+/// implementation of this interface will be provisioned.
 abstract class ThingsRepository {
   /// Get all entities from storage sorted by name.
   List<Thing> getAll();
+
+  /// Removes a [Thing] by id from the repository.
+  ///
+  /// Throws [EntityNotFoundException] if the entity to remove is not found in storage.
+  void remove(int id);
 
   /// Save a [Thing] in the repository and return the saved entity.
   ///
@@ -12,9 +20,4 @@ abstract class ThingsRepository {
   ///
   /// Returns the saved entity.
   Thing save(Thing value);
-
-  /// Removes [Thing] by id from the repository.
-  ///
-  /// Throws [EntityNotFoundException] if the entity to remove is not found in storage.
-  void remove(int id);
 }

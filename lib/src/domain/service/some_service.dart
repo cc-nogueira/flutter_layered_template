@@ -7,7 +7,9 @@ import '../entity/otherthing.dart';
 /// This is a required dependency for Domain Layer initial configuration when an
 /// implementation of this interface will be provisioned.
 ///
-/// Throws a ServiceException if cannot access the remote service.
+/// Services usually have an async API to better cope with network delays and errors.
+///
+/// Methods may throw a [ServiceException].
 abstract class SomeService {
   /// Fetch [Otherthing] from a remote service.
   ///

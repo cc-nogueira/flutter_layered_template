@@ -4,6 +4,8 @@ import 'color_schemes.g.dart';
 
 /// Themes for generated Material3 ThemeData.
 ///
+/// Generated from https://m3.material.io/theme-builder#/custom.
+///
 /// Exposes a dark and a light theme option.
 class Themes {
   /// DarkTheme

@@ -4,10 +4,10 @@ import '../../../domain_layer.dart';
 import '../mapper/thing_mapper.dart';
 import '../model/thing_model.dart';
 
-/// [Isar] implementation of [ContactsRepository].
+/// [Isar] implementation of [ThingsRepository].
 ///
-/// API receives and returns domain [Thing] entities.
-/// Converts internally to [ThingModel] storage models.
+/// API receives and returns domain entities ([Thing]s).
+/// Converts internally to [ThingModel] storage objects.
 class IsarThingsRepository implements ThingsRepository {
   /// Const constructor.
   const IsarThingsRepository(this._isar);
@@ -20,11 +20,15 @@ class IsarThingsRepository implements ThingsRepository {
   /// Internal mapper for Entity/Model conversions.
   final _mapper = const ThingMapper();
 
+  /// Get all entities from storage sorted by name.
   @override
   List<Thing> getAll() {
     return _mapper.mapEntities(_isar.thingModels.where().sortByName().findAllSync());
   }
 
+  /// Removes a [Thing] by id from the repository.
+  ///
+  /// Throws [EntityNotFoundException] if the entity to remove is not found in storage.
   @override
   void remove(int id) {
     final success = _isar.writeTxnSync(() => _isar.thingModels.deleteSync(id));
@@ -33,6 +37,12 @@ class IsarThingsRepository implements ThingsRepository {
     }
   }
 
+  /// Save a [Thing] in the repository and return the saved entity.
+  ///
+  /// If the entity id is 0 it should generate the next id, add the new entity to storage and return it.
+  /// If the entity id is not 0 update the entry with that id.
+  ///
+  /// Returns the saved entity.
   @override
   Thing save(Thing value) {
     final model = _mapper.mapModel(value);

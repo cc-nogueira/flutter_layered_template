@@ -9,33 +9,39 @@ import 'app_layer.dart';
 /// [DomainLayer] singleton provider.
 final domainLayerProvider = Provider((ref) => DomainLayer());
 
-/// Domain layer is the central layer accessible to all other layers.
+/// Domain layer is the central layer visible to all other layers.
 ///
-/// It defines types used by the whole application including:
-///   - Entities (immutable state modeling objects).
-///   - Exceptions (domain exceptions).
-///   - Resitory interfaces to be provisioned by the DataLayer (optional).
-///   - Service interfaces to be provisioned by the ServiceLayer (optional).
-///   - Use cases defining business rules. These are the common gateway API to
-///     access repositories, services and change internal app state.
-///     Use cases will often expose StateNotifiers that are observed by the PresentationLayer.
+/// - DomainLayer is the central layer visible to all other layers.
+///   It defines types used by the whole application including:
+///     - Entities (immutable state modeling objects).
+///     - Exceptions (domain exceptions).
+///     - Repository interfaces to be provisioned by the DataLayer (optional).
+///     - Service interfaces to be provisioned by the ServiceLayer (optional).
+///     - Use cases defining business rules. These are the common gateway API to
+///       access repositories, services and change internal app state.
+///       Use cases will often expose state [Notifier]s that are observed by the PresentationLayer.
 ///
-/// This layer must be provisioned with runtime implementations of required interfaces.
-/// This is usually coordinated by the outer layer, main.dart.
+/// This layer must be provisioned by [ProvisioningLayer]s with runtime implementations of required interfaces.
+/// This is coordinated by the outer layer in main.dart.
 class DomainLayer extends AppLayer {
-  /// Runtime provision [ThingsRepository] implemention.
+  /// Runtime provision of [ThingsRepository] implemention.
   late final Provider<ThingsRepository> thingsRepositoryProvider;
 
   /// Runtime provision of [SomeService] implemention.
   late final Provider<SomeService> someServiceProvider;
 
   /// Validate the initialization of all expected provisions.
+  ///
+  /// Here we try to read all late fields that need to be provisioned by some [ProvisioningLayer].
+  ///
+  /// It may look ugly to catch internal LateError to validate proper field initialization,
+  /// but it is more elegant then having to code setters and getters for nullable fields.
   bool validateProvisioning() {
     try {
       thingsRepositoryProvider;
       someServiceProvider;
     } on Error {
-      // LateError is an internal type.
+      // We use Error because LateError is an internal type.
       return false;
     }
     return true;

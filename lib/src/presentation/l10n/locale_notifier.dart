@@ -5,7 +5,13 @@ import 'translations.dart';
 
 final localeProvider = NotifierProvider<LocaleNotifier, Locale>(LocaleNotifier.new);
 
+/// Locale [Notifier] that observes when the device change of locales preferences.
+///
+/// Present the current locale resolved from device locale preferences to [Translations] supported locales.
 class LocaleNotifier extends Notifier<Locale> with WidgetsBindingObserver {
+  /// Initialize with the resolved locale for the current platform options.
+  ///
+  /// Also register this instance as observer for device change of locale preferences.
   @override
   Locale build() {
     WidgetsBinding.instance.addObserver(this);
@@ -13,6 +19,7 @@ class LocaleNotifier extends Notifier<Locale> with WidgetsBindingObserver {
     return _resolve(locales);
   }
 
+  /// Handle device change of locale preferences.
   @override
   void didChangeLocales(List<Locale>? locales) {
     if (locales != null) {
@@ -20,6 +27,7 @@ class LocaleNotifier extends Notifier<Locale> with WidgetsBindingObserver {
     }
   }
 
+  /// Resolve device locale preferences to a supported [Translations] locales.
   Locale _resolve(List<Locale> locales) {
     for (final locale in locales) {
       if (Translations.delegate.isSupported(locale)) {
