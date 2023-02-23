@@ -7,7 +7,7 @@ import '../../../app/routes/routes.dart';
 import '../../../common/page/loading_page.dart';
 import '../../../common/page/message_page.dart';
 import '../../../common/widget/confirm_dialog.dart';
-import '../../../common/widget/processing_layer.dart';
+import '../../../common/widget/async_guard_layer.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar.dart';
 
@@ -58,8 +58,8 @@ class _ContactsPage extends ConsumerWidget {
     final isWaitingAction = ref.watch(contactsAsyncGuardProvider);
     return Scaffold(
       appBar: AppBar(title: Text(tr.contacts_title)),
-      body: ProcessingLayer(
-        isProcessingProvider: contactsAsyncGuardProvider,
+      body: AsyncGuardLayer(
+        asyncGuardProvider: contactsAsyncGuardProvider,
         child: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       ),
       floatingActionButton: FloatingActionButton(

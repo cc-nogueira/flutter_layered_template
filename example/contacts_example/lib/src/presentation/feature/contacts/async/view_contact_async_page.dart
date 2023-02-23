@@ -6,7 +6,7 @@ import '../../../../domain_layer.dart';
 import '../../../app/routes/routes.dart';
 import '../../../common/page/loading_page.dart';
 import '../../../common/page/message_page.dart';
-import '../../../common/widget/processing_layer.dart';
+import '../../../common/widget/async_guard_layer.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar.dart';
 
@@ -47,8 +47,8 @@ class _ContactPage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(title: Text(tr.contact_title)),
-      body: ProcessingLayer(
-        isProcessingProvider: contactsAsyncGuardProvider,
+      body: AsyncGuardLayer(
+        asyncGuardProvider: contactsAsyncGuardProvider,
         child: ListView(
           children: [
             _avatar(textTheme),

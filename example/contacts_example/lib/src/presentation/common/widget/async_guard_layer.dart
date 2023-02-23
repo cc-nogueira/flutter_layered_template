@@ -4,26 +4,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/translations.dart';
 import 'loading_widget.dart';
 
-class ProcessingLayer extends ConsumerWidget {
+class AsyncGuardLayer extends ConsumerWidget {
   /// Const constructor.
-  const ProcessingLayer({super.key, required this.isProcessingProvider, required this.child});
+  const AsyncGuardLayer({super.key, required this.asyncGuardProvider, required this.child});
 
-  final ProviderBase<bool> isProcessingProvider;
+  final ProviderBase<bool> asyncGuardProvider;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isProcessing = ref.watch(isProcessingProvider);
+    final isProcessing = ref.watch(asyncGuardProvider);
     if (!isProcessing) {
       return child;
     }
     return Stack(children: [
       child,
-      _processingLayer(context),
+      _guardingLayer(context),
     ]);
   }
 
-  Widget _processingLayer(BuildContext context) {
+  Widget _guardingLayer(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final tr = Translations.of(context);
