@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../exception/async_guard_violation.dart';
 
-typedef AsyncExecution = Future<T> Function<T>(
+typedef AsyncGuardedExecution = Future<T> Function<T>(
   Future<T> Function() callback, {
   Function()? postExecution,
   bool throwsOnGuardViolation,

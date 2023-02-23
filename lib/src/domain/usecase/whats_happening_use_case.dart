@@ -60,5 +60,12 @@ class OtherthingsUseCase {
   }
 
   /// Handy getter for this use case [AsyncGuard.asyncGuardedExecution] function.
-  AsyncExecution get _asyncGuardedExecution => ref.read(whatsHappeningAsynGuardProvider.notifier).asyncGuardedExecution;
+  ///
+  /// This is not currently used, there are no modifying actions that would be guarded to
+  /// prevent a competing action to be triggered by the user while the first action is executing async.
+  ///
+  /// Check example/contacts_example class ContactsAsyncUseCase to see the use of AsyncGuardedExecution.
+  // ignore: unused_element
+  AsyncGuardedExecution get _asyncGuardedExecution =>
+      ref.read(whatsHappeningAsynGuardProvider.notifier).asyncGuardedExecution;
 }
