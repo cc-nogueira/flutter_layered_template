@@ -9,6 +9,7 @@ import '../exception/entity_not_found_exception.dart';
 import '../exception/validation_exception.dart';
 import '../layer/domain_layer.dart';
 import '../repository/contacts_async_repository.dart';
+import 'contacts_sync_use_case.dart';
 import 'notifier/async_guard.dart';
 
 part 'notifier/contacts_async_notifier.dart';
@@ -82,7 +83,7 @@ class ContactsAsyncUseCase {
     final adjusted = _adjust(value);
     return _asyncGuardedExecution(
       () => repository.save(adjusted),
-      postExecution: () => ref.refresh(contactsAsyncProvider.future),
+      postExecution: _refreshContactsProviders,
     );
   }
 
@@ -94,7 +95,7 @@ class ContactsAsyncUseCase {
   Future<void> remove(int id) async {
     return _asyncGuardedExecution(
       () => repository.remove(id),
-      postExecution: () => ref.refresh(contactsAsyncProvider),
+      postExecution: _refreshContactsProviders,
     );
   }
 
@@ -175,4 +176,13 @@ class ContactsAsyncUseCase {
   /// Handy getter for this use case [AsyncGuard.asyncGuardedExecution] function.
   AsyncGuardedExecution get _asyncGuardedExecution =>
       ref.read(contactsAsyncGuardProvider.notifier).asyncGuardedExecution;
+
+  /// Refresh inside the asyncGuard for snappier async UI experience.
+  ///
+  /// Also invalidate contacts providers for the sync use case.
+  void _refreshContactsProviders() {
+    // ignore: unused_result
+    ref.refresh(contactsAsyncProvider.future);
+    ref.invalidate(contactsSyncProvider);
+  }
 }

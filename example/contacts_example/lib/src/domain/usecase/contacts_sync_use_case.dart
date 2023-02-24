@@ -9,6 +9,7 @@ import '../exception/entity_not_found_exception.dart';
 import '../exception/validation_exception.dart';
 import '../layer/domain_layer.dart';
 import '../repository/contacts_sync_repository.dart';
+import 'contacts_async_use_case.dart';
 
 part 'notifier/contacts_sync_notifier.dart';
 
@@ -67,7 +68,7 @@ class ContactsSyncUseCase {
     validate(value);
     final adjusted = _adjust(value);
     final saved = repository.save(adjusted);
-    ref.invalidate(contactsSyncProvider);
+    _invalidateContactsNotifiers();
     return saved;
   }
 
@@ -76,7 +77,7 @@ class ContactsSyncUseCase {
   /// Expects that the repository throws an [EntityNotFoundException] if id is not found.
   void remove(int id) {
     repository.remove(id);
-    ref.invalidate(contactsSyncProvider);
+    _invalidateContactsNotifiers();
   }
 
   /// Validate contact's content.
@@ -151,5 +152,11 @@ class ContactsSyncUseCase {
   /// Used by [ContactsState.build] method.
   List<Contact> _loadContacts() {
     return repository.getAll();
+  }
+
+  /// Invalidate contacts providers for sync and async use cases.
+  void _invalidateContactsNotifiers() {
+    ref.invalidate(contactsSyncProvider);
+    ref.invalidate(contactsAsyncProvider);
   }
 }
