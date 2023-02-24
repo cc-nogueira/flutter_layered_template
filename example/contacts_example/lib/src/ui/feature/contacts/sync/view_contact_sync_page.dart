@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../domain.dart';
 import '../../../app/route/routes.dart';
-import '../../../common/widget/hero_flight_shuttle_builder.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar.dart';
 
@@ -54,25 +53,21 @@ class ViewContactSyncPage extends ConsumerWidget {
 
   /// Text with contact's name and personality tag.
   Widget _name(Translations tr, ColorScheme colors, TextTheme textTheme, Contact contact) {
-    final name = Text(contact.name, style: textTheme.headlineSmall);
-    final widget = (contact.isPersonality)
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Hero(
-                tag: 'personality_title',
-                child: Text(
-                  tr.personality_title,
-                  style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
-                ),
-              ),
-              name,
-            ],
-          )
-        : name;
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: widget,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Hero(
+            tag: 'contact_type',
+            child: Text(
+              contact.isPersonality ? tr.personality_title : tr.name_title,
+              style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Text(contact.name, style: textTheme.headlineSmall),
+        ],
+      ),
     );
   }
 

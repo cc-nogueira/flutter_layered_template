@@ -74,22 +74,21 @@ class _ContactPage extends StatelessWidget {
 
   /// Text with contact's name and personality tag.
   Widget _name(ColorScheme colors, TextTheme textTheme) {
-    final name = Text(contact.name, style: textTheme.headlineSmall);
-    final widget = (contact.isPersonality)
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                tr.personality_title,
-                style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
-              ),
-              name,
-            ],
-          )
-        : name;
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: widget,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Hero(
+            tag: 'contact_type',
+            child: Text(
+              contact.isPersonality ? tr.personality_title : tr.name_title,
+              style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Text(contact.name, style: textTheme.headlineSmall),
+        ],
+      ),
     );
   }
 

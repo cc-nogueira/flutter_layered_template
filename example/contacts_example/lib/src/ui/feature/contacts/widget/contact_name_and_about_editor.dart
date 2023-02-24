@@ -66,14 +66,11 @@ class __ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor>
         children: [
           textField(
             context: context,
-            // labelText: tr.name_title,
-            label: widget.original.isPersonality
-                ? Hero(
-                    tag: 'personality_title',
-                    flightShuttleBuilder: heroDefaultStyleFlightShuttleBuilder(Theme.of(context).textTheme.bodySmall!),
-                    child: Text(tr.personality_title),
-                  )
-                : Text(tr.name_title),
+            label: Hero(
+              tag: 'contact_type',
+              flightShuttleBuilder: heroDefaultStyleFlightShuttleBuilder(Theme.of(context).textTheme.bodySmall!),
+              child: Text(widget.original.isPersonality ? tr.personality_title : tr.name_title),
+            ),
             controller: nameController,
             originalText: widget.original.name,
             readOnly: isPersonality,
