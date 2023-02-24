@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../domain/entity/contact.dart';
-import '../../../common/widget/hero_flight_shuttle_builder.dart';
-import '../../../common/widget/text_form_field_mixin.dart';
-import '../../../common/widget/text_input_formatters.dart';
+import '../../../common/helper/hero_flight_shuttle_builder.dart';
+import '../../../common/helper/text_form_field_mixin.dart';
+import '../../../common/helper/text_input_formatters.dart';
 import '../../../l10n/translations.dart';
 
 class ContactNameAndAboutEditor extends ConsumerWidget {
@@ -74,6 +74,7 @@ class __ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor>
             controller: nameController,
             originalText: widget.original.name,
             readOnly: isPersonality,
+            onChanged: _onNameChanged,
             onTap: isPersonality ? () => _alertReadOnly(context) : null,
           ),
           const SizedBox(height: 20),
@@ -84,6 +85,7 @@ class __ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor>
             controller: aboutController,
             originalText: widget.original.about,
             readOnly: isPersonality,
+            onChanged: _onAboutChanged,
             onTap: isPersonality ? () => _alertReadOnly(context) : null,
           ),
         ],
@@ -101,4 +103,8 @@ class __ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor>
         ),
       );
   }
+
+  void _onNameChanged(String value) => widget.editionController.update((state) => state.copyWith(name: value));
+
+  void _onAboutChanged(String value) => widget.editionController.update((state) => state.copyWith(about: value));
 }

@@ -52,7 +52,7 @@ class AsyncGuardLayer extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(tr.processing_title, style: textTheme.titleLarge),
+              Text(tr.guardind_message, style: textTheme.titleLarge),
               const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: LoadingWidget(),

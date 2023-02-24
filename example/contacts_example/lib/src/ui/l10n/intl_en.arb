@@ -2,15 +2,17 @@
   "@@locale": "en",
 
   "error_title": "Error",
-  "default_title": "Default",
   "loading_title": "Loading",
   "confirm_title": "Confirm",
   "cancel_title": "Cancel",
-  "save_title": "Save",
-  "discard_title": "Discard",
-  "processing_title": "Processing...",
-  
+
   "save_or_discard_changes_message": "do you want to save or discard changes",
+  "discard_title": "Discard",
+  "save_title": "Save",
+  
+  "default_title": "Default",
+  "guardind_message": "Processing ...",
+
   "confirm_delete_personality_message": "Are you sure you want to delete such a famous personality?",
 
   "home_page_title": "Sync Data Layer Example",

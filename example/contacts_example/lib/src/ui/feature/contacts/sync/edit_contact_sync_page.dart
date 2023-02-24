@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../domain.dart';
-import '../../../common/widget/hero_flight_shuttle_builder.dart';
 import '../../../common/widget/save_scaffold.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar_editor.dart';
@@ -53,7 +52,6 @@ class _EditContactPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
-    final colors = Theme.of(context).colorScheme;
     return SaveScaffold(
       modifiedProvider: _modifiedProvider,
       willPopMessage: tr.contact_altered_message,
