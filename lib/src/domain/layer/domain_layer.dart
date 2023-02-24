@@ -19,7 +19,7 @@ final domainLayerProvider = Provider((ref) => DomainLayer());
 ///     - Service interfaces to be provisioned by the ServiceLayer (optional).
 ///     - Use cases defining business rules. These are the common gateway API to
 ///       access repositories, services and change internal app state.
-///       Use cases will often expose state [Notifier]s that are observed by the PresentationLayer.
+///       Use cases will often expose state [Notifier]s that are observed by the UILayer.
 ///
 /// This layer must be provisioned by [ProvisioningLayer]s with runtime implementations of required interfaces.
 /// This is coordinated by the outer layer in main.dart.
