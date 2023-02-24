@@ -63,7 +63,7 @@ class _EditContactPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SaveScaffold(
       modifiedProvider: _modifiedProvider,
-      willPopMessage: tr.contact_altered_message,
+      willPopMessage: tr.save_or_discard_changes_message,
       saveButtonText: tr.save_title,
       validateAndSave: () => _validateAndSave(ref),
       title: Text(tr.contact_title),

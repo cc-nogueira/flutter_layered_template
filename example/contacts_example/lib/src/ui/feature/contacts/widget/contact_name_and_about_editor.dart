@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain/entity/contact.dart';
+import '../../../../domain.dart';
 import '../../../common/helper/hero_flight_shuttle_builder.dart';
 import '../../../common/helper/text_form_field_mixin.dart';
-import '../../../common/helper/text_input_formatters.dart';
 import '../../../l10n/translations.dart';
 
 class ContactNameAndAboutEditor extends ConsumerWidget {
@@ -28,11 +27,10 @@ class _ContactNameAndAboutEditor extends StatefulWidget {
   final Contact original;
 
   @override
-  State<_ContactNameAndAboutEditor> createState() => __ContactNameAndAboutEditorState();
+  State<_ContactNameAndAboutEditor> createState() => _ContactNameAndAboutEditorState();
 }
 
-class __ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor>
-    with TextFormFieldMixin, TextInputKeyFormatter {
+class _ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor> with TextFormFieldMixin {
   final nameController = TextEditingController();
   final aboutController = TextEditingController();
   late bool isPersonality;
@@ -104,7 +102,13 @@ class __ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor>
       );
   }
 
-  void _onNameChanged(String value) => widget.editionController.update((state) => state.copyWith(name: value));
+  /// By updating the controller inside a setState we also update the textField decoration.
+  void _onNameChanged(String value) => setState(() {
+        widget.editionController.update((state) => state.copyWith(name: value));
+      });
 
-  void _onAboutChanged(String value) => widget.editionController.update((state) => state.copyWith(about: value));
+  /// By updating the controller inside a setState we also update the textField decoration.
+  void _onAboutChanged(String value) => setState(() {
+        widget.editionController.update((state) => state.copyWith(about: value));
+      });
 }

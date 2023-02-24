@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import '../../l10n/translations.dart';
@@ -54,12 +55,6 @@ Future<bool?> showConfirmDiscardChangesDialog({required BuildContext context, re
 /// NULL for dialog dismiss.
 class _ConfirmDiscardChangesDialog extends ConfirmDialog {
   const _ConfirmDiscardChangesDialog({required super.message});
-
-  /// Content is the composition '$message, $save_or_discard_changes_message?'
-  @override
-  Widget content(BuildContext context, Translations tr) {
-    return Text('$message, ${tr.save_or_discard_changes_message}?');
-  }
 
   /// Actions are Discard and Save buttons.
   @override

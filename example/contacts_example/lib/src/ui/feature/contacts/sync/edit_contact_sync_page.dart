@@ -32,16 +32,16 @@ class EditContactSyncPage extends ConsumerWidget {
 /// It uses the [SaveScaffold] component to build the [WillPopScope] guard and a [AppBar]
 /// with a save button.
 class _EditContactPage extends ConsumerWidget {
-  /// Constructor
+  /// Constructor.
   _EditContactPage(this.original) : _editionProvider = StateProvider((ref) => original);
 
-  /// Original contact
+  /// Original value.
   final Contact original;
 
-  /// Provider for the contact being edited.
+  /// Provider for the value being edited.
   final StateProvider<Contact> _editionProvider;
 
-  /// Provider that informs if the edited contact is different from the original.
+  /// Provider that informs if the edited value is different from the original.
   late final Provider<bool> _modifiedProvider = Provider(
     (ref) => ref.watch(_editionProvider.select((value) => value != original)),
   );
@@ -54,7 +54,7 @@ class _EditContactPage extends ConsumerWidget {
     final tr = Translations.of(context);
     return SaveScaffold(
       modifiedProvider: _modifiedProvider,
-      willPopMessage: tr.contact_altered_message,
+      willPopMessage: tr.save_or_discard_changes_message,
       saveButtonText: tr.save_title,
       validateAndSave: () => _validateAndSave(ref),
       title: Text(tr.contact_title),

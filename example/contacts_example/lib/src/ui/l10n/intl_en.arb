@@ -6,7 +6,7 @@
   "confirm_title": "Confirm",
   "cancel_title": "Cancel",
 
-  "save_or_discard_changes_message": "do you want to save or discard changes",
+  "save_or_discard_changes_message": "Contents changed, do you want to save or discard changes?",
   "discard_title": "Discard",
   "save_title": "Save",
   
@@ -23,6 +23,5 @@
   "name_title": "Name",
   "about_title": "About",
 
-  "no_contacts_message": "No contacts",
-  "contact_altered_message": "Contact altered"
+  "no_contacts_message": "No contacts"
 }
