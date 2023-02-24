@@ -25,3 +25,4 @@ export 'domain/repository/things_repository.dart';
 export 'domain/service/whats_happening_service.dart';
 export 'domain/usecase/things_use_case.dart';
 export 'domain/usecase/whats_happening_use_case.dart';
+export 'domain/util/string_utils.dart';

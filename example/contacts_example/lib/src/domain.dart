@@ -22,3 +22,4 @@ export 'domain/repository/contacts_async_repository.dart';
 export 'domain/repository/contacts_sync_repository.dart';
 export 'domain/usecase/contacts_async_use_case.dart';
 export 'domain/usecase/contacts_sync_use_case.dart';
+export 'domain/util/string_utils.dart';

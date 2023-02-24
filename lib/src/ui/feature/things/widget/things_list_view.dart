@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain/util/string_utils.dart';
 import '../../../../domain.dart';
 import '../../../l10n/translations.dart';
 
