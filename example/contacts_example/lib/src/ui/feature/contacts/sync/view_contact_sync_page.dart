@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../domain.dart';
 import '../../../app/route/routes.dart';
+import '../../../common/widget/hero_flight_shuttle_builder.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar.dart';
 
@@ -58,9 +59,12 @@ class ViewContactSyncPage extends ConsumerWidget {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                tr.personality_title,
-                style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
+              Hero(
+                tag: 'personality_title',
+                child: Text(
+                  tr.personality_title,
+                  style: textTheme.bodyLarge?.copyWith(color: colors.tertiary, fontWeight: FontWeight.bold),
+                ),
               ),
               name,
             ],

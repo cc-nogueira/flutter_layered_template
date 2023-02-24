@@ -18,6 +18,8 @@
   "contacts_title": "Contacts",  
   "contact_title": "Contact",
   "personality_title": "Personality",
+  "name_title": "Name",
+  "about_title": "About",
 
   "no_contacts_message": "No contacts",
   "contact_altered_message": "Contact altered"

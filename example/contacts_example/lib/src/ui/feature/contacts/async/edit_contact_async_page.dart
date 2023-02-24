@@ -73,7 +73,7 @@ class _EditContactPage extends ConsumerWidget {
           children: [
             AvatarEditor(_editionProvider),
             const Divider(thickness: 2),
-            ContactNameAndAboutEditor(_editionProvider),
+            ContactNameAndAboutEditor(_editionProvider, original: original),
           ],
         ),
       ),
