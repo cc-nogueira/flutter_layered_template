@@ -11,17 +11,17 @@ import '../model/whats_happening_model.dart';
 ///
 /// API receives and returns domain entities.
 /// Converts internally to service models.
-class SomeRemoteService implements WhatsHappeningService {
+class WhatsHappeningRemoteService implements WhatsHappeningService {
   /// Constructor.
-  SomeRemoteService();
+  WhatsHappeningRemoteService();
 
   /// Internal mapper for Entity/Model conversions.
-  final OtherthingMapper _mapper = const OtherthingMapper();
+  final WhatsHappeningMapper _mapper = const WhatsHappeningMapper();
 
   /// Random generator for fake response construction.
   final random = Random();
 
-  /// Fetch something from the remote server.
+  /// Fetch [WhatsHappening] from the remote server.
   ///
   /// Resolves to null if the remote service responds with no content.
   /// May throw a [ServiceException].

@@ -2,9 +2,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'whats_happening.freezed.dart';
 
-/// Some other remote entity.
+/// Whats happening entity.
 ///
-/// Immutable class with some remote properties.
+/// Immutable class with whats happening.
 @freezed
 class WhatsHappening with _$WhatsHappening {
   /// Freezed factory.

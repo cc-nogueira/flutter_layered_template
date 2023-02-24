@@ -12,36 +12,36 @@ part 'notifier/whats_happening_notifier.dart';
 /// This use case [AsyncGuard] provider.
 final whatsHappeningAsynGuardProvider = NotifierProvider<AsyncGuard, bool>(AsyncGuard.new);
 
-/// [OtherthingsUseCase] singleton provider.
+/// [WhatsHappeningUseCase] singleton provider.
 ///
 /// This provider is an auto dispose provider (keepAlive: false).
-/// The state is kept in a [OtherthingNotifier] with a persistent provider.
-final whatsHappeningUseCaseProvider = Provider.autoDispose((ref) => OtherthingsUseCase(
+/// The state is kept in a [WhatsHappeningNotifier] with a persistent provider.
+final whatsHappeningUseCaseProvider = Provider.autoDispose((ref) => WhatsHappeningUseCase(
       ref: ref,
-      someService: ref.read(
+      whatsHappeningService: ref.read(
         ref.read(domainLayerProvider).whatsHappeningServiceProvider,
       ),
     ));
 
-/// Use case with [Otherthing]s business rules.
+/// Use case with [WhatsHappening]s business rules.
 ///
-/// It provides an API to access [Otherthing] services.
+/// It provides an API to access [WhatsHappening] services.
 /// This a stateless class that may be instantiated on demand by the provider.
 ///
-/// The state is kept in a [OtherthingNotifier] with a persistent provider.
+/// The state is kept in a [WhatsHappeningNotifier] with a persistent provider.
 ///
 /// This is an use case with asynchronous API, as is common in Services APIs.
-class OtherthingsUseCase {
+class WhatsHappeningUseCase {
   /// Const constructor.
-  const OtherthingsUseCase({required this.ref, required this.someService});
+  const WhatsHappeningUseCase({required this.ref, required this.whatsHappeningService});
 
   /// Riverpod ref.
   final Ref ref;
 
   /// Provisioned [WhatsHappeningService] implementation.
-  final WhatsHappeningService someService;
+  final WhatsHappeningService whatsHappeningService;
 
-  /// Refresh [Otherthing] data by invalidating the [OtherthingNotifier].
+  /// Refresh [WhatsHappening] data by invalidating the [WhatsHappeningNotifier].
   ///
   /// Data fetch is lazy.
   /// It will be fetched when the notifier is observed next or if it is being watched.
@@ -49,14 +49,14 @@ class OtherthingsUseCase {
     ref.invalidate(whatsHappeningProvider);
   }
 
-  /// Protected - Load something from the service.
+  /// Protected - Load [WhatsHappening] from the service.
   ///
   /// Invoke the server in a async guarded execution.
   /// Async returns [WhatsHappening] or null from the service implementation.
   ///
   /// Used by [WhatsHappeningNotifier.build] method.
   Future<WhatsHappening?> _getWhatsHappening() {
-    return someService.getWhatsHappening();
+    return whatsHappeningService.getWhatsHappening();
   }
 
   /// Handy getter for this use case [AsyncGuard.asyncGuardedExecution] function.

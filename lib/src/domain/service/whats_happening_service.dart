@@ -2,7 +2,7 @@ import 'dart:async';
 
 import '../entity/whats_happening.dart';
 
-/// Some service interface.
+/// [WhatsHappening] service interface.
 ///
 /// This is a required dependency for Domain Layer initial configuration when an
 /// implementation of this interface will be provisioned.

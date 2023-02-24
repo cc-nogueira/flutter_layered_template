@@ -16,6 +16,6 @@ class ServiceLayer extends ProvisioningLayer {
   /// Provision [DomainLayer] with service implementations.
   @override
   void provision(DomainLayer domainLayer) {
-    domainLayer.whatsHappeningServiceProvider = Provider((ref) => SomeRemoteService());
+    domainLayer.whatsHappeningServiceProvider = Provider((ref) => WhatsHappeningRemoteService());
   }
 }

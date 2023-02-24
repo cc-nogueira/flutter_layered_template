@@ -1,10 +1,10 @@
 import '../../domain_layer.dart';
 import '../model/whats_happening_model.dart';
 
-/// Map [Otherthing] entities to/from Isar [WhatsHappeningModel] objects.
-class OtherthingMapper extends EntityMapper<WhatsHappening, WhatsHappeningModel> {
+/// Map [WhatsHappening] entities to/from Isar [WhatsHappeningModel] objects.
+class WhatsHappeningMapper extends EntityMapper<WhatsHappening, WhatsHappeningModel> {
   /// Const constructor.
-  const OtherthingMapper();
+  const WhatsHappeningMapper();
 
   /// Convert model to entity.
   @override

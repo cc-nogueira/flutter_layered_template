@@ -27,7 +27,7 @@ void main() {
     ]);
   });
 
-  group('otherthing from remote service', () {
+  group('whats happening from remote service', () {
     test('should resolve to null when service has no context', () async {
       when(mockService.getWhatsHappening()).thenAnswer((_) => Future.value(null));
 

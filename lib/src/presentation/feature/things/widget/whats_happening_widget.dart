@@ -41,21 +41,21 @@ class WhatsHappeningWidget extends StatelessWidget {
   }
 }
 
-/// Consumer widget that watches the [otherthingNotifierProvider] to display the latest
+/// Consumer widget that watches the [whatsHappeningProvider] to display the latest
 /// content from the server.
 ///
 /// Displays the latest content from the server and
-/// a refresh button to request the [OtherthingsUseCase] to refresh server data.
+/// a refresh button to request the [WhatsHappeningUseCase] to refresh server data.
 class _RemoteContent extends ConsumerWidget {
   /// Const constructor.
   const _RemoteContent();
 
-  /// Watches [otherthingNotifierProvider] and display loading, data or error states.
+  /// Watches [whatsHappeningProvider] and display loading, data or error states.
   ///
   /// Configures riverpod to show a new loading widget every time the server is fetching new content.
   ///
   /// Displays the latest content from the server and
-  /// a refresh button to request the [OtherthingsUseCase] to refresh server data.
+  /// a refresh button to request the [WhatsHappeningUseCase] to refresh server data.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
@@ -105,7 +105,7 @@ class _RemoteContent extends ConsumerWidget {
     );
   }
 
-  /// Invoke [OtherthingsUseCase.refresh].
+  /// Invoke [WhatsHappeningUseCase.refresh].
   void _refresh(WidgetRef ref) {
     ref.read(whatsHappeningUseCaseProvider).refresh();
   }
