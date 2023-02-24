@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../app/routes/routes.dart';
+import '../../app/route/routes.dart';
 import '../../l10n/translations.dart';
 
 /// Project landing page.

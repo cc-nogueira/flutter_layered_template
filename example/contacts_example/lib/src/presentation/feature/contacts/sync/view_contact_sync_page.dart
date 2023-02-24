@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../domain_layer.dart';
-import '../../../app/routes/routes.dart';
+import '../../../app/route/routes.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar.dart';
 

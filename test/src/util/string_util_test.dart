@@ -1,4 +1,4 @@
-import 'package:flutter_layered_template/src/core/util/string_utils.dart';
+import 'package:flutter_layered_template/src/domain/util/string_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -32,16 +32,6 @@ void main() {
       expect(oneLetterString.cut(max: 2), oneLetterString);
       expect(oneLetterString.cut(max: 9), oneLetterString);
       expect(twoLettersSpaceFirstString.cut(max: 9), twoLettersSpaceFirstString);
-    });
-
-    test('when cutting the length it should keep the original content', () {
-      expect(emptyString.cut(max: 0), emptyString);
-      expect(oneLetterString.cut(max: 1), oneLetterString);
-      expect(twoLettersString.cut(max: 2), twoLettersString);
-      expect(twoLettersSpaceFirstString.cut(max: 2), twoLettersSpaceFirstString);
-      expect(twoLettersSpaceLastString.cut(max: 2), twoLettersSpaceLastString);
-      expect(manyWordsString.cut(max: manyWordsString.length), manyWordsString);
-      expect(manyWordsSpaceFirstString.cut(max: manyWordsSpaceFirstString.length), manyWordsSpaceFirstString);
     });
 
     test('when cutting the length it should keep the original content', () {

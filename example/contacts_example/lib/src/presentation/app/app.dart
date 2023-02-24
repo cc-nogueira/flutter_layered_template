@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../common/page/message_page.dart';
 import '../l10n/locale_notifier.dart';
 import '../l10n/translations.dart';
-import 'routes/routes.dart';
+import 'route/routes.dart';
 import 'theme/themes.dart';
 
 /// This is the MaterialApp.
