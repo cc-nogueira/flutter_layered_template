@@ -6,8 +6,8 @@ import '../../../../domain_layer.dart';
 import '../../../app/routes/routes.dart';
 import '../../../common/page/loading_page.dart';
 import '../../../common/page/message_page.dart';
-import '../../../common/widget/confirm_dialog.dart';
 import '../../../common/widget/async_guard_layer.dart';
+import '../../../common/widget/confirm_dialog.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar.dart';
 

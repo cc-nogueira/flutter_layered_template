@@ -21,11 +21,16 @@ Future<bool?> showConfirmDialog({required BuildContext context, required String 
 /// false for CANCEL button.
 /// true for CONFIRM button.
 /// NULL for dialog dismiss.
+///
+/// This class may be reused for similar dialogs.
 class ConfirmDialog extends StatelessWidget {
+  /// Const constructor.
   const ConfirmDialog({super.key, required this.message});
 
+  /// Dialog message.
   final String message;
 
+  /// Dialog with message and actions
   @override
   Widget build(BuildContext context) {
     final tr = Translations.of(context);
@@ -36,10 +41,12 @@ class ConfirmDialog extends StatelessWidget {
     );
   }
 
+  /// Content is the message.
   Widget content(BuildContext context, Translations tr) {
     return Text(message);
   }
 
+  /// Actions are Cancel and Confirm buttons.
   List<Widget> actions(BuildContext context, Translations tr) {
     return [
       FilledButton.tonal(

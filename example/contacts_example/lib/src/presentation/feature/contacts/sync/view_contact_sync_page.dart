@@ -72,11 +72,13 @@ class ViewContactSyncPage extends ConsumerWidget {
     );
   }
 
+  /// About text.
   Widget _about(TextTheme textTheme, Contact contact) => Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(contact.about, style: textTheme.bodyLarge),
       );
 
+  /// Navigate to contact edition page.
   void _editContact(BuildContext context) {
     context.goNamed(Routes.editContactSync, params: {'id': id.toString()});
   }

@@ -13,8 +13,15 @@ import 'notifier/async_guard.dart';
 
 part 'notifier/contacts_async_notifier.dart';
 
+/// [AsyncGuard] provider.
+///
+/// Used as a semaphore for contacts async actions.
 final contactsAsyncGuardProvider = NotifierProvider<AsyncGuard, bool>(AsyncGuard.new);
 
+/// [ContactsAsyncUseCase] provider.
+///
+/// Although it has no persintent state it is being delivered as a persistent provider (keepAlive: true).
+/// It is used extensively and we better keep it instantiated.
 final contactsAsyncUseCaseProvider = Provider((ref) => ContactsAsyncUseCase(
       ref: ref,
       repository: ref.read(ref.read(domainLayerProvider).contactsAsyncRepositoryProvider),

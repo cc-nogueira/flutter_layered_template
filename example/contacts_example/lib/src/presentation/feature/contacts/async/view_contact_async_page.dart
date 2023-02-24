@@ -93,11 +93,13 @@ class _ContactPage extends StatelessWidget {
     );
   }
 
+  /// About text
   Widget _about(TextTheme textTheme) => Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(contact.about, style: textTheme.bodyLarge),
       );
 
+  /// Navigate contact edition page.
   void _editContact(BuildContext context) {
     context.goNamed(Routes.editContactAsync, params: {'id': contact.id.toString()});
   }

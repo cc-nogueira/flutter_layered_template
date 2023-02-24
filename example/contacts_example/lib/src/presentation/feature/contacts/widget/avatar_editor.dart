@@ -6,11 +6,21 @@ import '../../../app/theme/themes.dart';
 import '../../../l10n/translations.dart';
 import 'avatar.dart';
 
+/// Avatar editor to modify a contact avatar color.
+///
+/// Color changes to the local contact being edited are seen immediately
+/// in the displayed centralized avatar.
 class AvatarEditor extends ConsumerWidget {
+  /// Const constructor.
   const AvatarEditor(this.editionProvider, {super.key});
 
+  /// Local contact being edited provider.
   final StateProvider<Contact> editionProvider;
 
+  /// Build the widget that looks like a row with:
+  ///   'Avatar:' title
+  ///   The rendered avatar.
+  ///   Panel of color buttons and a theme color option (no specific color option).
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
@@ -43,13 +53,13 @@ class AvatarEditor extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _colorButtons(context, ref, current: currentColor, colors: [
+                  _columnOfColorButtons(context, ref, current: currentColor, colors: [
                     lightColors.primaryContainer,
                     lightColors.secondaryContainer,
                     lightColors.tertiaryContainer,
                   ]),
                   const SizedBox(width: 10.0),
-                  _colorButtons(context, ref, current: currentColor, colors: [
+                  _columnOfColorButtons(context, ref, current: currentColor, colors: [
                     darkColors.primaryContainer,
                     darkColors.secondaryContainer,
                     darkColors.tertiaryContainer,
@@ -75,7 +85,9 @@ class AvatarEditor extends ConsumerWidget {
     );
   }
 
-  Widget _colorButtons(BuildContext context, WidgetRef ref, {required int? current, required List<Color> colors}) {
+  /// Create a column of buttons that trigger avatar color change.
+  Widget _columnOfColorButtons(BuildContext context, WidgetRef ref,
+      {required int? current, required List<Color> colors}) {
     final colorScheme = Theme.of(context).colorScheme;
     return Column(
       children: [
@@ -84,6 +96,7 @@ class AvatarEditor extends ConsumerWidget {
     );
   }
 
+  /// Create on button. Used by [_columnOfColorButtons].
   Widget _colorButton(WidgetRef ref, ColorScheme colors, {required Color color, required int? current}) {
     final isSelected = current == color.value;
     final foreColor = color.computeLuminance() > 0.5 ? Colors.black : Colors.white;
@@ -97,6 +110,7 @@ class AvatarEditor extends ConsumerWidget {
     );
   }
 
+  /// Handler to change the local contact avatar color.
   void _setColor(WidgetRef ref, Color? color) {
     ref.read(editionProvider.notifier).update((state) => state.copyWith(avatarColor: color?.value));
   }

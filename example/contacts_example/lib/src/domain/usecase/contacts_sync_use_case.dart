@@ -12,6 +12,10 @@ import '../repository/contacts_sync_repository.dart';
 
 part 'notifier/contacts_sync_notifier.dart';
 
+/// [ContactsSyncUseCase] provider.
+///
+/// Although it has no persintent state it is being delivered as a persistent provider (keepAlive: true).
+/// It is used extensively and we better keep it instantiated.
 final contactsSyncUseCaseProvider = Provider((ref) => ContactsSyncUseCase(
       ref: ref,
       repository: ref.read(ref.read(domainLayerProvider).contactsSyncRepositoryProvider),

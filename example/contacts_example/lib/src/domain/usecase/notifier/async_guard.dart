@@ -2,6 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../exception/async_guard_violation.dart';
 
+/// [AsyncGuard.asyncGuardedExecution] function type.
+///
+/// This is used by used case handy methods to provider a getter for it's [AsyncGuard] function.
 typedef AsyncGuardedExecution = Future<T> Function<T>(
   Future<T> Function() callback, {
   Function()? postExecution,
@@ -16,8 +19,16 @@ class AsyncGuard extends Notifier<bool> {
   /// Constructor.
   AsyncGuard();
 
+  /// Controls how many executions are running inside the guard.
+  ///
+  /// Executions increase this count when entering the guard.
+  /// And decrease this count when exiting.
+  ///
+  /// The scope is considered free when this count is zero.
   late int _guardedCount;
 
+  /// Starts with no execution in scope.
+  /// Returns false, meaning free of any guarded execution.
   @override
   bool build() {
     _guardedCount = 0;
@@ -67,7 +78,7 @@ class AsyncGuard extends Notifier<bool> {
     }
   }
 
-  /// Register the entering in this guarded scope.
+  /// Internal - Register the entering in this guarded scope.
   ///
   /// Returns true if the guard has just started.
   /// Returns false if entering a already guarded scope.
@@ -77,7 +88,7 @@ class AsyncGuard extends Notifier<bool> {
     return state;
   }
 
-  /// Register the end of an async guarded operation.
+  /// Internal - Register the end of an async guarded operation.
   void _endAsyncGuard() {
     if (_guardedCount > 0) {
       --_guardedCount;
@@ -85,5 +96,6 @@ class AsyncGuard extends Notifier<bool> {
     state = _isGuarding;
   }
 
+  /// Internal - Getter if there are executions being guarded.
   bool get _isGuarding => _guardedCount > 0;
 }

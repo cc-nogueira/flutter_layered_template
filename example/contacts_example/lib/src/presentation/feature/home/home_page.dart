@@ -7,9 +7,12 @@ import '../../l10n/translations.dart';
 /// Project landing page.
 ///
 /// Shows a page with main navigation cards.
+///
+/// Display navigation to both sync and async example implementations.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  /// Display navigation to both sync and async example implementations.
   @override
   Widget build(BuildContext context) {
     final tr = Translations.of(context);

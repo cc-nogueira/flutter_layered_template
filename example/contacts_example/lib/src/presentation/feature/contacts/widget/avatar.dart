@@ -3,9 +3,18 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/string_utils.dart';
 import '../../../../domain_layer.dart';
 
+/// Avatar widget.
+///
+/// Display a CircleAvatar in a Hero widget with contact's uuid tag.
+/// This way the Avatar is animated between page transitions.
+///
+/// The avatar has the background color defined in a optional contact property.
+/// The foreground colors is either black or white, calculated from the background color.
 class Avatar extends StatelessWidget {
+  /// Const constructor.
   const Avatar(this.contact, {super.key, this.radius, this.textStyle});
 
+  /// Default background color when the contact does not define a avatar color.
   static Color defaultBackgroundColor(ColorScheme colors) => colors.primaryContainer;
 
   final Contact contact;
@@ -28,8 +37,12 @@ class Avatar extends StatelessWidget {
     );
   }
 
+  /// Background color from the contact property or null.
   Color? _backgroundColor() => contact.avatarColor == null ? null : Color(contact.avatarColor!);
 
+  /// Foreground color from the background color.
+  ///
+  /// Either black or white depending on background luninance.
   Color? _foregroundColor(Color backgroundColor) {
     return backgroundColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
   }
