@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain_layer.dart';
+import '../../../../domain.dart';
 import '../../../common/widget/loading_widget.dart';
 import '../../../l10n/translations.dart';
 

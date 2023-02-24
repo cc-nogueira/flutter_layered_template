@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../domain/util/string_utils.dart';
-import '../../../../domain_layer.dart';
+import '../../../../domain.dart';
 
 /// Avatar widget.
 ///

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain_layer.dart';
+import '../../domain.dart';
 import '../service/whats_happening_remote_service.dart';
 
 /// [ServiceLayer] singleton provider.

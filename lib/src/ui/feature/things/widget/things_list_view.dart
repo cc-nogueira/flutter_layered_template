@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../domain/util/string_utils.dart';
-import '../../../../domain_layer.dart';
+import '../../../../domain.dart';
 import '../../../l10n/translations.dart';
 
 /// Consumer widget that watches [thingsNotifierProvider] to show the list of stored [Thing]s.

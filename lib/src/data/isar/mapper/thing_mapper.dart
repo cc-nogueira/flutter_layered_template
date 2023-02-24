@@ -1,4 +1,4 @@
-import '../../../domain_layer.dart';
+import '../../../domain.dart';
 import '../model/thing_model.dart';
 
 /// Map [Thing] entities to/from Isar [ThingModel] objects.

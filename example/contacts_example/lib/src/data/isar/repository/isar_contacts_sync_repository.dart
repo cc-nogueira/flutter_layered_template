@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-import '../../../domain_layer.dart';
+import '../../../domain.dart';
 import '../mapper/contact_mapper.dart';
 import '../model/contact_model.dart';
 

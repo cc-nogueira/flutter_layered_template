@@ -15,7 +15,7 @@ import 'domain_layer.dart';
 ///     - Service interfaces to be provisioned by the ServiceLayer (optional).
 ///     - Use cases defining business rules. These are the common gateway API to
 ///       access repositories, services and change internal app state.
-///       Use cases will often expose state [Notifier]s that are observed by the PresentationLayer.
+///       Use cases will often expose state [Notifier]s that are observed by the UILayer.
 ///
 /// - DataLayer is a satelite layer to the DomainLayer.
 ///   It is visible only to the outer layer.
@@ -24,9 +24,9 @@ import 'domain_layer.dart';
 ///
 /// - ServiceLayer is analogous to the DataLayer, provisoning Service interface implementations.
 ///
-/// - PresentationLayer will present and watch state exposed by the DomainLayer.
+/// - UILayer will present and watch state exposed by the DomainLayer.
 ///   It is visible only to the outer layer.
-///   All user actions are captured by the presentation layer and acted on usecases potentially affecting domain state,
+///   All user actions are captured by the UI layer and acted on usecases potentially affecting domain state,
 ///   persisted state and external services.
 ///
 /// - OuterLayer is contained in main.dart. This is the only scope that have access to all layers and is responsible to:
@@ -35,7 +35,7 @@ import 'domain_layer.dart';
 ///     - instantiate and open the Material App.
 ///     - dispose all layers when the app finishes.
 ///
-/// In this layered architecture PresentationLayer, DataLayer and ServiceLayer should know nothing about each other.
+/// In this layered architecture UILayer, DataLayer and ServiceLayer should know nothing about each other.
 /// All inter-layer relations must be mediated by domain types and by domain interfaces implementations provisioned
 /// to domain layer at app initialization.
 class AppLayer {

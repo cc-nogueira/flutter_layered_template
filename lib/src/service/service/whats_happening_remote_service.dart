@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:faker/faker.dart';
 
-import '../../domain_layer.dart';
+import '../../domain.dart';
 import '../mapper/whats_happening_mapper.dart';
 import '../model/whats_happening_model.dart';
 

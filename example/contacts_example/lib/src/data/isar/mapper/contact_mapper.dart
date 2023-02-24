@@ -1,4 +1,4 @@
-import '../../../domain_layer.dart';
+import '../../../domain.dart';
 import '../model/contact_model.dart';
 
 /// Map [Contact] entities to/from Isar [ContactModel] objects.

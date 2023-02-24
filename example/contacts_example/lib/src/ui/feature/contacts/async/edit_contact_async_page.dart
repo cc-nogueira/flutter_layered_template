@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../domain_layer.dart';
+import '../../../../domain.dart';
 import '../../../common/page/loading_page.dart';
 import '../../../common/page/message_page.dart';
 import '../../../common/widget/save_scaffold.dart';

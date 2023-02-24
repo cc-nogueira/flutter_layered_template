@@ -2,70 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../domain_layer.dart';
+import '../../../../domain.dart';
 import '../../../app/route/routes.dart';
-import '../../../common/page/loading_page.dart';
-import '../../../common/page/message_page.dart';
-import '../../../common/widget/async_guard_layer.dart';
 import '../../../common/widget/confirm_dialog.dart';
 import '../../../l10n/translations.dart';
 import '../widget/avatar.dart';
 
 /// Contacts page.
 ///
-/// Display the list of contacts from [ContactsUseCase] and a floating button
+/// Display the list of contacts from [ContactsSyncUseCase] and a floating button
 /// to add pseudo random contacts (use case personalities and fake contacts).
 ///
 /// This consumer widget watches the list of contacts and rebuilds its
 /// internal stateless widget when the list changes.
-class ContactsAsyncPage extends ConsumerWidget {
+class ContactsSyncPage extends ConsumerWidget {
   /// Const constructor.
-  const ContactsAsyncPage({super.key});
+  const ContactsSyncPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tr = Translations.of(context);
-    final usecase = ref.read(contactsAsyncUseCaseProvider);
-
-    // AsyncValue resolution:
-    return ref.watch(contactsAsyncProvider).when(
-          loading: () => LoadingPage(tr.contacts_title),
-          data: (data) => _ContactsPage(
-            tr,
-            contacts: data,
-            usecase: usecase,
-          ),
-          error: ErrorMessagePage.errorBuilder,
-        );
+    final usecase = ref.read(contactsSyncUseCaseProvider);
+    final contacts = ref.watch(contactsSyncProvider);
+    return _ContactsPage(tr: tr, contacts: contacts, usecase: usecase);
   }
 }
 
 /// Internal stateless widget.
 ///
-/// Display the list of contacts from [ContactsUseCase] and a floating button
+/// Display the list of contacts from [ContactsSyncUseCase] and a floating button
 /// to add pseudo random contacts (use case personalities and fake contacts).
-class _ContactsPage extends ConsumerWidget {
-  /// Const constructor.
-  const _ContactsPage(this.tr, {required this.contacts, required this.usecase});
+class _ContactsPage extends StatelessWidget {
+  const _ContactsPage({required this.tr, required this.contacts, required this.usecase});
 
   final Translations tr;
   final List<Contact> contacts;
-  final ContactsAsyncUseCase usecase;
+  final ContactsSyncUseCase usecase;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colors = Theme.of(context).colorScheme;
-    final isWaitingAction = ref.watch(contactsAsyncGuardProvider);
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(tr.contacts_title)),
-      body: AsyncGuardLayer(
-        asyncGuardProvider: contactsAsyncGuardProvider,
-        child: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
-      ),
+      body: contacts.isEmpty ? _buildNoContactsMessage(context) : _buildContactsList(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: isWaitingAction ? null : () => _newContact(),
-        backgroundColor: isWaitingAction ? colors.secondaryContainer : null,
-        foregroundColor: isWaitingAction ? colors.outline : null,
+        onPressed: () => _newContact(),
         child: const Icon(Icons.add),
       ),
     );
@@ -100,7 +80,7 @@ class _ContactsPage extends ConsumerWidget {
 
   /// Handler to navigate to a contact page passing the contact id.
   void _viewContact(BuildContext context, Contact contact) {
-    context.goNamed(Routes.viewContactAsync, params: {'id': contact.id!.toString()});
+    context.goNamed(Routes.viewContactSync, params: {'id': contact.id!.toString()});
   }
 
   /// Handler to remove a contact invoking [ContactsSyncUseCase.remove].
@@ -113,8 +93,10 @@ class _ContactsPage extends ConsumerWidget {
     }
   }
 
-  /// Handler to save a new contact (create for you!).
-  Future<Contact> _newContact() {
+  /// Handler to create a new contact using business rules.
+  ///
+  /// This may create a Personality or a Fake contact (random rules).
+  Contact _newContact() {
     return usecase.createContact();
   }
 }
@@ -146,7 +128,7 @@ class _ContactCard extends StatelessWidget {
         title: Text(contact.name),
         subtitle: contact.isPersonality ? Text(tr.personality_title) : null,
         trailing: IconButton(
-          icon: Icon(contact.isPersonality ? Icons.delete : Icons.delete_forever, color: const Color(0xFF992200)),
+          icon: Icon(contact.isPersonality ? Icons.delete : Icons.delete_forever, color: colors.error),
           onPressed: onDelete,
         ),
         onTap: onTap,

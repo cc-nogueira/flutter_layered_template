@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-import '../../domain_layer.dart';
+import '../../domain.dart';
 import '../isar/model/thing_model.dart';
 import '../isar/repository/isar_things_repository.dart';
 

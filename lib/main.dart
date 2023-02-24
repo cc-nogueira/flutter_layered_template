@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'src/data_layer.dart';
-import 'src/domain_layer.dart';
-import 'src/presentation_layer.dart';
-import 'src/service_layer.dart';
+import 'src/data.dart';
+import 'src/domain.dart';
+import 'src/service.dart';
+import 'src/ui.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,9 +45,9 @@ Future<List<AppLayer>> _initLayers(Ref ref) async {
   final domainLayer = ref.read(domainLayerProvider);
   final dataLayer = ref.read(dataLayerProvider);
   final serviceLayer = ref.read(serviceLayerProvider);
-  final presentationLayer = ref.read(presentationLayerProvider);
+  final uiLayer = ref.read(uiLayerProvider);
 
-  final layers = [domainLayer, dataLayer, serviceLayer, presentationLayer];
+  final layers = [domainLayer, dataLayer, serviceLayer, uiLayer];
   for (final layer in layers) {
     await layer.init(ref);
     if (layer is ProvisioningLayer) {

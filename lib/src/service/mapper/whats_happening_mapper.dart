@@ -1,4 +1,4 @@
-import '../../domain_layer.dart';
+import '../../domain.dart';
 import '../model/whats_happening_model.dart';
 
 /// Map [WhatsHappening] entities to/from Isar [WhatsHappeningModel] objects.

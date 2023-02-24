@@ -4,7 +4,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain_layer.dart';
+import '../../../domain.dart';
 import '../../l10n/translations.dart';
 import 'widget/things_list_view.dart';
 import 'widget/whats_happening_widget.dart';

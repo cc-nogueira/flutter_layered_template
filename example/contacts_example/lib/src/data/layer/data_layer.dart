@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
-import '../../domain_layer.dart';
+import '../../domain.dart';
 import '../isar/model/contact_model.dart';
 import '../isar/repository/isar_contacts_async_repository.dart';
 import '../isar/repository/isar_contacts_sync_repository.dart';
