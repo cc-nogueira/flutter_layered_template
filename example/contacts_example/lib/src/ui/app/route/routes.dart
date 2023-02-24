@@ -1,4 +1,3 @@
-
 import 'package:go_router/go_router.dart';
 
 import '../../feature/contacts/async/contacts_async_page.dart';
