@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../domain.dart';
+import '../../../app/route/routes.dart';
 import '../../../l10n/translations.dart';
+import 'avatar.dart';
 
 /// Consumer widget that watches [thingsNotifierProvider] to show the list of stored [Thing]s.
 class ThingsListView extends ConsumerWidget {
@@ -33,23 +36,31 @@ class ThingsListView extends ConsumerWidget {
     return Expanded(
       child: ListView.builder(
         itemCount: things.length,
-        itemBuilder: (context, index) => _tile(ref, colors, things[index]),
+        itemBuilder: (context, index) => _tile(context, ref, colors, things[index]),
       ),
     );
   }
 
   /// Build a [Thing] tile with Avatar, Name and Delete button.
-  Widget _tile(WidgetRef ref, ColorScheme colors, Thing thing) {
+  Widget _tile(BuildContext context, WidgetRef ref, ColorScheme colors, Thing thing) {
     return Card(
       child: ListTile(
-        leading: CircleAvatar(child: Text(thing.name.cut(max: 2))),
+        leading: ThingAvatar(thing),
         title: Text(thing.name),
-        trailing: IconButton(
-          icon: Icon(Icons.delete, color: colors.error),
-          onPressed: () => _remove(ref, thing),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(icon: Icon(Icons.edit, color: colors.primary), onPressed: () => _editThing(context, thing)),
+            IconButton(icon: Icon(Icons.delete, color: colors.error), onPressed: () => _remove(ref, thing)),
+          ],
         ),
       ),
     );
+  }
+
+  /// Handler to navigate to edition page.
+  void _editThing(BuildContext context, Thing thing) {
+    context.goNamed(Routes.editThing, params: {'id': thing.id.toString()});
   }
 
   /// Handler to remove a contact invoking [ThingsUseCase.remove].

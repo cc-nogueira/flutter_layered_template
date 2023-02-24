@@ -9,12 +9,16 @@
   "save_or_discard_changes_message": "do you want to save or discard changes",
   "discard_title": "Discard",
   "save_title": "Save",
+
+  "required_message": "required",
   
   "refresh_title": "Refresh",
   "default_title": "Default",
   "guardind_message": "Processing ...",
   
+  "thing_title": "Thing",
   "things_title": "Things",
+  "name_title": "Name",
   "nothing_stored_message": "Nothing stored",
 
   "from_server_title": "What's happening",
