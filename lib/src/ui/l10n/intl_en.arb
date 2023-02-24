@@ -3,7 +3,16 @@
 
   "error_title": "Error",
   "loading_title": "Loading",
+  "confirm_title": "Confirm",
+  "cancel_title": "Cancel",
+
+  "save_or_discard_changes_message": "do you want to save or discard changes",
+  "discard_title": "Discard",
+  "save_title": "Save",
+  
   "refresh_title": "Refresh",
+  "default_title": "Default",
+  "guardind_message": "Processing ...",
   
   "things_title": "Things",
   "nothing_stored_message": "Nothing stored",
