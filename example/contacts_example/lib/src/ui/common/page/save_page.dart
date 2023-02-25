@@ -10,9 +10,9 @@ import '../widget/save_scaffold.dart';
 ///
 /// It uses the [SaveScaffold] component to build the [WillPopScope] guard and a [AppBar]
 /// with a save button.
-abstract class EditInLocalScopePage<T> extends ConsumerWidget {
+abstract class SavePage<T> extends ConsumerWidget {
   /// Constructor.
-  EditInLocalScopePage({super.key, required this.original}) : editionProvider = StateProvider((ref) => original);
+  SavePage({super.key, required this.original}) : editionProvider = StateProvider((ref) => original);
 
   /// Original value.
   final T original;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain.dart';
-import '../../common/page/edit_in_local_scope_page.dart';
+import '../../common/page/save_page.dart';
 import '../../l10n/translations.dart';
 import 'widget/avatar_editor.dart';
 import 'widget/contact_name_and_about_editor.dart';
@@ -13,7 +13,7 @@ import 'widget/contact_name_and_about_editor.dart';
 ///
 /// It uses the [SaveScaffold] component to build the [WillPopScope] guard and a [AppBar]
 /// with a save button.
-class EditContactPage extends EditInLocalScopePage<Contact> {
+class EditContactPage extends SavePage<Contact> {
   /// Constructor.
   EditContactPage({super.key, required super.original});
 
