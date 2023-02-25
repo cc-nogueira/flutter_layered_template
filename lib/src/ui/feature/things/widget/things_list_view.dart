@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../domain.dart';
 import '../../../app/route/routes.dart';
 import '../../../l10n/translations.dart';
-import 'avatar.dart';
+import 'thing_avatar.dart';
 
 /// Consumer widget that watches [thingsNotifierProvider] to show the list of stored [Thing]s.
 class ThingsListView extends ConsumerWidget {

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain.dart';
 import '../../common/page/save_page.dart';
 import '../../l10n/translations.dart';
-import 'widget/avatar.dart';
+import 'widget/thing_avatar.dart';
 import 'widget/thing_editor_view.dart';
 
 class EditThingPage extends ConsumerWidget {
