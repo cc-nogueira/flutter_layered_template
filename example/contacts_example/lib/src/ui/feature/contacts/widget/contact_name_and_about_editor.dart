@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../domain.dart';
 import '../../../common/helper/hero_flight_shuttle_builder.dart';
-import '../../../common/helper/text_form_field_mixin.dart';
+import '../../../common/mixin/text_form_field_mixin.dart';
 import '../../../l10n/translations.dart';
 
 class ContactNameAndAboutEditor extends ConsumerWidget {
@@ -52,6 +52,13 @@ class _ContactNameAndAboutEditorState extends State<_ContactNameAndAboutEditor> 
     nameController.text = contact.name;
     aboutController.text = contact.about;
     isPersonality = contact.isPersonality;
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    aboutController.dispose();
+    super.dispose();
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quiver/collection.dart';
 
 import '../../l10n/translations.dart';
 import '../widget/save_scaffold.dart';
@@ -22,7 +23,15 @@ abstract class SavePage<T> extends ConsumerWidget {
 
   /// Provider that informs if the edited value is different from the original.
   late final Provider<bool> modifiedProvider = Provider(
-    (ref) => ref.watch(editionProvider.select((value) => value != original)),
+    (ref) => ref.watch(editionProvider.select((value) {
+      if (identical(value, original)) {
+        return false;
+      }
+      if (value is List) {
+        return !listsEqual(value, original as List);
+      }
+      return value != original;
+    })),
   );
 
   /// Form key.

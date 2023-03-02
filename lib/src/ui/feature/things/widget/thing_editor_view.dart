@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../domain.dart';
-import '../../../common/helper/text_form_field_mixin.dart';
+import '../../../common/mixin/text_form_field_mixin.dart';
 import '../../../l10n/translations.dart';
 
 class ThingEditor extends StatefulWidget {
@@ -34,6 +34,12 @@ class _ThingEditorState extends State<ThingEditor> with TextFormFieldMixin {
   void _resetState() {
     final contact = widget.editionController.state;
     nameController.text = contact.name;
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
   }
 
   @override

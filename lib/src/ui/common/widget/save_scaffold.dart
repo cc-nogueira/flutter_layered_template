@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../helper/app_bar_builder_mixin.dart';
+import '../mixin/app_bar_builder_mixin.dart';
 import 'confirm_discard_changes_dialog.dart';
 
 /// Builds a Scaffold in a [WillPopScope] with a [appBarWithActionButton].
