@@ -150,26 +150,23 @@ class LayersProject extends Package {
   }
 
   /// Sort
-  ///   - Core Layer first
-  ///   - Domain Layer second
-  ///   - Data Layer third
-  ///   - Presentation second last
-  ///   - DI Layer last
+  ///   - Domain Layer first
+  ///   - Data Layer second
+  ///   - Service Layer third
+  ///   - UI Layer last
   ///   - other layers alphabetically
   int _layerOrder(List<String> aList, List<String> bList) {
     final a = aList.last;
     final b = bList.last;
     if (a == b) return 0;
-    if (a.contains('core')) return -1;
-    if (b.contains('core')) return 1;
     if (a.contains('domain')) return -1;
     if (b.contains('domain')) return 1;
     if (a.contains('data')) return -1;
     if (b.contains('data')) return 1;
-    if (a.contains('di')) return 1;
-    if (b.contains('di')) return -1;
-    if (a.contains('presentation')) return 1;
-    if (b.contains('presentation')) return -1;
+    if (a.contains('service')) return 1;
+    if (b.contains('service')) return -1;
+    if (a.contains('ui')) return 1;
+    if (b.contains('ui')) return -1;
     return a.compareTo(b);
   }
 }

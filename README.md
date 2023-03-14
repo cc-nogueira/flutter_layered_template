@@ -19,14 +19,11 @@ The ***4+2 Layered Architecture*** describes the importance of ***Separation of 
 applying to project architecture I structured the application with:
 
 
-- 4 Major Layers:
+- 4 Layers:
   - **Domain Layer** (business rules)
   - **Data Layer** (persistence)
   - **Service Layer** (external services)
-  - **Presentation Layer** (UI)
-- 2 Accessory Layers:
-  - **Core Layer** (shared library)
-  - **Dependency Injection Layer** (dependency inversion)
+  - **UI Layer** (Presentation)
 
 ---
 
@@ -54,12 +51,11 @@ The main project structure, shown in the following image, has:
 * flutter project files: **pubspec.yaml**, **build****, etc
 * **lib** folder with main.dart
 * **packages** folder containing all layers:
-  * _core_layer
   * _data_layer
   * _di_layer
   * _domain_layer
   * _service_layer
-  * _presentation_layer
+  * _ui_layer
 * **test** folder for main project
 
 Each layer folder has its own package structure with:
@@ -87,12 +83,10 @@ Below my configuration for ***MuiltiRoot*** and ***Explorer Exclude*** worspace.
 {
   "folders": [
     { "path": ".." },
-    { "path": "../packages/_core_layer", "name": "Core Layer" },
-    { "path": "../packages/_data_layer", "name": "Data Layer" },
-    { "path": "../packages/_di_layer", "name": "DI Layer" },
-    { "path": "../packages/_domain_layer", "name": "Domain Layer" },
-    { "path": "../packages/_service_layer", "name": "Service Layer" },
-    { "path": "../packages/_presentation_layer", "name": "Presentation Layer" }
+    { "path": "../packages/data", "name": "Data Layer" },
+    { "path": "../packages/domain", "name": "Domain Layer" },
+    { "path": "../packages/service", "name": "Service Layer" },
+    { "path": "../packages/ui", "name": "UI Layer" }
   ],
   "settings": {
     "files.exclude": {

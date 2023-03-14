@@ -44,8 +44,7 @@ Add --org parameter to project.dart
 >   - **Domain Layer** (Business Entities and Business Rules)
 >   - **Data Layer** (Persistence)
 >   - **Service Layer** (External services)
->   - **Presentation Layer** (UI)  
->   - **DI Layer** (Dependency Injection)
+>   - **UI Layer** (Presentation)  
 
 > **Layered Implementation** using **Riverpod Providers** and **Freezed** libraries:
 >   - Per layer exports to define public/private members for each layer
@@ -68,7 +67,7 @@ Add --org parameter to project.dart
 
 > **Common Code** extracted to correct locations
 >   - Common code in Core folder
->   - Common pages in /lib/presentation/common/page
+>   - Common pages in /lib/ui/common/page
 >   - Named routes configuration and implementation
 
 > **Testing Domain Usecase**
