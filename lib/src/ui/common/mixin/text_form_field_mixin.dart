@@ -1,9 +1,11 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// Mixin for creating [TextFormField]s.
+///
+/// Also demonstrates the creating of [TextInputFormatter]s.
 mixin TextFormFieldMixin {
   static final _keyRegExp = RegExp(r'[_a-zA-Z]\w*');
   static final _publicVariableRegExp = RegExp(r'[a-zA-Z]\w*');

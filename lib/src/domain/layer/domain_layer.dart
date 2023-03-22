@@ -24,10 +24,10 @@ final domainLayerProvider = Provider((ref) => DomainLayer());
 /// This layer must be provisioned by [ProvisioningLayer]s with runtime implementations of required interfaces.
 /// This is coordinated by the outer layer in main.dart.
 class DomainLayer extends AppLayer {
-  /// Runtime provision of [ThingsRepository] implemention.
+  /// Runtime provision of [ThingsRepository] implementation.
   late final Provider<ThingsRepository> thingsRepositoryProvider;
 
-  /// Runtime provision of [WhatsHappeningService] implemention.
+  /// Runtime provision of [WhatsHappeningService] implementation.
   late final Provider<WhatsHappeningService> whatsHappeningServiceProvider;
 
   /// Validate the initialization of all expected provisions.

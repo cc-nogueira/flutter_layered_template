@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 
+/// Mixin for [AppBar] with action button building.
 mixin AppBarBuilderMixin {
   /// Returns an [AppBar] with an widget set on [AppBar.actions] attribute.
   ///
