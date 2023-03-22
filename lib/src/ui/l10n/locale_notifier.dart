@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'translations.dart';
 
+/// Persistent [LocaleNotifier] provider.
 final localeProvider = NotifierProvider<LocaleNotifier, Locale>(LocaleNotifier.new);
 
 /// Locale [Notifier] that observes when the device change of locales preferences.
