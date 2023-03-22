@@ -1,7 +1,20 @@
+## [1.0.0] - 2023-03-22
+### Version 1.0.0! Layer Structure is considered stable.
+> Created ProvisioningLayer and refactored the DomainLayer.
+> - Now ProvisioningLayers are asked to provision the DomainLayer.
+> - At the end of initialization it may be checked that DomainLayer received all its expected provisions.
+>
+> Main dependencies upgrades:
+> - flutter_riverpod: ^2.3.2
+> - freezed: ^2.3.2
+> - go_router: ^6.4.0
+> - isar: 3.0.5
+
+
 ## [0.1.0] - 2023-02-06
-> Refactor the whole structure to use a single project.
+> Refactored the whole structure to use a single project.
 > DomainLayer runtime dependencies expressed as Provisions classes.
-> Dependencies upgrades (riverpod 2.1.3)
+> Dependencies upgrades (riverpod 2.1.3).
 > Use of riverpod_annotations.
 
 ## [0.0.5] - 2022-06-01
