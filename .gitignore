@@ -28,6 +28,7 @@ doc/api/
 *_test.mocks.dart
 .flutter-plugins
 .flutter-plugins-dependencies
+!color_schemes.g.dart
 
 # ObjectBox test stores
 test/**/data.mdb
