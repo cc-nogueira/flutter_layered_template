@@ -1,42 +1,51 @@
-# A Flutter implementation of **4+2 Layered Architecture** structure.
+# A Flutter **Layered Architecture** template.
 
-This is an implementation of the architecture described in **4+2 Layered Architecture** and its
-companion publication **4+2 Layered Architecture - A Flutter Implementation**. 
+This is an implementation of the architecture described in [**4+2 Layered Architecture**](https://medium.com/@nogueira.cc/4-2-layered-architecture-313329082989) and it's companion publication **Layered Architecture - A Flutter Implementation**. 
 
-- Provides the project structure with all suggested layers, each in a separate package.
-- Implements a simple domain in a runnable sample application.
-- Two Flutter dependencies are notable for this implementation:
-  - [Flutter Riverpod](https://pub.dev/packages/flutter_riverpod)
-  - [Freezed](https://pub.dev/packages/freezed)
+> **Layered Architecture**:
+> - Defines AppLayer, DomainLayer and ProvisioningLayer classes.
+> - Provides the project structure with all suggested layers (Domain, Data, Service, UI and main).
+> - Implements a simple domain in a runnable sample application.
+> - Also includes an example folder with more complext UI and two Persistence implementations (Synchronous and Async).
+  
+> **Main project dependencies**:
+> - [Flutter Riverpod](https://pub.dev/packages/flutter_riverpod)
+> - [Freezed](https://pub.dev/packages/freezed)
+>
+> **Also using **:
+> - [GoRouter](https://pub.dev/packages/go_router)
+> - [Isar](https://pub.dev/packages/isar)
+> - [Quiver](https://pub.dev/packages/quiver)
+> - And others (annotations for code generation, build_runner, and more).
 
 ---
 
 ## Architecture overview:
 
-<img align="right" src="https://raw.githubusercontent.com/cc-nogueira/flutter_layered_template/media/4+2_Layered_Architecture_380x470.png?raw=true" alt="Project Structure" style="padding-left: 20px">
+<img align="right" src="https://raw.githubusercontent.com/cc-nogueira/flutter_layered_template/media/Layered_Architecture_380x420.png?raw=true" alt="Project Structure" style="padding-left: 20px">
 
-The ***4+2 Layered Architecture*** describes the importance of ***Separation of Concerns*** in software development. When
-applying to project architecture I structured the application with:
+The [*4+2 Layered Architecture*](https://medium.com/@nogueira.cc/4-2-layered-architecture-313329082989) describes the importance of ***Separation of Concerns*** in software development. All concepts highlighted in that proposal are present in the ***Flutter*** implementation.  
 
+Dependency provisioning is concentrated in **main.dart** as this file is in the outer application scope, with full code visibility. It is responsible to initialize all layers
+and orchestrate layer dependencies provisioning.
 
 - 4 Layers:
   - **Domain Layer** (business rules)
   - **Data Layer** (persistence)
   - **Service Layer** (external services)
-  - **UI Layer** (Presentation)
+  - **UI Layer** (presentation)
+>
+- Outer Layer:
+  - **main** (dependency provisioning coordination and App start up).
+>
 
 ---
 
 ## Layer objects
-A key implementation in this proposal is the use of an **AppLayer** object for each structured layer,
-the configuration of each layer and the interaction between layers are responsibilities of these objects.
-Initialization is orchestrated by ***Dependency Injection***'s layer object.
+A key component in this template is the use of Layer objects to structure layer relations. Layer objectes can be of three types: **AppLayer**, **DomainLayer** and **ProvisioningLayer**.  
 
-The ***DILayer object*** is initialized in the main method, and inside this call ***DILayer object*** fetchs and
-initializes all other layer objects. Then it configures the ***DomainLayer object*** with all required dependencies
-(interface implementations) retrieved from provider layers (***DataLayer*** and ***ServiceLayer*** **objects**).
-
-Once more, the driving force behind the use of these layer objects is *Separation of Concerns*: no layer needs to know about the internal implementations of any other layer.
+Once more, the driving force behind the use of these layer objects is *Separation of Concerns*: no layer needs to know about the internals of any other layer. Outer layers can only see **static types** defined in inner layers and
+the *Domain Layer* is *provisioned at runtime* with implementations of required interfaces.
 
 ---
 
