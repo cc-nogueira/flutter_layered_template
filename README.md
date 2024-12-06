@@ -42,7 +42,7 @@ and orchestrate layer dependencies provisioning.
 ---
 
 ## Layer objects
-A key component in this template is the use of Layer objects to structure layer relations. Layer objectes can be of three types: **AppLayer**, **DomainLayer** and **ProvisioningLayer**.  
+A key component in this template is the use of Layer objects to structure layer relations. Layer objects can be of three types: **AppLayer**, **DomainLayer** and **ProvisioningLayer**.  
 
 Once more, the driving force behind the use of these layer objects is *Separation of Concerns*: no layer needs to know about the internals of any other layer. Outer layers can only see **static types** defined in inner layers and
 the *Domain Layer* is *provisioned at runtime* with implementations of required interfaces.
